@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
 
     float movementX = -1;
-    float hangtime = 0.8f;
+    float hangtime = 0.2f;
     float hangcounter = 0;
 
     bool isGrounded;
@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (isGrounded)
         {
-            if (hangcounter <= (hangtime-0.1))
+            if (hangcounter <= (hangtime-0.1) || rb.velocity.y == 0)
             {
                 canJump = true;
             }
@@ -55,6 +55,11 @@ public class PlayerMovement : MonoBehaviour
             canJump = false;
             Vector2 movement = new Vector2(rb.velocity.x, jumpForce);
             rb.velocity = movement;
+        }
+
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
         }
 
         if (movementX > 0f)
