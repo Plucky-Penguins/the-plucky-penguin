@@ -174,8 +174,8 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
-  orthographic: 1
+  field of view: 82
+  orthographic: 0
   orthographic size: 5.064171
   m_Depth: -1
   m_CullingMask:
@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 654936357}
   - component: {fileID: 654936359}
   - component: {fileID: 654936358}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Ground (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,8 +305,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 3661f8a6bc38c0840bb385e28c3109fe,
-    type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 3661f8a6bc38c0840bb385e28c3109fe, type: 3}
   m_Color: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -326,7 +325,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1198948157}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -361,7 +360,7 @@ GameObject:
   - component: {fileID: 1342475827}
   - component: {fileID: 1342475829}
   - component: {fileID: 1342475828}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Ground (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -449,8 +448,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 3661f8a6bc38c0840bb385e28c3109fe,
-    type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 3661f8a6bc38c0840bb385e28c3109fe, type: 3}
   m_Color: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -546,8 +544,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 3661f8a6bc38c0840bb385e28c3109fe,
-    type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 3661f8a6bc38c0840bb385e28c3109fe, type: 3}
   m_Color: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -608,8 +605,8 @@ Rigidbody2D:
   m_Mass: 2
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_GravityScale: 1.8
+  m_Material: {fileID: 6200000, guid: 4c86da1219db3ce4c952600cc251c311, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -627,18 +624,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0073236823, y: 0.014775634}
+  m_Offset: {x: 0.004670739, y: 1.03162}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 1.86, y: 2}
-    newSize: {x: 1, y: 1}
+    newSize: {x: 1.86, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.7859575, y: 1.9344594}
+  m_Size: {x: 1.8699179, y: 1.9027905}
   m_EdgeRadius: 0
 --- !u!212 &1496374889
 SpriteRenderer:
@@ -681,18 +678,17 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4723107735738678597, guid: 9e80a941de8f02c4d8d3a2e40371d266,
-    type: 3}
+  m_Sprite: {fileID: 4723107735738678597, guid: 9e80a941de8f02c4d8d3a2e40371d266, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.86, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!4 &1496374890
 Transform:
   m_ObjectHideFlags: 0
@@ -701,7 +697,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1496374886}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.91999996, y: -1.02, z: 0}
+  m_LocalPosition: {x: 1.054, y: -2.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 519420032}
@@ -720,12 +716,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2c73ab14fc3ea49a0fa7517c4ec5a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
+  movementSpeed: 8
   rb: {fileID: 1496374887}
   jumpForce: 10
   groundLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 264
   animator: {fileID: 1496374892}
 --- !u!95 &1496374892
 Animator:
@@ -757,7 +753,7 @@ GameObject:
   - component: {fileID: 1688098357}
   - component: {fileID: 1688098356}
   - component: {fileID: 1688098355}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -831,8 +827,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 3661f8a6bc38c0840bb385e28c3109fe,
-    type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 3661f8a6bc38c0840bb385e28c3109fe, type: 3}
   m_Color: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 1}
   m_FlipX: 0
   m_FlipY: 0
