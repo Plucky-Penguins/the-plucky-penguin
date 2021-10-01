@@ -26,11 +26,9 @@ public class PlayerMovement : MonoBehaviour
     float hangtime = 0.2f;
     float hangcounter = 0;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // dash
+    public bool dash = true;
+    bool canDash = true;
 
     // Update is called once per frame
     void Update()
@@ -50,16 +48,17 @@ public class PlayerMovement : MonoBehaviour
                 canJump = true;
                 canDoubleJump = true;
             }
-            hangcounter = hangtime;
+            hangcounter = hangtime; // hangcounter is full when on ground
         } else
         {
-            hangcounter -= Time.deltaTime;
+            hangcounter -= Time.deltaTime; // hangcounter counts down when off the ground
         }
 
         // when pressing jump key
         if (Input.GetButtonDown("Jump"))
         {
             // normal jump case
+
             if (hangcounter > 0 && canJump)
             {
                 canJump = false;
@@ -73,7 +72,12 @@ public class PlayerMovement : MonoBehaviour
                 Vector2 movement = new Vector2(rb.velocity.x, jumpForce);
                 rb.velocity = movement;
             }
+        }
 
+        // dash key
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            Debug.Log("Dashing");
         }
 
         // stop ascending when jump is released
@@ -83,7 +87,34 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
         }
 
-        // colour the player to indicate if they are still able to jump
+        jumpColorIndicator();
+        spriteDirection();
+    }
+
+    // flip sprite to moving direction
+    void spriteDirection()
+    {
+        if (movementX > 0f)
+        {
+            transform.localScale = new Vector3(1f, 1f, 1f);
+            animator.SetBool("Walk", true);
+
+        }
+        else if (movementX < 0f)
+        {
+            transform.localScale = new Vector3(-1f, 1f, 1f);
+            animator.SetBool("Walk", true);
+
+        }
+        else
+        {
+            animator.SetBool("Walk", false);
+        }
+    }
+
+    // colour the player to indicate if they are still able to jump
+    void jumpColorIndicator()
+    {
         if (doubleJump)
         {
             if (!canDoubleJump && !canJump && hangcounter <= 0)
@@ -94,7 +125,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 GetComponent<Renderer>().material.color = Color.white;
             }
-        } else
+        }
+        else
         {
             if (!canJump && hangcounter <= 0)
             {
@@ -104,22 +136,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 GetComponent<Renderer>().material.color = Color.white;
             }
-        }
-        
-        // flip sprite to moving direction
-        if (movementX > 0f)
-        {
-            transform.localScale = new Vector3(1f, 1f, 1f);
-            animator.SetBool("Walk", true);
-
-        } else if (movementX < 0f)
-        {
-            transform.localScale = new Vector3(-1f, 1f, 1f);
-            animator.SetBool("Walk", true);
-
-        } else
-        {
-            animator.SetBool("Walk", false);
         }
     }
 
