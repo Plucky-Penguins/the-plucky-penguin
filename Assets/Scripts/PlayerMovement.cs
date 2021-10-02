@@ -27,11 +27,11 @@ public class PlayerMovement : MonoBehaviour
     float hangcounter = 0;
 
     // dash
+    public ParticleSystem dashParticles;
     public bool dash = true;
     public float dashDist = 15f;
     bool isDashing = false;
     bool canDash = true;
-
 
     // Update is called once per frame
     void Update()
@@ -86,13 +86,16 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = movement;
         }
 
+        // move dash particles to player
+        dashParticles.transform.position = new Vector2(rb.position.x, rb.position.y + 1);
+
         // dash key
         if (Input.GetKeyDown(KeyCode.LeftShift) && movementX != 0 && canDash)
         {
             if (movementX == 1)
             {
-                // dash right
                 StartCoroutine(Dash(1f));
+                // dash right
             } else if (movementX == -1)
             {
                 // dash left
@@ -114,6 +117,7 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator Dash(float dir)
     {
         isDashing = true;
+        dashParticles.Play();
 
         // stop moving downwards
         rb.velocity = new Vector2(rb.velocity.x, 0f);
@@ -124,27 +128,48 @@ public class PlayerMovement : MonoBehaviour
         // wait for dash completion
         yield return new WaitForSeconds(0.4f);
         isDashing = false;
+        dashParticles.Clear();
+        dashParticles.Stop();
     }
 
     // flip sprite to moving direction
     void spriteDirection()
     {
-        if (movementX > 0f)
+        if (!isDashing)
         {
-            transform.localScale = new Vector3(1f, 1f, 1f);
-            animator.SetBool("Walk", true);
+            // right
+            if (movementX > 0f)
+            {
+                transform.localScale = new Vector3(1f, 1f, 1f);
+                animator.SetBool("Walk", true);
 
-        }
-        else if (movementX < 0f)
-        {
-            transform.localScale = new Vector3(-1f, 1f, 1f);
-            animator.SetBool("Walk", true);
+                // rotate particles to correct direction
+                if (dashParticles.transform.rotation.eulerAngles == new Vector3(90, 180, 0))
+                {
+                    dashParticles.transform.eulerAngles = new Vector3(270, 0, 0);
+                }
+            }
 
+            // left
+            else if (movementX < 0f)
+            {
+                transform.localScale = new Vector3(-1f, 1f, 1f);
+                animator.SetBool("Walk", true);
+
+                // rotate particles to correct direction
+                if (dashParticles.transform.rotation.eulerAngles == new Vector3(270, 0, 0))
+                {
+                    dashParticles.transform.eulerAngles = new Vector3(90, 180, 0); ;
+                }
+
+            }
+            else
+            {
+                animator.SetBool("Walk", false);
+            }
         }
-        else
-        {
-            animator.SetBool("Walk", false);
-        }
+
+        
     }
 
 
