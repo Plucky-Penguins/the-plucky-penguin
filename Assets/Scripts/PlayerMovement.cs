@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     float movementX = -1;
 
     // double jump
-    public bool doubleJump;
+    public bool doubleJump = true;
     bool canDoubleJump = true;
 
     // normal jump
@@ -28,7 +28,10 @@ public class PlayerMovement : MonoBehaviour
 
     // dash
     public bool dash = true;
+    public float dashDist = 15f;
+    bool isDashing = false;
     bool canDash = true;
+
 
     // Update is called once per frame
     void Update()
@@ -47,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 canJump = true;
                 canDoubleJump = true;
+                GetComponent<Renderer>().material.color = Color.white;
             }
             hangcounter = hangtime; // hangcounter is full when on ground
         } else
@@ -58,12 +62,12 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump"))
         {
             // normal jump case
-
             if (hangcounter > 0 && canJump)
             {
                 canJump = false;
                 Vector2 movement = new Vector2(rb.velocity.x, jumpForce);
                 rb.velocity = movement;
+                GetComponent<Renderer>().material.color = new Color(1, 1.2f, 1);
             }
             // double jump case seperate
             else if (doubleJump && canDoubleJump)
@@ -71,13 +75,30 @@ public class PlayerMovement : MonoBehaviour
                 canDoubleJump = false;
                 Vector2 movement = new Vector2(rb.velocity.x, jumpForce);
                 rb.velocity = movement;
+                GetComponent<Renderer>().material.color = new Color(1, 1.5f, 1);
             }
         }
 
-        // dash key
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        // hold down to drop fast
+        if (Input.GetKey(KeyCode.S) && !isGrounded)
         {
-            Debug.Log("Dashing");
+            Vector2 movement = new Vector2(rb.velocity.x, -10f);
+            rb.velocity = movement;
+        }
+
+        // dash key
+        if (Input.GetKeyDown(KeyCode.LeftShift) && movementX != 0 && canDash)
+        {
+            if (movementX == 1)
+            {
+                // dash right
+                StartCoroutine(Dash(1f));
+            } else if (movementX == -1)
+            {
+                // dash left
+                StartCoroutine(Dash(-1f));
+            }
+            
         }
 
         // stop ascending when jump is released
@@ -87,8 +108,22 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
         }
 
-        jumpColorIndicator();
         spriteDirection();
+    }
+
+    IEnumerator Dash(float dir)
+    {
+        isDashing = true;
+
+        // stop moving downwards
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
+
+        // do the dash
+        rb.AddForce(new Vector2(dashDist * dir, 0f), ForceMode2D.Impulse);
+
+        // wait for dash completion
+        yield return new WaitForSeconds(0.4f);
+        isDashing = false;
     }
 
     // flip sprite to moving direction
@@ -112,37 +147,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // colour the player to indicate if they are still able to jump
-    void jumpColorIndicator()
-    {
-        if (doubleJump)
-        {
-            if (!canDoubleJump && !canJump && hangcounter <= 0)
-            {
-                GetComponent<Renderer>().material.color = Color.red;
-            }
-            else
-            {
-                GetComponent<Renderer>().material.color = Color.white;
-            }
-        }
-        else
-        {
-            if (!canJump && hangcounter <= 0)
-            {
-                GetComponent<Renderer>().material.color = Color.red;
-            }
-            else
-            {
-                GetComponent<Renderer>().material.color = Color.white;
-            }
-        }
-    }
 
     private void FixedUpdate()
     {
-        // movement
-        Vector2 movement = new Vector2(movementX * movementSpeed, rb.velocity.y);
-        rb.velocity = movement;
+        if (!isDashing)
+        {
+            // movement
+            Vector2 movement = new Vector2(movementX * movementSpeed, rb.velocity.y);
+            rb.velocity = movement;
+        }
+        
     }
 }
