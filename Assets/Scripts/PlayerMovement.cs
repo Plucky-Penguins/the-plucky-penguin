@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
 
     float movementX = -1;
+    float movementY = -1;
 
     // double jump
     public bool doubleJump = true;
@@ -27,8 +28,8 @@ public class PlayerMovement : MonoBehaviour
     float hangcounter = 0;
 
     // dash
-    public ParticleSystem dashParticles;
     public bool dash = true;
+    public ParticleSystem dashParticles;
     public float dashDist = 15f;
     bool isDashing = false;
     bool canDash = true;
@@ -38,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // get horizontal input
         movementX = Input.GetAxisRaw("Horizontal");
+        movementY = Input.GetAxisRaw("Vertical");
 
         // if touching groundlayers
         isGrounded = Physics2D.OverlapCircle(rb.position, 0.5f, groundLayers);
@@ -80,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // hold down to drop fast
-        if (Input.GetKey(KeyCode.S) && !isGrounded)
+        if (movementY == -1 && !isGrounded)
         {
             Vector2 movement = new Vector2(rb.velocity.x, -10f);
             rb.velocity = movement;
@@ -169,9 +171,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        
     }
-
 
     private void FixedUpdate()
     {

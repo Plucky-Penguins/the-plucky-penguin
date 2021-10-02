@@ -374,9 +374,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1342475826}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 17.13, y: 7.82, z: 0}
-  m_LocalScale: {x: 11.83606, y: 1.6675, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -32.2, y: 7.5724, z: 0}
+  m_LocalScale: {x: 11.83606, y: 9.255132, z: 1}
   m_Children: []
   m_Father: {fileID: 1198948157}
   m_RootOrder: 2
@@ -718,15 +718,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 8
   rb: {fileID: 1496374887}
-  jumpForce: 10
+  jumpForce: 12
   groundLayers:
     serializedVersion: 2
     m_Bits: 264
   animator: {fileID: 1496374892}
   doubleJump: 1
-  dashParticles: {fileID: 2111167671}
   dash: 1
-  dashDist: 15
+  dashParticles: {fileID: 2111167671}
+  dashDist: 25
 --- !u!95 &1496374892
 Animator:
   serializedVersion: 3
