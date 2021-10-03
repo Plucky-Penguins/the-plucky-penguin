@@ -120,6 +120,7 @@ public class PlayerMovement : MonoBehaviour
     {
         isDashing = true;
         dashParticles.Play();
+        animator.SetTrigger("Dash");
 
         // stop moving downwards
         rb.velocity = new Vector2(rb.velocity.x, 0f);
