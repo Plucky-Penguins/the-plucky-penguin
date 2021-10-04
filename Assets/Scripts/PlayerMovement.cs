@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     float movementX = -1;
     float movementY = -1;
+    bool facingRight = true;
 
     // double jump
     public bool doubleJump = true;
@@ -41,6 +42,9 @@ public class PlayerMovement : MonoBehaviour
         movementX = Input.GetAxisRaw("Horizontal");
         movementY = Input.GetAxisRaw("Vertical");
 
+        // adjust facing direction
+        spriteDirection();
+
         // if touching groundlayers
         isGrounded = Physics2D.OverlapCircle(rb.position, 0.5f, groundLayers);
 
@@ -63,22 +67,7 @@ public class PlayerMovement : MonoBehaviour
         // when pressing jump key
         if (Input.GetButtonDown("Jump"))
         {
-            // normal jump case
-            if (hangcounter > 0 && canJump)
-            {
-                canJump = false;
-                Vector2 movement = new Vector2(rb.velocity.x, jumpForce);
-                rb.velocity = movement;
-                GetComponent<Renderer>().material.color = new Color(1, 1.2f, 1);
-            }
-            // double jump case seperate
-            else if (doubleJump && canDoubleJump)
-            {
-                canDoubleJump = false;
-                Vector2 movement = new Vector2(rb.velocity.x, jumpForce);
-                rb.velocity = movement;
-                GetComponent<Renderer>().material.color = new Color(1, 1.5f, 1);
-            }
+            Jump();
         }
 
         // hold down to drop fast
@@ -91,18 +80,10 @@ public class PlayerMovement : MonoBehaviour
         // move dash particles to player
         dashParticles.transform.position = new Vector2(rb.position.x, rb.position.y + 1);
 
-        // dash key
-        if (Input.GetKeyDown(KeyCode.LeftShift) && movementX != 0 && canDash)
+        // when pressing dash key
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
-            if (movementX == 1)
-            {
-                StartCoroutine(Dash(1f));
-                // dash right
-            } else if (movementX == -1)
-            {
-                // dash left
-                StartCoroutine(Dash(-1f));
-            }
+            Dash();
             
         }
 
@@ -113,7 +94,42 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
         }
 
-        spriteDirection();
+        //spriteDirection();
+    }
+
+    void Jump()
+    {
+        // normal jump case
+        if (hangcounter > 0 && canJump)
+        {
+            canJump = false;
+            Vector2 movement = new Vector2(rb.velocity.x, jumpForce);
+            rb.velocity = movement;
+            GetComponent<Renderer>().material.color = new Color(1, 1.2f, 1);
+        }
+        // double jump case separate
+        else if (doubleJump && canDoubleJump)
+        {
+            canDoubleJump = false;
+            Vector2 movement = new Vector2(rb.velocity.x, jumpForce);
+            rb.velocity = movement;
+            GetComponent<Renderer>().material.color = new Color(1, 1.5f, 1);
+        }
+    }
+
+    void Dash()
+    {
+        if (facingRight)
+        {
+            // dash right
+            StartCoroutine(Dash(1f));
+
+        }
+        else
+        {
+            // dash left
+            StartCoroutine(Dash(-1f));
+        }
     }
 
     IEnumerator Dash(float dir)
@@ -143,6 +159,7 @@ public class PlayerMovement : MonoBehaviour
             // right
             if (movementX > 0f)
             {
+                facingRight = true;
                 transform.localScale = new Vector3(1f, 1f, 1f);
                 animator.SetBool("Walk", true);
 
@@ -156,6 +173,7 @@ public class PlayerMovement : MonoBehaviour
             // left
             else if (movementX < 0f)
             {
+                facingRight = false;
                 transform.localScale = new Vector3(-1f, 1f, 1f);
                 animator.SetBool("Walk", true);
 
