@@ -35,6 +35,11 @@ public class PlayerMovement : MonoBehaviour
     bool isDashing = false;
     bool canDash = true;
 
+    // dash cooldown
+    public float dashCooldown = 0.5f;
+    float currentDashCooldown = 0;
+    bool dashOnCooldown = false;
+
     // Update is called once per frame
     void Update()
     {
@@ -44,6 +49,17 @@ public class PlayerMovement : MonoBehaviour
 
         // adjust facing direction
         spriteDirection();
+
+        // cooldowns
+        if (dashOnCooldown)
+        {
+            currentDashCooldown += Time.deltaTime;
+            if (currentDashCooldown > dashCooldown)
+            {
+                dashOnCooldown = false;
+                currentDashCooldown = 0;
+            }
+        }
 
         // if touching groundlayers
         isGrounded = Physics2D.OverlapCircle(rb.position, 0.5f, groundLayers);
@@ -81,9 +97,13 @@ public class PlayerMovement : MonoBehaviour
         dashParticles.transform.position = new Vector2(rb.position.x, rb.position.y + 1);
 
         // when pressing dash key
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && dash)
         {
-            Dash();
+            
+            if (!dashOnCooldown)
+            {
+                Dash();
+            }
             
         }
 
@@ -93,8 +113,6 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
         }
-
-        //spriteDirection();
     }
 
     void Jump()
@@ -119,6 +137,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Dash()
     {
+        dashOnCooldown = true;
         if (facingRight)
         {
             // dash right
@@ -137,6 +156,7 @@ public class PlayerMovement : MonoBehaviour
         isDashing = true;
         dashParticles.Play();
         animator.SetTrigger("Dash");
+        
 
         // stop moving downwards
         rb.velocity = new Vector2(rb.velocity.x, 0f);

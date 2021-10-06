@@ -727,6 +727,7 @@ MonoBehaviour:
   dash: 1
   dashParticles: {fileID: 2111167671}
   dashDist: 25
+  dashCooldown: 0.5
 --- !u!95 &1496374892
 Animator:
   serializedVersion: 3
