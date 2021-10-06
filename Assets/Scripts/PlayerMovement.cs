@@ -5,52 +5,53 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
-    public float movementSpeed;
+    [Header("References")]
     public Rigidbody2D rb;
-    public float jumpForce = 20f;
     public LayerMask groundLayers;
     public Animator animator;
 
+    [Header("Movement")]
+    public float movementSpeed;
     float movementX = -1;
-    float movementY = -1;
+
+    [Header("Jump")]
+    // hangcounter and hangtime gives an extra timing window where the player can jump shortly after leaving a platform
+    public float hangtime;    // max hangtime
+    float hangcounter = 0;    // current hangtime
+
+    [Space(10)]
+    public float jumpBufferTime;        // min amount of time where player can jump after hangtime
+    public float jumpForce = 25f;
+    
+    float lastJumpTime;    // time since last jump, stops player from getting an extra jump during hangtime
+    bool isJumping;       // is the player in the middle of a jump
+
+    public bool doubleJumpUnlocked = true;
+    bool canDoubleJump = true;       // is the player able to double jump
+
+    [Header("Dash")]
+    public bool dashUnlocked = true;
+    public ParticleSystem dashParticles;   // the dash particles
+    public float dashDist = 15f;           // distance of the dash
+    public float dashCooldown = 0.5f;      // dash cooldown
+
+    float currentDashCooldown = 0;         // what the current cooldown on dash is
+    bool dashOnCooldown = false;           // is the dash on cooldown
+    bool isDashing = false;                // is player in the middle of a dash
+
+    [Header("Animation")]
     bool facingRight = true;
 
-    // double jump
-    public bool doubleJump = true;
-    bool canDoubleJump = true;
 
-    // normal jump
-    bool isGrounded;
-    bool canJump = true;
-
-    // hangcounter and hangtime gives an extra timing window where the player can jump shortly after leaving a platform
-    float hangtime = 0.2f;
-    float hangcounter = 0;
-
-    // dash
-    public bool dash = true;
-    public ParticleSystem dashParticles;
-    public float dashDist = 15f;
-    bool isDashing = false;
-    bool canDash = true;
-
-    // dash cooldown
-    public float dashCooldown = 0.5f;
-    float currentDashCooldown = 0;
-    bool dashOnCooldown = false;
-
-    // Update is called once per frame
     void Update()
     {
         // get horizontal input
         movementX = Input.GetAxisRaw("Horizontal");
-        movementY = Input.GetAxisRaw("Vertical");
 
         // adjust facing direction
         spriteDirection();
 
-        // cooldowns
+        // handle cooldowns
         if (dashOnCooldown)
         {
             currentDashCooldown += Time.deltaTime;
@@ -61,50 +62,37 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        // if touching groundlayers
-        isGrounded = Physics2D.OverlapCircle(rb.position, 0.5f, groundLayers);
-
-        // grounded when touching the ground, or during the hangtime window
-        if (isGrounded)
+        #region Jumping
+        // if grounded, reset hangtime
+        if (Physics2D.OverlapBox(rb.position, new Vector2(1.5f, 0.5f), 0, groundLayers))
         {
-            // stop player from getting in an extra jump during the hangtime window
-            if (hangcounter <= (hangtime-0.1) || rb.velocity.y == 0)
-            {
-                canJump = true;
-                canDoubleJump = true;
-                GetComponent<Renderer>().material.color = Color.white;
-            }
-            hangcounter = hangtime; // hangcounter is full when on ground
-        } else
-        {
-            hangcounter -= Time.deltaTime; // hangcounter counts down when off the ground
+            hangcounter = hangtime;
         }
 
-        // when pressing jump key
-        if (Input.GetButtonDown("Jump"))
+        // if player is falling, player is not jumping
+        if (rb.velocity.y < 0)
         {
-            Jump();
+            isJumping = false;
         }
 
-        // hold down to drop fast
-        if (movementY == -1 && !isGrounded)
-        {
-            Vector2 movement = new Vector2(rb.velocity.x, -10f);
-            rb.velocity = movement;
+        if (Input.GetButtonDown("Jump")) {
+            JumpButtonDown();
         }
 
-        // move dash particles to player
-        dashParticles.transform.position = new Vector2(rb.position.x, rb.position.y + 1);
-
-        // when pressing dash key
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && dash)
+        if (hangcounter > 0)
         {
-            
-            if (!dashOnCooldown)
-            {
-                Dash();
-            }
-            
+            canDoubleJump = true;
+            GetComponent<Renderer>().material.color = Color.white;
+        }
+
+        // jump checks
+        if (hangcounter > 0 && lastJumpTime > 0 && !isJumping)
+        { 
+            Jump(false);
+        } else if(Input.GetButtonDown("Jump") && canDoubleJump && doubleJumpUnlocked)
+        {
+            canDoubleJump = false;
+            Jump(true);
         }
 
         // stop ascending when jump is released
@@ -113,26 +101,45 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
         }
+        #endregion
+
+        #region Dashing
+        // move dash particles to player
+        dashParticles.transform.position = new Vector2(rb.position.x, rb.position.y + 1);
+
+        // when pressing dash key
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashUnlocked)
+        {
+            if (!dashOnCooldown)
+            {
+                Dash();
+            }
+        }
+        #endregion
+
+        // countdown the timers
+        hangcounter -= Time.deltaTime;
+        lastJumpTime -= Time.deltaTime;
     }
 
-    void Jump()
+    void Jump(bool djump)
     {
-        // normal jump case
-        if (hangcounter > 0 && canJump)
+        if (djump)
         {
-            canJump = false;
-            Vector2 movement = new Vector2(rb.velocity.x, jumpForce);
-            rb.velocity = movement;
             GetComponent<Renderer>().material.color = new Color(1, 1.2f, 1);
-        }
-        // double jump case separate
-        else if (doubleJump && canDoubleJump)
-        {
-            canDoubleJump = false;
-            Vector2 movement = new Vector2(rb.velocity.x, jumpForce);
+            Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);
             rb.velocity = movement;
-            GetComponent<Renderer>().material.color = new Color(1, 1.5f, 1);
+        } else
+        {
+            GetComponent<Renderer>().material.color = new Color(1, 1.2f, 1);
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            isJumping = true;
         }
+    }
+
+    void JumpButtonDown()
+    {
+        lastJumpTime = jumpBufferTime;
     }
 
     void Dash()
@@ -142,7 +149,6 @@ public class PlayerMovement : MonoBehaviour
         {
             // dash right
             StartCoroutine(Dash(1f));
-
         }
         else
         {
@@ -156,7 +162,6 @@ public class PlayerMovement : MonoBehaviour
         isDashing = true;
         dashParticles.Play();
         animator.SetTrigger("Dash");
-        
 
         // stop moving downwards
         rb.velocity = new Vector2(rb.velocity.x, 0f);
