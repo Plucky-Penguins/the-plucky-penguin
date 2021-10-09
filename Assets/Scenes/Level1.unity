@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 654936358}
   m_Layer: 3
   m_Name: Ground (1)
-  m_TagString: Untagged
+  m_TagString: projectileDestroy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 1198948157}
   m_Layer: 3
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: projectileDestroy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -362,7 +362,7 @@ GameObject:
   - component: {fileID: 1342475828}
   m_Layer: 3
   m_Name: Ground (1)
-  m_TagString: Untagged
+  m_TagString: projectileDestroy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -472,7 +472,7 @@ GameObject:
   - component: {fileID: 1364036579}
   m_Layer: 8
   m_Name: Platform
-  m_TagString: Untagged
+  m_TagString: projectileDestroy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -582,6 +582,7 @@ GameObject:
   - component: {fileID: 1496374888}
   - component: {fileID: 1496374887}
   - component: {fileID: 1496374891}
+  - component: {fileID: 1496374893}
   - component: {fileID: 1496374892}
   m_Layer: 0
   m_Name: Player
@@ -730,6 +731,7 @@ MonoBehaviour:
   dashParticles: {fileID: 2111167671}
   dashDist: 25
   dashCooldown: 0.5
+  facingRight: 1
 --- !u!95 &1496374892
 Animator:
   serializedVersion: 3
@@ -749,6 +751,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1496374893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1496374886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b04c527a1bce26f48b3fbbaa56134ebb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 3826360787906304732, guid: 4f0669a11a9c0774c9a348f70b964327, type: 3}
+  speed: 50
+  cooldown: 1
 --- !u!1 &1688098354
 GameObject:
   m_ObjectHideFlags: 0
@@ -762,7 +779,7 @@ GameObject:
   - component: {fileID: 1688098355}
   m_Layer: 3
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: projectileDestroy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

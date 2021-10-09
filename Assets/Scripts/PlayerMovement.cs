@@ -40,7 +40,8 @@ public class PlayerMovement : MonoBehaviour
     bool isDashing = false;                // is player in the middle of a dash
 
     [Header("Animation")]
-    bool facingRight = true;
+    [HideInInspector]
+    public bool facingRight = true;
 
 
     void Update()
