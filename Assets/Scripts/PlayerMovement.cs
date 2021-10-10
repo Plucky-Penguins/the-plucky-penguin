@@ -148,12 +148,12 @@ public class PlayerMovement : MonoBehaviour
         if (facingRight)
         {
             // dash right
-            StartCoroutine(Dash(1f));
+            StartCoroutine(Dash(2f));
         }
         else
         {
             // dash left
-            StartCoroutine(Dash(-1f));
+            StartCoroutine(Dash(-2f));
         }
     }
 
