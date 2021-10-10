@@ -38,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     float currentDashCooldown = 0;         // what the current cooldown on dash is
     bool dashOnCooldown = false;           // is the dash on cooldown
     bool isDashing = false;                // is player in the middle of a dash
+    private bool canDash = true;
 
     [Header("Animation")]
     bool facingRight = true;
@@ -79,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
         if (dashOnCooldown)
         {
             currentDashCooldown += Time.deltaTime;
-            if (currentDashCooldown > dashCooldown && isGrounded())
+            if (currentDashCooldown > dashCooldown)
             {
                 dashOnCooldown = false;
                 currentDashCooldown = 0;
@@ -91,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded())
         {
             hangcounter = hangtime;
+            canDash = true;
         }
         
         // wall jump check
@@ -105,6 +107,7 @@ public class PlayerMovement : MonoBehaviour
                 transform.localScale = new Vector3(1f, 1f, 1f);
                 animator.SetBool("Walk", true);
                 canDoubleJump = true;
+                canDash = true;
             }
         }
         else if (walls == Directions.Right && wallJumpUnlocked)
@@ -118,6 +121,7 @@ public class PlayerMovement : MonoBehaviour
                 transform.localScale = new Vector3(-1f, 1f, 1f);
                 animator.SetBool("Walk", true);
                 canDoubleJump = true;
+                canDash = true;
             }
         }
 
@@ -162,8 +166,9 @@ public class PlayerMovement : MonoBehaviour
         // when pressing dash key
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashUnlocked)
         {
-            if (!dashOnCooldown)
+            if (!dashOnCooldown && canDash)
             {
+                canDash = false;
                 Dash();
             }
         }
