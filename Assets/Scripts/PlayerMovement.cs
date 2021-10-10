@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
         if (dashOnCooldown)
         {
             currentDashCooldown += Time.deltaTime;
-            if (currentDashCooldown > dashCooldown)
+            if (currentDashCooldown > dashCooldown && isGrounded())
             {
                 dashOnCooldown = false;
                 currentDashCooldown = 0;
@@ -64,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
 
         #region Jumping
         // if grounded, reset hangtime
-        if (Physics2D.OverlapBox(rb.position, new Vector2(1.5f, 0.5f), 0, groundLayers))
+        if (isGrounded())
         {
             hangcounter = hangtime;
         }
@@ -165,15 +165,29 @@ public class PlayerMovement : MonoBehaviour
 
         // stop moving downwards
         rb.velocity = new Vector2(rb.velocity.x, 0f);
+        Physics2D.gravity = new Vector2(0f, 0f);
 
         // do the dash
         rb.AddForce(new Vector2(dashDist * dir, 0f), ForceMode2D.Impulse);
 
         // wait for dash completion
         yield return new WaitForSeconds(0.4f);
+        Physics2D.gravity = new Vector2(0f, -15f);
         isDashing = false;
         dashParticles.Clear();
         dashParticles.Stop();
+    }
+
+    // find if grounded or not
+    private bool isGrounded()
+    {
+        if (Physics2D.OverlapBox(rb.position, new Vector2(1.5f, 0.5f), 0, groundLayers))
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
     }
 
     // flip sprite to moving direction
