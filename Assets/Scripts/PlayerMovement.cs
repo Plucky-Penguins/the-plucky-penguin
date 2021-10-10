@@ -265,7 +265,7 @@ public class PlayerMovement : MonoBehaviour
     // flip sprite to moving direction
     void spriteDirection()
     {
-        if (!isDashing)
+        if (!isDashing && !isWallJumping)
         {
             // right
             if (movementX > 0f)
