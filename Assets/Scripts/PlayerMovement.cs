@@ -38,11 +38,23 @@ public class PlayerMovement : MonoBehaviour
     float currentDashCooldown = 0;         // what the current cooldown on dash is
     bool dashOnCooldown = false;           // is the dash on cooldown
     bool isDashing = false;                // is player in the middle of a dash
+    private bool canDash = true;
 
     [Header("Animation")]
     [HideInInspector]
     public bool facingRight = true;
 
+    [Header("Wall Jump")]
+    public bool wallJumpUnlocked = true;
+    private Directions walls;
+    private bool isWallJumping = false;
+
+    private enum Directions
+    { 
+        Left,
+        Right,
+        None
+    }
 
     void Update()
     {
@@ -51,6 +63,19 @@ public class PlayerMovement : MonoBehaviour
 
         // adjust facing direction
         spriteDirection();
+        
+        // get horizontal walls
+        if (Physics2D.OverlapBox(new Vector2(rb.position.x + 1, rb.position.y + 1), new Vector2(0.25f, 1.5f), 0, groundLayers)) // right side
+        {
+            walls = Directions.Right;
+        }
+        else if (Physics2D.OverlapBox(new Vector2(rb.position.x - 1, rb.position.y + 1), new Vector2(0.25f, 1.5f), 0, groundLayers)) // left side
+        {
+            walls = Directions.Left;
+        } else
+        {
+            walls = Directions.None;
+        }
 
         // handle cooldowns
         if (dashOnCooldown)
@@ -65,9 +90,40 @@ public class PlayerMovement : MonoBehaviour
 
         #region Jumping
         // if grounded, reset hangtime
-        if (Physics2D.OverlapBox(rb.position, new Vector2(1.5f, 0.5f), 0, groundLayers))
+        if (isGrounded())
         {
             hangcounter = hangtime;
+            canDash = true;
+        }
+        
+        // wall jump check
+        if (walls == Directions.Left && wallJumpUnlocked)
+        {
+            if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off left wall, to the right
+            {
+                GetComponent<Renderer>().material.color = Color.white;
+                StartCoroutine(WallJump(2f));
+
+                facingRight = true;
+                transform.localScale = new Vector3(1f, 1f, 1f);
+                animator.SetBool("Walk", true);
+                canDoubleJump = true;
+                canDash = true;
+            }
+        }
+        else if (walls == Directions.Right && wallJumpUnlocked)
+        {
+            if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off right wall, to the left
+            {
+                GetComponent<Renderer>().material.color = Color.white;
+                StartCoroutine(WallJump(-2f));
+
+                facingRight = false;
+                transform.localScale = new Vector3(-1f, 1f, 1f);
+                animator.SetBool("Walk", true);
+                canDoubleJump = true;
+                canDash = true;
+            }
         }
 
         // if player is falling, player is not jumping
@@ -90,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
         if (hangcounter > 0 && lastJumpTime > 0 && !isJumping)
         { 
             Jump(false);
-        } else if(Input.GetButtonDown("Jump") && canDoubleJump && doubleJumpUnlocked)
+        } else if(Input.GetButtonDown("Jump") && canDoubleJump && doubleJumpUnlocked && walls == Directions.None)
         {
             canDoubleJump = false;
             Jump(true);
@@ -111,8 +167,9 @@ public class PlayerMovement : MonoBehaviour
         // when pressing dash key
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashUnlocked)
         {
-            if (!dashOnCooldown)
+            if (!dashOnCooldown && canDash)
             {
+                canDash = false;
                 Dash();
             }
         }
@@ -149,12 +206,12 @@ public class PlayerMovement : MonoBehaviour
         if (facingRight)
         {
             // dash right
-            StartCoroutine(Dash(1f));
+            StartCoroutine(Dash(2f));
         }
         else
         {
             // dash left
-            StartCoroutine(Dash(-1f));
+            StartCoroutine(Dash(-2f));
         }
     }
 
@@ -166,21 +223,50 @@ public class PlayerMovement : MonoBehaviour
 
         // stop moving downwards
         rb.velocity = new Vector2(rb.velocity.x, 0f);
+        Physics2D.gravity = new Vector2(0f, 0f);
 
         // do the dash
         rb.AddForce(new Vector2(dashDist * dir, 0f), ForceMode2D.Impulse);
 
         // wait for dash completion
         yield return new WaitForSeconds(0.4f);
+        Physics2D.gravity = new Vector2(0f, -15f);
         isDashing = false;
         dashParticles.Clear();
         dashParticles.Stop();
     }
 
+    IEnumerator WallJump(float dir)
+    {
+        isWallJumping = true;
+
+        // horizontal
+        Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);
+        rb.velocity = movement;
+
+        // vertical
+        rb.AddForce(new Vector2(10 * dir, 0f), ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(0.2f);
+        isWallJumping = false;
+    }
+
+    // find if grounded or not
+    private bool isGrounded()
+    {
+        if (Physics2D.OverlapBox(rb.position, new Vector2(1.5f, 0.5f), 0, groundLayers))
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
     // flip sprite to moving direction
     void spriteDirection()
     {
-        if (!isDashing)
+        if (!isDashing && !isWallJumping)
         {
             // right
             if (movementX > 0f)
@@ -220,7 +306,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isDashing)
+        if (!isDashing && !isWallJumping)
         {
             // movement
             Vector2 movement = new Vector2(movementX * movementSpeed, rb.velocity.y);
