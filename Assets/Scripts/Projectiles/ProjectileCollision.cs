@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class ProjectileCollision : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int damage = 1;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-        // check object by name
+
+        // check object by tag
         if (collision.gameObject.tag == "projectileDestroy")
         {
             Destroy(gameObject);
         }
+
+        if (collision.gameObject.tag == "killable")
+        {
+            Destroy(gameObject);
+            collision.gameObject.GetComponent<EnemyAI>().takeDamage(damage, false);
+        }
+
     }
 
     // Update is called once per frame

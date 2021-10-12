@@ -37,7 +37,8 @@ public class PlayerMovement : MonoBehaviour
 
     float currentDashCooldown = 0;         // what the current cooldown on dash is
     bool dashOnCooldown = false;           // is the dash on cooldown
-    bool isDashing = false;                // is player in the middle of a dash
+    [HideInInspector]
+    public bool isDashing = false;                // is player in the middle of a dash
     private bool canDash = true;
 
     [Header("Animation")]
@@ -99,32 +100,39 @@ public class PlayerMovement : MonoBehaviour
         // wall jump check
         if (walls == Directions.Left && wallJumpUnlocked)
         {
+            animator.SetBool("WallSlide", true);
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off left wall, to the right
             {
-                GetComponent<Renderer>().material.color = Color.white;
                 StartCoroutine(WallJump(2f));
 
                 facingRight = true;
                 transform.localScale = new Vector3(1f, 1f, 1f);
-                animator.SetBool("Walk", true);
                 canDoubleJump = true;
                 canDash = true;
             }
         }
         else if (walls == Directions.Right && wallJumpUnlocked)
         {
+            animator.SetBool("WallSlide", true);
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off right wall, to the left
             {
-                GetComponent<Renderer>().material.color = Color.white;
                 StartCoroutine(WallJump(-2f));
 
                 facingRight = false;
                 transform.localScale = new Vector3(-1f, 1f, 1f);
-                animator.SetBool("Walk", true);
                 canDoubleJump = true;
                 canDash = true;
             }
         }
+        // If the player is not next to a wall, or wall jump is not unlocked
+        else
+        {
+            animator.SetBool("WallSlide", false);
+        }
+
+        // countdown the timers
+        hangcounter -= Time.deltaTime;
+        lastJumpTime -= Time.deltaTime;
 
         // if player is falling, player is not jumping
         if (rb.velocity.y < 0)
@@ -132,21 +140,22 @@ public class PlayerMovement : MonoBehaviour
             isJumping = false;
         }
 
-        if (Input.GetButtonDown("Jump")) {
+        if (Input.GetButtonDown("Jump"))
+        {
             JumpButtonDown();
         }
 
         if (hangcounter > 0)
         {
             canDoubleJump = true;
-            GetComponent<Renderer>().material.color = Color.white;
         }
 
         // jump checks
         if (hangcounter > 0 && lastJumpTime > 0 && !isJumping)
-        { 
+        {
             Jump(false);
-        } else if(Input.GetButtonDown("Jump") && canDoubleJump && doubleJumpUnlocked && walls == Directions.None)
+        }
+        else if (Input.GetButtonDown("Jump") && canDoubleJump && doubleJumpUnlocked && walls == Directions.None)
         {
             canDoubleJump = false;
             Jump(true);
@@ -158,6 +167,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
         }
+
         #endregion
 
         #region Dashing
@@ -165,7 +175,7 @@ public class PlayerMovement : MonoBehaviour
         dashParticles.transform.position = new Vector2(rb.position.x, rb.position.y + 1);
 
         // when pressing dash key
-        if (Input.GetKeyDown(KeyCode.LeftShift) && dashUnlocked)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashUnlocked && !GetComponent<PlayerCombat>().isSlapping)
         {
             if (!dashOnCooldown && canDash)
             {
@@ -174,30 +184,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         #endregion
-
-        // countdown the timers
-        hangcounter -= Time.deltaTime;
-        lastJumpTime -= Time.deltaTime;
-    }
-
-    void Jump(bool djump)
-    {
-        if (djump)
-        {
-            GetComponent<Renderer>().material.color = new Color(1, 1.2f, 1);
-            Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);
-            rb.velocity = movement;
-        } else
-        {
-            GetComponent<Renderer>().material.color = new Color(1, 1.2f, 1);
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            isJumping = true;
-        }
-    }
-
-    void JumpButtonDown()
-    {
-        lastJumpTime = jumpBufferTime;
     }
 
     void Dash()
@@ -213,6 +199,24 @@ public class PlayerMovement : MonoBehaviour
             // dash left
             StartCoroutine(Dash(-2f));
         }
+    }
+
+    void Jump(bool djump)
+    {
+        if (djump)
+        {
+            Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);
+            rb.velocity = movement;
+        } else
+        {
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            isJumping = true;
+        }
+    }
+
+    void JumpButtonDown()
+    {
+        lastJumpTime = jumpBufferTime;
     }
 
     IEnumerator Dash(float dir)
@@ -239,6 +243,7 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator WallJump(float dir)
     {
         isWallJumping = true;
+        animator.SetBool("WallSlide", false);
 
         // horizontal
         Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);
@@ -266,7 +271,7 @@ public class PlayerMovement : MonoBehaviour
     // flip sprite to moving direction
     void spriteDirection()
     {
-        if (!isDashing && !isWallJumping)
+        if (!isDashing && !isWallJumping && !GetComponent<PlayerCombat>().isSlapping)
         {
             // right
             if (movementX > 0f)
@@ -314,4 +319,6 @@ public class PlayerMovement : MonoBehaviour
         }
         
     }
+
+    
 }
