@@ -158,7 +158,7 @@ TextureImporter:
         y: 428
         width: 265
         height: 254
-      alignment: 7
+      alignment: 9
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -179,7 +179,7 @@ TextureImporter:
         y: 428
         width: 280
         height: 254
-      alignment: 7
+      alignment: 9
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -198,11 +198,11 @@ TextureImporter:
         serializedVersion: 2
         x: 1223
         y: 432
-        width: 394
+        width: 391
         height: 250
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      alignment: 9
+      pivot: {x: 0.3, y: 0}
+      border: {x: 0, y: 0, z: 162, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -219,11 +219,11 @@ TextureImporter:
         serializedVersion: 2
         x: 1783
         y: 419
-        width: 394
+        width: 395
         height: 252
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      alignment: 9
+      pivot: {x: 0.3, y: 0}
+      border: {x: 0, y: 0, z: 163, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -240,11 +240,11 @@ TextureImporter:
         serializedVersion: 2
         x: 2281
         y: 397
-        width: 395
+        width: 397
         height: 253
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      alignment: 9
+      pivot: {x: 0.29, y: 0}
+      border: {x: 0, y: 0, z: 166, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -259,40 +259,19 @@ TextureImporter:
       name: Slap_5
       rect:
         serializedVersion: 2
-        x: 23
+        x: 18
         y: 35
-        width: 236
+        width: 361
         height: 253
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      alignment: 9
+      pivot: {x: 0.33, y: 0}
+      border: {x: 0, y: 0, z: 129, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: db54183d9d1022600800000000000000
       internalID: 441917748503725501
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slap_6
-      rect:
-        serializedVersion: 2
-        x: 270
-        y: 122
-        width: 109
-        height: 116
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 146c0d5245be2e6c0800000000000000
-      internalID: -4115468362818992575
       vertices: []
       indices: 
       edges: []
@@ -305,7 +284,7 @@ TextureImporter:
         y: 20
         width: 236
         height: 254
-      alignment: 7
+      alignment: 9
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -322,11 +301,11 @@ TextureImporter:
       name: Slap_8
       rect:
         serializedVersion: 2
-        x: 1186
-        y: 18
+        x: 1191
+        y: 23
         width: 236
         height: 253
-      alignment: 7
+      alignment: 9
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -347,7 +326,7 @@ TextureImporter:
         y: 18
         width: 236
         height: 253
-      alignment: 7
+      alignment: 9
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []

@@ -37,7 +37,8 @@ public class PlayerMovement : MonoBehaviour
 
     float currentDashCooldown = 0;         // what the current cooldown on dash is
     bool dashOnCooldown = false;           // is the dash on cooldown
-    bool isDashing = false;                // is player in the middle of a dash
+    [HideInInspector]
+    public bool isDashing = false;                // is player in the middle of a dash
     private bool canDash = true;
 
     [Header("Animation")]
@@ -101,7 +102,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off left wall, to the right
             {
-                GetComponent<Renderer>().material.color = Color.white;
                 StartCoroutine(WallJump(2f));
 
                 facingRight = true;
@@ -115,7 +115,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off right wall, to the left
             {
-                GetComponent<Renderer>().material.color = Color.white;
                 StartCoroutine(WallJump(-2f));
 
                 facingRight = false;
@@ -125,13 +124,14 @@ public class PlayerMovement : MonoBehaviour
                 canDash = true;
             }
         }
+        #endregion
 
         #region Dashing
         // move dash particles to player
         dashParticles.transform.position = new Vector2(rb.position.x, rb.position.y + 1);
 
         // when pressing dash key
-        if (Input.GetKeyDown(KeyCode.LeftShift) && dashUnlocked)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashUnlocked && !GetComponent<PlayerCombat>().isSlapping)
         {
             if (!dashOnCooldown && canDash)
             {
@@ -158,7 +158,6 @@ public class PlayerMovement : MonoBehaviour
         if (hangcounter > 0)
         {
             canDoubleJump = true;
-            GetComponent<Renderer>().material.color = Color.white;
         }
 
         // jump checks
@@ -178,28 +177,6 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
         }
 
-        if (Input.GetButtonDown("Fire1"))
-        {
-            Attack();
-        }
-
-        if (immunityTimer > 0)
-        {
-            immunityTimer -= 1;
-            if (immunityTimer%2 == 0)
-            {
-                sr.color = new Color(1f, 1f, 1f, .2f);
-            } else
-            {
-                sr.color = new Color(1f, 1f, 1f, 1f);
-            }
-        } else if (immunityTimer <= 0)
-        {
-            immunity = false;
-            sr.color = new Color(1f, 1f, 1f, 1f);
-        }
-
-        //spriteDirection();
     }
 
     void Dash()
@@ -221,12 +198,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (djump)
         {
-            GetComponent<Renderer>().material.color = new Color(1, 1.2f, 1);
             Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);
             rb.velocity = movement;
         } else
         {
-            GetComponent<Renderer>().material.color = new Color(1, 1.2f, 1);
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isJumping = true;
         }
@@ -256,15 +231,6 @@ public class PlayerMovement : MonoBehaviour
         isDashing = false;
         dashParticles.Clear();
         dashParticles.Stop();
-    }
-
-    void Attack()
-    {
-        Debug.Log("attacked");
-        animator.SetTrigger("Attack");
-        // create invisible object infront of player
-        // if invisible object collides with enemy -> call enemy damage script.
-        // delete invisible object
     }
 
     IEnumerator WallJump(float dir)
@@ -297,7 +263,7 @@ public class PlayerMovement : MonoBehaviour
     // flip sprite to moving direction
     void spriteDirection()
     {
-        if (!isDashing && !isWallJumping)
+        if (!isDashing && !isWallJumping && !GetComponent<PlayerCombat>().isSlapping)
         {
             // right
             if (movementX > 0f)
@@ -346,19 +312,5 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    // damage handler
-    public void takeDamage(int damage_taken)
-    {
-        if (!immunity)
-        {
-            health -= damage_taken;
-            if (health <= 0)
-            {
-                //die
-            }
-        }
-        immunity = true;
-        immunityTimer = 300;
-        
-    }
+    
 }
