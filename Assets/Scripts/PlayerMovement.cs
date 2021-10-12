@@ -100,30 +100,74 @@ public class PlayerMovement : MonoBehaviour
         // wall jump check
         if (walls == Directions.Left && wallJumpUnlocked)
         {
+            animator.SetBool("WallSlide", true);
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off left wall, to the right
             {
                 StartCoroutine(WallJump(2f));
 
                 facingRight = true;
                 transform.localScale = new Vector3(1f, 1f, 1f);
-                animator.SetBool("Walk", true);
                 canDoubleJump = true;
                 canDash = true;
             }
         }
         else if (walls == Directions.Right && wallJumpUnlocked)
         {
+            animator.SetBool("WallSlide", true);
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off right wall, to the left
             {
                 StartCoroutine(WallJump(-2f));
 
                 facingRight = false;
                 transform.localScale = new Vector3(-1f, 1f, 1f);
-                animator.SetBool("Walk", true);
                 canDoubleJump = true;
                 canDash = true;
             }
         }
+        // If the player is not next to a wall, or wall jump is not unlocked
+        else
+        {
+            animator.SetBool("WallSlide", false);
+        }
+
+        // countdown the timers
+        hangcounter -= Time.deltaTime;
+        lastJumpTime -= Time.deltaTime;
+
+        // if player is falling, player is not jumping
+        if (rb.velocity.y < 0)
+        {
+            isJumping = false;
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            JumpButtonDown();
+        }
+
+        if (hangcounter > 0)
+        {
+            canDoubleJump = true;
+        }
+
+        // jump checks
+        if (hangcounter > 0 && lastJumpTime > 0 && !isJumping)
+        {
+            Jump(false);
+        }
+        else if (Input.GetButtonDown("Jump") && canDoubleJump && doubleJumpUnlocked && walls == Directions.None)
+        {
+            canDoubleJump = false;
+            Jump(true);
+        }
+
+        // stop ascending when jump is released
+        // allows for short hops
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
+        }
+
         #endregion
 
         #region Dashing
@@ -140,43 +184,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         #endregion
-
-        // countdown the timers
-        hangcounter -= Time.deltaTime;
-        lastJumpTime -= Time.deltaTime;
-
-        // if player is falling, player is not jumping
-        if (rb.velocity.y < 0)
-        {
-            isJumping = false;
-        }
-
-        if (Input.GetButtonDown("Jump")) {
-            JumpButtonDown();
-        }
-
-        if (hangcounter > 0)
-        {
-            canDoubleJump = true;
-        }
-
-        // jump checks
-        if (hangcounter > 0 && lastJumpTime > 0 && !isJumping)
-        { 
-            Jump(false);
-        } else if(Input.GetButtonDown("Jump") && canDoubleJump && doubleJumpUnlocked && walls == Directions.None)
-        {
-            canDoubleJump = false;
-            Jump(true);
-        }
-
-        // stop ascending when jump is released
-        // allows for short hops
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
-        }
-
     }
 
     void Dash()
@@ -236,6 +243,7 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator WallJump(float dir)
     {
         isWallJumping = true;
+        animator.SetBool("WallSlide", false);
 
         // horizontal
         Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);
