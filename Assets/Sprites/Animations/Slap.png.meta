@@ -1,0 +1,357 @@
+fileFormatVersion: 2
+guid: 7b0788bde43392444ba0d4fccc685298
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7541066924025328195
+    second: slap attack_0
+  - first:
+      213: -7624960556436224342
+    second: slap attack_1
+  - first:
+      213: -7648164102961820465
+    second: slap attack_2
+  - first:
+      213: -791850687513105446
+    second: slap attack_3
+  - first:
+      213: 6758122147969816331
+    second: slap attack_4
+  - first:
+      213: 7718442699622674162
+    second: slap attack_5
+  - first:
+      213: 6523856928145990538
+    second: slap attack_6
+  - first:
+      213: -3569476902121723882
+    second: slap attack_7
+  - first:
+      213: -5279391376764159438
+    second: slap attack_8
+  - first:
+      213: 3214309317142457215
+    second: slap attack_9
+  - first:
+      213: 3962135299906821353
+    second: Slap_0
+  - first:
+      213: 1730731976012922385
+    second: Slap_1
+  - first:
+      213: 2147920089116799096
+    second: Slap_2
+  - first:
+      213: -6894216653947103410
+    second: Slap_3
+  - first:
+      213: 2526942168787642463
+    second: Slap_4
+  - first:
+      213: 441917748503725501
+    second: Slap_5
+  - first:
+      213: -4115468362818992575
+    second: Slap_6
+  - first:
+      213: -5070175758256061706
+    second: Slap_7
+  - first:
+      213: 418791618244017471
+    second: Slap_8
+  - first:
+      213: 1017230881160091612
+    second: Slap_9
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 125
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Slap_0
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 428
+        width: 265
+        height: 254
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ec5bfe10155cf630800000000000000
+      internalID: 3962135299906821353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slap_1
+      rect:
+        serializedVersion: 2
+        x: 616
+        y: 428
+        width: 280
+        height: 254
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11ef8a7ff8bc40810800000000000000
+      internalID: 1730731976012922385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slap_2
+      rect:
+        serializedVersion: 2
+        x: 1223
+        y: 432
+        width: 391
+        height: 250
+      alignment: 9
+      pivot: {x: 0.3, y: 0}
+      border: {x: 0, y: 0, z: 162, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8707bbdd0f1fecd10800000000000000
+      internalID: 2147920089116799096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slap_3
+      rect:
+        serializedVersion: 2
+        x: 1783
+        y: 419
+        width: 395
+        height: 252
+      alignment: 9
+      pivot: {x: 0.3, y: 0}
+      border: {x: 0, y: 0, z: 163, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4796e8fa72d250a0800000000000000
+      internalID: -6894216653947103410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slap_4
+      rect:
+        serializedVersion: 2
+        x: 2281
+        y: 397
+        width: 397
+        height: 253
+      alignment: 9
+      pivot: {x: 0.29, y: 0}
+      border: {x: 0, y: 0, z: 166, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f58ea82a380811320800000000000000
+      internalID: 2526942168787642463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slap_5
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 35
+        width: 361
+        height: 253
+      alignment: 9
+      pivot: {x: 0.33, y: 0}
+      border: {x: 0, y: 0, z: 129, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db54183d9d1022600800000000000000
+      internalID: 441917748503725501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slap_7
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 20
+        width: 236
+        height: 254
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f2c954c20e13a9b0800000000000000
+      internalID: -5070175758256061706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slap_8
+      rect:
+        serializedVersion: 2
+        x: 1191
+        y: 23
+        width: 236
+        height: 253
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3d785802c8dfc500800000000000000
+      internalID: 418791618244017471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slap_9
+      rect:
+        serializedVersion: 2
+        x: 1788
+        y: 18
+        width: 236
+        height: 253
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd7da1ec81eed1e00800000000000000
+      internalID: 1017230881160091612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
