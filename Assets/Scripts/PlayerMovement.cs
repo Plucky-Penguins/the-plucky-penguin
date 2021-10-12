@@ -37,7 +37,8 @@ public class PlayerMovement : MonoBehaviour
 
     float currentDashCooldown = 0;         // what the current cooldown on dash is
     bool dashOnCooldown = false;           // is the dash on cooldown
-    bool isDashing = false;                // is player in the middle of a dash
+    [HideInInspector]
+    public bool isDashing = false;                // is player in the middle of a dash
     private bool canDash = true;
 
     [Header("Animation")]
@@ -101,7 +102,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off left wall, to the right
             {
-                GetComponent<Renderer>().material.color = Color.white;
                 StartCoroutine(WallJump(2f));
 
                 facingRight = true;
@@ -115,7 +115,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off right wall, to the left
             {
-                GetComponent<Renderer>().material.color = Color.white;
                 StartCoroutine(WallJump(-2f));
 
                 facingRight = false;
@@ -125,6 +124,26 @@ public class PlayerMovement : MonoBehaviour
                 canDash = true;
             }
         }
+        #endregion
+
+        #region Dashing
+        // move dash particles to player
+        dashParticles.transform.position = new Vector2(rb.position.x, rb.position.y + 1);
+
+        // when pressing dash key
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashUnlocked && !GetComponent<PlayerCombat>().isSlapping)
+        {
+            if (!dashOnCooldown && canDash)
+            {
+                canDash = false;
+                Dash();
+            }
+        }
+        #endregion
+
+        // countdown the timers
+        hangcounter -= Time.deltaTime;
+        lastJumpTime -= Time.deltaTime;
 
         // if player is falling, player is not jumping
         if (rb.velocity.y < 0)
@@ -139,7 +158,6 @@ public class PlayerMovement : MonoBehaviour
         if (hangcounter > 0)
         {
             canDoubleJump = true;
-            GetComponent<Renderer>().material.color = Color.white;
         }
 
         // jump checks
@@ -158,46 +176,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
         }
-        #endregion
 
-        #region Dashing
-        // move dash particles to player
-        dashParticles.transform.position = new Vector2(rb.position.x, rb.position.y + 1);
-
-        // when pressing dash key
-        if (Input.GetKeyDown(KeyCode.LeftShift) && dashUnlocked)
-        {
-            if (!dashOnCooldown && canDash)
-            {
-                canDash = false;
-                Dash();
-            }
-        }
-        #endregion
-
-        // countdown the timers
-        hangcounter -= Time.deltaTime;
-        lastJumpTime -= Time.deltaTime;
-    }
-
-    void Jump(bool djump)
-    {
-        if (djump)
-        {
-            GetComponent<Renderer>().material.color = new Color(1, 1.2f, 1);
-            Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);
-            rb.velocity = movement;
-        } else
-        {
-            GetComponent<Renderer>().material.color = new Color(1, 1.2f, 1);
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            isJumping = true;
-        }
-    }
-
-    void JumpButtonDown()
-    {
-        lastJumpTime = jumpBufferTime;
     }
 
     void Dash()
@@ -213,6 +192,24 @@ public class PlayerMovement : MonoBehaviour
             // dash left
             StartCoroutine(Dash(-2f));
         }
+    }
+
+    void Jump(bool djump)
+    {
+        if (djump)
+        {
+            Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);
+            rb.velocity = movement;
+        } else
+        {
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            isJumping = true;
+        }
+    }
+
+    void JumpButtonDown()
+    {
+        lastJumpTime = jumpBufferTime;
     }
 
     IEnumerator Dash(float dir)
@@ -266,7 +263,7 @@ public class PlayerMovement : MonoBehaviour
     // flip sprite to moving direction
     void spriteDirection()
     {
-        if (!isDashing && !isWallJumping)
+        if (!isDashing && !isWallJumping && !GetComponent<PlayerCombat>().isSlapping)
         {
             // right
             if (movementX > 0f)
@@ -314,4 +311,6 @@ public class PlayerMovement : MonoBehaviour
         }
         
     }
+
+    
 }
