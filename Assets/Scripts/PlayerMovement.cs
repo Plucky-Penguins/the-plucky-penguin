@@ -5,89 +5,170 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float movementSpeed;
-    public int health;
+    [Header("References")]
     public Rigidbody2D rb;
-    public float jumpForce = 20f;
     public LayerMask groundLayers;
     public Animator animator;
-    public SpriteRenderer sr;
 
-    bool immunity = false;
+    [Header("Movement")]
+    public float movementSpeed;
     float movementX = -1;
-    float movementY = -1;
-    bool facingRight = true;
-    int immunityTimer = 0;
 
-    // double jump
-    public bool doubleJump = true;
-    bool canDoubleJump = true;
-
-    // normal jump
-    bool isGrounded;
-    bool canJump = true;
-
+    [Header("Jump")]
     // hangcounter and hangtime gives an extra timing window where the player can jump shortly after leaving a platform
-    float hangtime = 0.2f;
-    float hangcounter = 0;
+    public float hangtime;    // max hangtime
+    float hangcounter = 0;    // current hangtime
 
-    // dash
-    public bool dash = true;
-    public ParticleSystem dashParticles;
-    public float dashDist = 15f;
-    bool isDashing = false;
-    bool canDash = true;
+    [Space(10)]
+    public float jumpBufferTime;        // min amount of time where player can jump after hangtime
+    public float jumpForce = 25f;
+    
+    float lastJumpTime;    // time since last jump, stops player from getting an extra jump during hangtime
+    bool isJumping;       // is the player in the middle of a jump
 
-    // Update is called once per frame
+    public bool doubleJumpUnlocked = true;
+    bool canDoubleJump = true;       // is the player able to double jump
+
+    [Header("Dash")]
+    public bool dashUnlocked = true;
+    public ParticleSystem dashParticles;   // the dash particles
+    public float dashDist = 15f;           // distance of the dash
+    public float dashCooldown = 0.5f;      // dash cooldown
+
+    float currentDashCooldown = 0;         // what the current cooldown on dash is
+    bool dashOnCooldown = false;           // is the dash on cooldown
+    bool isDashing = false;                // is player in the middle of a dash
+    private bool canDash = true;
+
+    [Header("Animation")]
+    [HideInInspector]
+    public bool facingRight = true;
+
+    [Header("Wall Jump")]
+    public bool wallJumpUnlocked = true;
+    private Directions walls;
+    private bool isWallJumping = false;
+
+    private enum Directions
+    { 
+        Left,
+        Right,
+        None
+    }
+
     void Update()
     {
         // get horizontal input
         movementX = Input.GetAxisRaw("Horizontal");
-        movementY = Input.GetAxisRaw("Vertical");
 
         // adjust facing direction
         spriteDirection();
-
-        // if touching groundlayers
-        isGrounded = Physics2D.OverlapCircle(rb.position, 0.5f, groundLayers);
-
-        // grounded when touching the ground, or during the hangtime window
-        if (isGrounded)
+        
+        // get horizontal walls
+        if (Physics2D.OverlapBox(new Vector2(rb.position.x + 1, rb.position.y + 1), new Vector2(0.25f, 1.5f), 0, groundLayers)) // right side
         {
-            // stop player from getting in an extra jump during the hangtime window
-            if (hangcounter <= (hangtime-0.1) || rb.velocity.y == 0)
-            {
-                canJump = true;
-                canDoubleJump = true;
-                GetComponent<Renderer>().material.color = Color.white;
-            }
-            hangcounter = hangtime; // hangcounter is full when on ground
+            walls = Directions.Right;
+        }
+        else if (Physics2D.OverlapBox(new Vector2(rb.position.x - 1, rb.position.y + 1), new Vector2(0.25f, 1.5f), 0, groundLayers)) // left side
+        {
+            walls = Directions.Left;
         } else
         {
-            hangcounter -= Time.deltaTime; // hangcounter counts down when off the ground
+            walls = Directions.None;
         }
 
-        // when pressing jump key
-        if (Input.GetButtonDown("Jump"))
+        // handle cooldowns
+        if (dashOnCooldown)
         {
-            Jump();
+            currentDashCooldown += Time.deltaTime;
+            if (currentDashCooldown > dashCooldown)
+            {
+                dashOnCooldown = false;
+                currentDashCooldown = 0;
+            }
         }
 
-        // hold down to drop fast
-        if (movementY == -1 && !isGrounded)
+        #region Jumping
+        // if grounded, reset hangtime
+        if (isGrounded())
         {
-            Vector2 movement = new Vector2(rb.velocity.x, -10f);
-            rb.velocity = movement;
+            hangcounter = hangtime;
+            canDash = true;
+        }
+        
+        // wall jump check
+        if (walls == Directions.Left && wallJumpUnlocked)
+        {
+            if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off left wall, to the right
+            {
+                GetComponent<Renderer>().material.color = Color.white;
+                StartCoroutine(WallJump(2f));
+
+                facingRight = true;
+                transform.localScale = new Vector3(1f, 1f, 1f);
+                animator.SetBool("Walk", true);
+                canDoubleJump = true;
+                canDash = true;
+            }
+        }
+        else if (walls == Directions.Right && wallJumpUnlocked)
+        {
+            if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off right wall, to the left
+            {
+                GetComponent<Renderer>().material.color = Color.white;
+                StartCoroutine(WallJump(-2f));
+
+                facingRight = false;
+                transform.localScale = new Vector3(-1f, 1f, 1f);
+                animator.SetBool("Walk", true);
+                canDoubleJump = true;
+                canDash = true;
+            }
         }
 
+        #region Dashing
         // move dash particles to player
         dashParticles.transform.position = new Vector2(rb.position.x, rb.position.y + 1);
 
         // when pressing dash key
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashUnlocked)
         {
-            Dash();
-            
+            if (!dashOnCooldown && canDash)
+            {
+                canDash = false;
+                Dash();
+            }
+        }
+        #endregion
+
+        // countdown the timers
+        hangcounter -= Time.deltaTime;
+        lastJumpTime -= Time.deltaTime;
+
+        // if player is falling, player is not jumping
+        if (rb.velocity.y < 0)
+        {
+            isJumping = false;
+        }
+
+        if (Input.GetButtonDown("Jump")) {
+            JumpButtonDown();
+        }
+
+        if (hangcounter > 0)
+        {
+            canDoubleJump = true;
+            GetComponent<Renderer>().material.color = Color.white;
+        }
+
+        // jump checks
+        if (hangcounter > 0 && lastJumpTime > 0 && !isJumping)
+        { 
+            Jump(false);
+        } else if(Input.GetButtonDown("Jump") && canDoubleJump && doubleJumpUnlocked && walls == Directions.None)
+        {
+            canDoubleJump = false;
+            Jump(true);
         }
 
         // stop ascending when jump is released
@@ -121,39 +202,39 @@ public class PlayerMovement : MonoBehaviour
         //spriteDirection();
     }
 
-    void Jump()
-    {
-        // normal jump case
-        if (hangcounter > 0 && canJump)
-        {
-            canJump = false;
-            Vector2 movement = new Vector2(rb.velocity.x, jumpForce);
-            rb.velocity = movement;
-            GetComponent<Renderer>().material.color = new Color(1, 1.2f, 1);
-        }
-        // double jump case separate
-        else if (doubleJump && canDoubleJump)
-        {
-            canDoubleJump = false;
-            Vector2 movement = new Vector2(rb.velocity.x, jumpForce);
-            rb.velocity = movement;
-            GetComponent<Renderer>().material.color = new Color(1, 1.5f, 1);
-        }
-    }
-
     void Dash()
     {
+        dashOnCooldown = true;
         if (facingRight)
         {
             // dash right
-            StartCoroutine(Dash(1f));
-
+            StartCoroutine(Dash(2f));
         }
         else
         {
             // dash left
-            StartCoroutine(Dash(-1f));
+            StartCoroutine(Dash(-2f));
         }
+    }
+
+    void Jump(bool djump)
+    {
+        if (djump)
+        {
+            GetComponent<Renderer>().material.color = new Color(1, 1.2f, 1);
+            Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);
+            rb.velocity = movement;
+        } else
+        {
+            GetComponent<Renderer>().material.color = new Color(1, 1.2f, 1);
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            isJumping = true;
+        }
+    }
+
+    void JumpButtonDown()
+    {
+        lastJumpTime = jumpBufferTime;
     }
 
     IEnumerator Dash(float dir)
@@ -164,12 +245,14 @@ public class PlayerMovement : MonoBehaviour
 
         // stop moving downwards
         rb.velocity = new Vector2(rb.velocity.x, 0f);
+        Physics2D.gravity = new Vector2(0f, 0f);
 
         // do the dash
         rb.AddForce(new Vector2(dashDist * dir, 0f), ForceMode2D.Impulse);
 
         // wait for dash completion
         yield return new WaitForSeconds(0.4f);
+        Physics2D.gravity = new Vector2(0f, -15f);
         isDashing = false;
         dashParticles.Clear();
         dashParticles.Stop();
@@ -184,10 +267,37 @@ public class PlayerMovement : MonoBehaviour
         // delete invisible object
     }
 
+    IEnumerator WallJump(float dir)
+    {
+        isWallJumping = true;
+
+        // horizontal
+        Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);
+        rb.velocity = movement;
+
+        // vertical
+        rb.AddForce(new Vector2(10 * dir, 0f), ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(0.2f);
+        isWallJumping = false;
+    }
+
+    // find if grounded or not
+    private bool isGrounded()
+    {
+        if (Physics2D.OverlapBox(rb.position, new Vector2(1.5f, 0.5f), 0, groundLayers))
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
     // flip sprite to moving direction
     void spriteDirection()
     {
-        if (!isDashing)
+        if (!isDashing && !isWallJumping)
         {
             // right
             if (movementX > 0f)
@@ -227,7 +337,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isDashing)
+        if (!isDashing && !isWallJumping)
         {
             // movement
             Vector2 movement = new Vector2(movementX * movementSpeed, rb.velocity.y);
