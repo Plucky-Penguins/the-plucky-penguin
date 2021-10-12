@@ -100,29 +100,34 @@ public class PlayerMovement : MonoBehaviour
         // wall jump check
         if (walls == Directions.Left && wallJumpUnlocked)
         {
+            animator.SetBool("WallSlide", true);
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off left wall, to the right
             {
                 StartCoroutine(WallJump(2f));
 
                 facingRight = true;
                 transform.localScale = new Vector3(1f, 1f, 1f);
-                animator.SetBool("Walk", true);
                 canDoubleJump = true;
                 canDash = true;
             }
         }
         else if (walls == Directions.Right && wallJumpUnlocked)
         {
+            animator.SetBool("WallSlide", true);
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off right wall, to the left
             {
                 StartCoroutine(WallJump(-2f));
 
                 facingRight = false;
                 transform.localScale = new Vector3(-1f, 1f, 1f);
-                animator.SetBool("Walk", true);
                 canDoubleJump = true;
                 canDash = true;
             }
+        }
+        // If the player is not next to a wall, or wall jump is not unlocked
+        else
+        {
+            animator.SetBool("WallSlide", false);
         }
 
         // countdown the timers
@@ -238,6 +243,7 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator WallJump(float dir)
     {
         isWallJumping = true;
+        animator.SetBool("WallSlide", false);
 
         // horizontal
         Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);

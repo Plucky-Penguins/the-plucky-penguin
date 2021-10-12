@@ -198,7 +198,7 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 0.7, y: 0.68, z: 0.53999996, w: 0.64}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 6.05, y: 4.42}
     newSize: {x: 1, y: 1}
@@ -414,7 +414,7 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 0.7, y: 0.68, z: 0.53999996, w: 0.64}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 6.05, y: 4.42}
     newSize: {x: 1, y: 1}
@@ -1036,6 +1036,7 @@ MonoBehaviour:
   dashParticles: {fileID: 2111167671}
   dashDist: 25
   dashCooldown: 0.5
+  isDashing: 0
   facingRight: 1
   wallJumpUnlocked: 1
 --- !u!95 &1496374892
@@ -1085,6 +1086,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 5
+  enemies:
+    serializedVersion: 2
+    m_Bits: 0
+  cooldown: 1
+  isSlapping: 0
+  slapRange: 0
+  slapDamage: 1
 --- !u!1 &1688098354
 GameObject:
   m_ObjectHideFlags: 0
