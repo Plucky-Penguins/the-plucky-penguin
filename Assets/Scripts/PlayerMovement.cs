@@ -124,6 +124,45 @@ public class PlayerMovement : MonoBehaviour
                 canDash = true;
             }
         }
+
+        // countdown the timers
+        hangcounter -= Time.deltaTime;
+        lastJumpTime -= Time.deltaTime;
+
+        // if player is falling, player is not jumping
+        if (rb.velocity.y < 0)
+        {
+            isJumping = false;
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            JumpButtonDown();
+        }
+
+        if (hangcounter > 0)
+        {
+            canDoubleJump = true;
+        }
+
+        // jump checks
+        if (hangcounter > 0 && lastJumpTime > 0 && !isJumping)
+        {
+            Jump(false);
+        }
+        else if (Input.GetButtonDown("Jump") && canDoubleJump && doubleJumpUnlocked && walls == Directions.None)
+        {
+            canDoubleJump = false;
+            Jump(true);
+        }
+
+        // stop ascending when jump is released
+        // allows for short hops
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
+        }
+
         #endregion
 
         #region Dashing
@@ -140,43 +179,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         #endregion
-
-        // countdown the timers
-        hangcounter -= Time.deltaTime;
-        lastJumpTime -= Time.deltaTime;
-
-        // if player is falling, player is not jumping
-        if (rb.velocity.y < 0)
-        {
-            isJumping = false;
-        }
-
-        if (Input.GetButtonDown("Jump")) {
-            JumpButtonDown();
-        }
-
-        if (hangcounter > 0)
-        {
-            canDoubleJump = true;
-        }
-
-        // jump checks
-        if (hangcounter > 0 && lastJumpTime > 0 && !isJumping)
-        { 
-            Jump(false);
-        } else if(Input.GetButtonDown("Jump") && canDoubleJump && doubleJumpUnlocked && walls == Directions.None)
-        {
-            canDoubleJump = false;
-            Jump(true);
-        }
-
-        // stop ascending when jump is released
-        // allows for short hops
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
-        }
-
     }
 
     void Dash()
