@@ -41,7 +41,8 @@ public class PlayerMovement : MonoBehaviour
     private bool canDash = true;
 
     [Header("Animation")]
-    bool facingRight = true;
+    [HideInInspector]
+    public bool facingRight = true;
 
     [Header("Wall Jump")]
     public bool wallJumpUnlocked = true;
