@@ -7,7 +7,10 @@ public class PlayerCombat : MonoBehaviour
 
     private float immunityTimer = 0;
     private bool immunity = false;
-    public int health;
+
+    // removed health variable and placed in PlayerHealth script
+    // refer to player health with
+    // GameObject.Find("Player").GetComponent<PlayerHealth>().health
 
     public LayerMask enemies;
 
@@ -97,8 +100,8 @@ public class PlayerCombat : MonoBehaviour
     {
         if (!immunity)
         {
-            health -= damage_taken;
-            if (health <= 0)
+            GameObject.Find("Player").GetComponent<PlayerHealth>().health -= damage_taken;
+            if (GameObject.Find("Player").GetComponent<PlayerHealth>().health <= 0)
             {
                 //die
             }
