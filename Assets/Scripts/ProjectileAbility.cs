@@ -28,9 +28,12 @@ public class ProjectileAbility : MonoBehaviour
 
             if (GetComponent<PlayerMovement>().facingRight)
             {
+                p.transform.localScale = new Vector3(1f, 1f, 1f);
                 p.velocity = new Vector2(speed,0);
+
             } else
             {
+                p.transform.localScale = new Vector3(-1f, 1f, 1f);
                 p.velocity = new Vector2(-speed, 0);
             }
         }
