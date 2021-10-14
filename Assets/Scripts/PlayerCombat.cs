@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -100,7 +101,8 @@ public class PlayerCombat : MonoBehaviour
             health -= damage_taken;
             if (health <= 0)
             {
-                //die
+                //die, restart level
+                SceneManager.LoadScene("Level1");
             }
         }
         immunity = true;

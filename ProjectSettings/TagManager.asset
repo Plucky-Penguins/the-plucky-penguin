@@ -6,6 +6,7 @@ TagManager:
   tags:
   - projectileDestroy
   - killable
+  - outOfBounds
   layers:
   - Default
   - TransparentFX

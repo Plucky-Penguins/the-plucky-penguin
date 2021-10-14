@@ -50,11 +50,18 @@ public class PlayerMovement : MonoBehaviour
     private Directions walls;
     private bool isWallJumping = false;
 
+    [HideInInspector]
+    public Vector2 respawnPoint;
     private enum Directions
     { 
         Left,
         Right,
         None
+    }
+
+    void Start()
+    {
+        respawnPoint = transform.position;
     }
 
     void Update()
@@ -186,6 +193,13 @@ public class PlayerMovement : MonoBehaviour
         #endregion
     }
 
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "outOfBounds")
+        {
+            Respawn();
+        }
+    }
     void Dash()
     {
         dashOnCooldown = true;
@@ -199,6 +213,15 @@ public class PlayerMovement : MonoBehaviour
             // dash left
             StartCoroutine(Dash(-2f));
         }
+    }
+
+    void Respawn()
+    {
+        transform.position = respawnPoint;
+
+        // reposition camera
+        GameObject.FindWithTag("MainCamera").GetComponent<CameraClamp>().Respawn(respawnPoint);
+
     }
 
     void Jump(bool djump)
