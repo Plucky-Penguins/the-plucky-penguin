@@ -105,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
         }
         
         // wall jump check
-        if (walls == Directions.Left && wallJumpUnlocked)
+        if (walls == Directions.Left && wallJumpUnlocked && !isGrounded())
         {
             animator.SetBool("WallSlide", true);
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off left wall, to the right
@@ -118,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
                 canDash = true;
             }
         }
-        else if (walls == Directions.Right && wallJumpUnlocked)
+        else if (walls == Directions.Right && wallJumpUnlocked && !isGrounded())
         {
             animator.SetBool("WallSlide", true);
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off right wall, to the left

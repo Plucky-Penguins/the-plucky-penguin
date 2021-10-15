@@ -71,11 +71,11 @@ public class PlayerCombat : MonoBehaviour
         if (GetComponent<PlayerMovement>().facingRight)
         {
             enemiesToDamage = Physics2D.OverlapCircleAll(new Vector2
-                (GetComponent<PlayerMovement>().rb.position.x + 1, GetComponent<PlayerMovement>().rb.position.y + 1), slapRange, enemies);
+                (GetComponent<PlayerMovement>().rb.position.x + 1, GetComponent<PlayerMovement>().rb.position.y + 1.5f), slapRange, enemies);
         } else
         {
             enemiesToDamage = Physics2D.OverlapCircleAll(new Vector2
-                (GetComponent<PlayerMovement>().rb.position.x - 1, GetComponent<PlayerMovement>().rb.position.y + 1), slapRange, enemies);
+                (GetComponent<PlayerMovement>().rb.position.x - 1, GetComponent<PlayerMovement>().rb.position.y + 1.5f), slapRange, enemies);
         }
 
         for (int i = 0; i < enemiesToDamage.Length; i++)
@@ -91,9 +91,9 @@ public class PlayerCombat : MonoBehaviour
     {
         // visualizer gizmos for attack range
 
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawWireSphere(new Vector2(GetComponent<PlayerMovement>().rb.position.x + 1, GetComponent<PlayerMovement>().rb.position.y + 1), slapRange);
-        //Gizmos.DrawWireSphere(new Vector2(GetComponent<PlayerMovement>().rb.position.x - 1, GetComponent<PlayerMovement>().rb.position.y + 1), slapRange);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(new Vector2(GetComponent<PlayerMovement>().rb.position.x + 1, GetComponent<PlayerMovement>().rb.position.y + 1.5f), slapRange);
+        Gizmos.DrawWireSphere(new Vector2(GetComponent<PlayerMovement>().rb.position.x - 1, GetComponent<PlayerMovement>().rb.position.y + 1.5f), slapRange);
     }
 
     // damage handler
@@ -101,14 +101,30 @@ public class PlayerCombat : MonoBehaviour
     {
         if (!immunity)
         {
-            GameObject.Find("Player").GetComponent<PlayerHealth>().health -= damage_taken;
-            if (GameObject.Find("Player").GetComponent<PlayerHealth>().health <= 0)
+            Debug.Log("OW!");
+            GetComponent<PlayerHealth>().health -= damage_taken;
+            if (GetComponent<PlayerHealth>().health <= 0)
             {
                 //die, restart level
-                SceneManager.LoadScene("Level1");
+                SceneManager.LoadScene("Level1_Scene");
             }
+
+            immunity = true;
+            immunityTimer = 300;
+        } else
+        {
+            Debug.Log("Im immune lol");
         }
-        immunity = true;
-        immunityTimer = 300;
+    }
+
+    // collision with enemies
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        // get all enemies in Enemies object
+        if (collision.gameObject.transform.parent.name == "Enemies")
+        {
+            collision.gameObject.GetComponent<EnemyAI>().yeet();
+            takeDamage(1);
+        }
     }
 }
