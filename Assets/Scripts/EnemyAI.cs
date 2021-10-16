@@ -61,14 +61,6 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D targetObj)
-    {
-        if (targetObj.gameObject.tag == "Player")
-        {
-            GameObject.Find("Player").GetComponent<PlayerCombat>().takeDamage(1);
-        }
-    }
-
     public void takeDamage(int damage_delt, bool doesKnockback = true)
     {
         health -= damage_delt;
@@ -76,7 +68,7 @@ public class EnemyAI : MonoBehaviour
         
         if (doesKnockback)
         {
-            StartCoroutine(knockback());
+            StartCoroutine(knockback(50));
         }
         
         if (health <= 0)
@@ -85,13 +77,18 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    public void yeet() {
+        StartCoroutine(knockback(18));
+    }
+
+
     // knockback on player slappp
-    IEnumerator knockback()
+    public IEnumerator knockback(float force)
     {
         beingPushed = true;
         Vector2 playerPosition = player.transform.position;
         Vector2 knockbackDirection = rb.position - playerPosition;
-        rb.AddForce(knockbackDirection.normalized * 50f, ForceMode2D.Impulse);
+        rb.AddForce(knockbackDirection.normalized * force, ForceMode2D.Impulse);
         yield return new WaitForSeconds(0.5f);
         beingPushed = false;
     }
