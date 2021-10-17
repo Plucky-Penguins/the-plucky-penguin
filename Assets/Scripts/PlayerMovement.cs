@@ -200,7 +200,9 @@ public class PlayerMovement : MonoBehaviour
         {
             Respawn();
         }
+
     }
+
     void Dash()
     {
         dashOnCooldown = true;
@@ -244,6 +246,19 @@ public class PlayerMovement : MonoBehaviour
     void JumpButtonDown()
     {
         lastJumpTime = jumpBufferTime;
+    }
+
+    public void yeet(float force = 25)
+    {
+        StartCoroutine(knockback(force));
+    }
+
+    // knock back the player (currently only knocks upward)
+    public IEnumerator knockback(float force)
+    {
+        Vector2 knockbackDirection = new Vector2(0f, 1f);
+        rb.AddForce(knockbackDirection.normalized * force, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(0.5f);
     }
 
     IEnumerator Dash(float dir)
