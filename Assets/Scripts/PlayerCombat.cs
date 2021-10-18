@@ -101,7 +101,6 @@ public class PlayerCombat : MonoBehaviour
     {
         if (!immunity)
         {
-            Debug.Log("OW!");
             GetComponent<PlayerHealth>().health -= damage_taken;
             if (GetComponent<PlayerHealth>().health <= 0)
             {
