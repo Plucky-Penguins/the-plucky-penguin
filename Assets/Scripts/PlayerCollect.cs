@@ -19,7 +19,7 @@ public class PlayerCollect : MonoBehaviour
 
     public void ChangeScore(int coinValue) {
         score += coinValue;
-        collection.text = "" + score.ToString();
+        collection.text = "" + score.ToString() + "/560";
     }
 
 }
