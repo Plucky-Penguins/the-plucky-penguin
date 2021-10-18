@@ -123,6 +123,17 @@ public class PlayerCombat : MonoBehaviour
         // get all enemies in Enemies object
         if (collision.gameObject.transform.parent.name == "Enemies")
         {
+            // enemy position
+            Vector2 enemyPos = collision.gameObject.GetComponent<EnemyAI>().rb.position;
+            // player position
+            Vector2 plrPos = GetComponent<PlayerMovement>().rb.position;
+
+            // head bounce check
+            if (plrPos.y - 0.5 < enemyPos.y)
+            {
+                GetComponent<PlayerMovement>().yeet();
+            }
+
             collision.gameObject.GetComponent<EnemyAI>().yeet();
             takeDamage(1);
         }
