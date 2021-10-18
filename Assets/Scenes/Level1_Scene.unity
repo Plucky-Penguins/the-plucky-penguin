@@ -14888,6 +14888,10 @@ PrefabInstance:
       propertyPath: m_Tiles.Array.data[686].second.m_TileObjectToInstantiateIndex
       value: 65535
       objectReference: {fileID: 0}
+    - target: {fileID: 97974454637214756, guid: 30885a7b41ed13449bba52e633dbbbb4, type: 3}
+      propertyPath: m_TagString
+      value: projectileDestroy
+      objectReference: {fileID: 0}
     - target: {fileID: 97974454879354002, guid: 30885a7b41ed13449bba52e633dbbbb4, type: 3}
       propertyPath: m_RootOrder
       value: 2
