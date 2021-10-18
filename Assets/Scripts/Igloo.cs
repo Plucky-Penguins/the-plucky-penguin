@@ -5,15 +5,29 @@ using UnityEngine.SceneManagement;
 
 public class Igloo : MonoBehaviour
 {
+    public TMPro.TextMeshProUGUI winText;
+
+    private void Start()
+    {
+        winText.enabled = false;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
         // check object by tag
         if (collision.gameObject.tag == "Player")
         {
-            SceneManager.LoadScene("Level1_Scene");
+            StartCoroutine(ShowMessage("You Win!"));
+            
         }
 
+    }
+    
+    IEnumerator ShowMessage(string message)
+    {
+        winText.enabled = true;
+        yield return new WaitForSeconds(2);
+        winText.enabled = false;
+        SceneManager.LoadScene("Level1_Scene");
     }
 }
