@@ -170,9 +170,12 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (Input.GetButtonDown("Jump"))
         {
-            if (canDoubleJump && doubleJumpUnlocked) {
-                canDoubleJump = false;
-                Jump(true);
+            if (canDoubleJump && doubleJumpUnlocked && !isGrounded()) {
+                if ((wallJumpUnlocked && walls == Directions.None) || !wallJumpUnlocked)
+                {
+                    canDoubleJump = false;
+                    Jump(true);
+                }
             }
         }
 
