@@ -22,7 +22,7 @@ public class PlayerCombat : MonoBehaviour
     public bool isSlapping = false;
     public float slapRange;
     public int slapDamage = 1;
-    private bool headJumping = false;
+    private bool immunityFlashing = false;
 
     void Start()
     {
@@ -43,13 +43,14 @@ public class PlayerCombat : MonoBehaviour
             StartCoroutine(Attack());
         }
         
+        // Damage immunity Logic
         if (immunityTimer > 0)
         {
             immunityTimer -= 1;
 
             if (immunityTimer % 2 == 0)
             {
-                if (!headJumping) // Don't flash when immunity is granted without damage, currently only when head jumping
+                if (immunityFlashing) // Immunity flash is not always necessary
                 {
                     GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f, .2f);
                 }
@@ -63,9 +64,11 @@ public class PlayerCombat : MonoBehaviour
         {
             GetComponent<Renderer>().material.color = Color.white;
             immunity = false;
+            immunityFlashing = false;
             GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f, 1f);
         }
     }
+
     IEnumerator Attack()
     {
         isSlapping = true;
@@ -113,18 +116,19 @@ public class PlayerCombat : MonoBehaviour
                 SceneManager.LoadScene("Level1_Scene");
             }
 
-            iFrames();
+            iFrames(300, true);
         } else
         {
             Debug.Log("Im immune lol");
         }
     }
 
-    public void iFrames(string duration = 300)
+    // General immunity handler
+    public void iFrames(int duration = 300, bool flashing = false)
     {
-        /// General immunity function for easier use
         immunity = true;
         immunityTimer = duration;
+        immunityFlashing = flashing;
     }
 
     // collision with enemies
@@ -141,9 +145,9 @@ public class PlayerCombat : MonoBehaviour
             // head bounce check
             if (plrPos.y - 0.4 > enemyPos.y)
             {
-                headJumping = true;
                 iFrames(10);
                 GetComponent<PlayerMovement>().yeet();
+                GetComponent<PlayerMovement>().refresh();
             }
 
             collision.gameObject.GetComponent<EnemyAI>().yeet();
