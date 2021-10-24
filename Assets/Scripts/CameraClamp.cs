@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class CameraClamp : MonoBehaviour
 {
+    Rigidbody2D player;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GameObject.Find("Player").GetComponent<PlayerMovement>().rb;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.y < 1)
+        if (player.position.y < 1)
         {
-            transform.position = new Vector3(transform.position.x, 1, -10);
+            transform.position = new Vector3(player.position.x, 1, -10);
         }
     }
 

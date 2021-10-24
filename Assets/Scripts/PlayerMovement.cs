@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     // hangcounter and hangtime gives an extra timing window where the player can jump shortly after leaving a platform
     public float hangtime;    // max hangtime
     float hangcounter = 0;    // current hangtime
+    public ParticleSystem doubleJumpParticles;   // the double jump particles
 
     [Space(10)]
     public float jumpBufferTime;        // min amount of time where player can jump after hangtime
@@ -199,7 +200,9 @@ public class PlayerMovement : MonoBehaviour
         {
             Respawn();
         }
+
     }
+
     void Dash()
     {
         dashOnCooldown = true;
@@ -226,11 +229,14 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump(bool djump)
     {
-        if (djump)
+        if (djump) // when double jumping
         {
             Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);
             rb.velocity = movement;
-        } else
+            doubleJumpParticles.Play();
+            doubleJumpParticles.transform.position = new Vector2(rb.position.x, rb.position.y); // align the particles with the player
+
+        } else // when normal jumping
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isJumping = true;
@@ -240,6 +246,19 @@ public class PlayerMovement : MonoBehaviour
     void JumpButtonDown()
     {
         lastJumpTime = jumpBufferTime;
+    }
+
+    public void yeet(float force = 25)
+    {
+        StartCoroutine(knockback(force));
+    }
+
+    // knock back the player (currently only knocks upward)
+    public IEnumerator knockback(float force)
+    {
+        Vector2 knockbackDirection = new Vector2(0f, 1f);
+        rb.AddForce(knockbackDirection.normalized * force, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(0.5f);
     }
 
     IEnumerator Dash(float dir)
