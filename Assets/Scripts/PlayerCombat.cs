@@ -22,6 +22,7 @@ public class PlayerCombat : MonoBehaviour
     public bool isSlapping = false;
     public float slapRange;
     public int slapDamage = 1;
+    private bool headJumping = false;
 
     void Start()
     {
@@ -45,10 +46,13 @@ public class PlayerCombat : MonoBehaviour
         if (immunityTimer > 0)
         {
             immunityTimer -= 1;
-            
+
             if (immunityTimer % 2 == 0)
             {
-                GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f, .2f);
+                if (!headJumping) // Don't flash when immunity is granted without damage, currently only when head jumping
+                {
+                    GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f, .2f);
+                }
             }
             else
             {
@@ -101,6 +105,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if (!immunity)
         {
+            Debug.Log("Ouch");
             GetComponent<PlayerHealth>().health -= damage_taken;
             if (GetComponent<PlayerHealth>().health <= 0)
             {
@@ -128,8 +133,11 @@ public class PlayerCombat : MonoBehaviour
             Vector2 plrPos = GetComponent<PlayerMovement>().rb.position;
 
             // head bounce check
-            if (plrPos.y - 0.5 < enemyPos.y)
+            if (plrPos.y - 0.4 > enemyPos.y)
             {
+                headJumping = true;
+                immunity = true;
+                immunityTimer = 10;
                 GetComponent<PlayerMovement>().yeet();
             }
 
