@@ -168,10 +168,12 @@ public class PlayerMovement : MonoBehaviour
         {
             Jump(false);
         }
-        else if (Input.GetButtonDown("Jump") && canDoubleJump && doubleJumpUnlocked && walls == Directions.None)
+        else if (Input.GetButtonDown("Jump"))
         {
-            canDoubleJump = false;
-            Jump(true);
+            if (canDoubleJump && doubleJumpUnlocked) {
+                canDoubleJump = false;
+                Jump(true);
+            }
         }
 
         // stop ascending when jump is released
@@ -197,6 +199,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         #endregion
+        
     }
 
     void OnTriggerEnter2D(Collider2D collision)

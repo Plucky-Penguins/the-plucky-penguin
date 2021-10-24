@@ -9988,14 +9988,14 @@ MonoBehaviour:
   doubleJumpParticles: {fileID: 4775100816716795321}
   jumpBufferTime: 0.1
   jumpForce: 30
-  doubleJumpUnlocked: 1
-  dashUnlocked: 1
+  doubleJumpUnlocked: 0
+  dashUnlocked: 0
   dashParticles: {fileID: 4775100816132582511}
   dashDist: 25
   dashCooldown: 0.5
   isDashing: 0
   facingRight: 1
-  wallJumpUnlocked: 1
+  wallJumpUnlocked: 0
   respawnPoint: {x: 0, y: 0}
   WallJumpTimer: 0.3
   WallJumpHorizontal: 18
