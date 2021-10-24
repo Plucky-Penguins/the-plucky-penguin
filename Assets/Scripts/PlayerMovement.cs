@@ -281,6 +281,9 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator Dash(float dir)
     {
+        // Become immune during dash
+        GetComponent<PlayerCombat>().iFrames(100);
+
         isDashing = true;
         dashParticles.Play();
         animator.SetTrigger("Dash");
