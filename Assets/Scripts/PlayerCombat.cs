@@ -113,12 +113,18 @@ public class PlayerCombat : MonoBehaviour
                 SceneManager.LoadScene("Level1_Scene");
             }
 
-            immunity = true;
-            immunityTimer = 300;
+            iFrames();
         } else
         {
             Debug.Log("Im immune lol");
         }
+    }
+
+    public void iFrames(string duration = 300)
+    {
+        /// General immunity function for easier use
+        immunity = true;
+        immunityTimer = duration;
     }
 
     // collision with enemies
@@ -136,8 +142,7 @@ public class PlayerCombat : MonoBehaviour
             if (plrPos.y - 0.4 > enemyPos.y)
             {
                 headJumping = true;
-                immunity = true;
-                immunityTimer = 10;
+                iFrames(10);
                 GetComponent<PlayerMovement>().yeet();
             }
 
