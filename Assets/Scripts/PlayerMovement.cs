@@ -208,6 +208,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.tag == "outOfBounds")
         {
             Respawn();
+            GetComponent<PlayerCombat>().takeDamage(1);
         }
 
     }

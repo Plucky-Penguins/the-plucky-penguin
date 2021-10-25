@@ -112,8 +112,8 @@ public class PlayerCombat : MonoBehaviour
             GetComponent<PlayerHealth>().health -= damage_taken;
             if (GetComponent<PlayerHealth>().health <= 0)
             {
-                //die, restart level
-                SceneManager.LoadScene("Level1_Scene");
+                //die
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
 
             iFrames(300, true);
