@@ -137,21 +137,26 @@ public class PlayerCombat : MonoBehaviour
         // get all enemies in Enemies object
         if (collision.gameObject.transform.parent.name == "Enemies")
         {
-            // enemy position
-            Vector2 enemyPos = collision.gameObject.GetComponent<EnemyAI>().rb.position;
-            // player position
-            Vector2 plrPos = GetComponent<PlayerMovement>().rb.position;
+            // object from enemy component
+            EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
+            // object from player
+            PlayerMovement player = GetComponent<PlayerMovement>();
 
             // head bounce check
-            if (plrPos.y - 0.4 > enemyPos.y)
+            if (player.rb.position.y - 0.4 > enemy.rb.position.y)
             {
                 iFrames(10);
-                GetComponent<PlayerMovement>().yeet();
-                GetComponent<PlayerMovement>().refresh();
+                enemy.stun(2f);
+                player.yeet();
+                player.refresh();
+            } 
+            else
+            {
+                collision.gameObject.GetComponent<EnemyAI>().yeet();
+                takeDamage(1);
             }
 
-            collision.gameObject.GetComponent<EnemyAI>().yeet();
-            takeDamage(1);
+            
         }
     }
 }

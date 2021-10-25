@@ -10,7 +10,9 @@ public class EnemyAI : MonoBehaviour
     public Rigidbody2D rb;
     private bool facingRight;
     public int health;
-    private bool beingPushed = false;
+    private bool cannotMove = false;
+    private int curStunDuration = 0; // This is only used for managing the stunMe coroutine
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +43,7 @@ public class EnemyAI : MonoBehaviour
 
     private void moveEnemy(GameObject player, GameObject enemy)
     {
-        if (!beingPushed)
+        if (!cannotMove)
         {
             if (player.transform.position.x > enemy.transform.position.x)
             {
@@ -77,20 +79,41 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    public void stun(float duration = 2f)
+    {
+        curStunDuration += 1;
+        StartCoroutine(stunMe(duration));
+    }
+
     public void yeet() {
         StartCoroutine(knockback(18));
     }
 
+    // stun status efect
+    public IEnumerator stunMe(float duration)
+    {
+        cannotMove = true;
+        GetComponent<Renderer>().material.color = Color.blue;
+        yield return new WaitForSeconds(duration);
+
+        // only release the stun if there are not more stuns waiting to happen
+        if (curStunDuration <= 1)
+        {
+            GetComponent<Renderer>().material.color = Color.white;
+            cannotMove = false;
+        }
+        curStunDuration -= 1;
+    }
 
     // knockback on player slappp
     public IEnumerator knockback(float force)
     {
-        beingPushed = true;
+        cannotMove = true;
         Vector2 playerPosition = player.transform.position;
         Vector2 knockbackDirection = rb.position - playerPosition;
         rb.AddForce(knockbackDirection.normalized * force, ForceMode2D.Impulse);
         yield return new WaitForSeconds(0.5f);
-        beingPushed = false;
+        cannotMove = false;
     }
     
 }
