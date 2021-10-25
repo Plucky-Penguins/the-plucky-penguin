@@ -53,6 +53,11 @@ public class PlayerMovement : MonoBehaviour
 
     [HideInInspector]
     public Vector2 respawnPoint;
+
+    public float WallJumpTimer;
+    public float WallJumpHorizontal;
+    public float WallJumpVertical;
+
     private enum Directions
     { 
         Left,
@@ -111,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("WallSlide", true);
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off left wall, to the right
             {
-                StartCoroutine(WallJump(2f));
+                StartCoroutine(WallJump(1f));
 
                 facingRight = true;
                 transform.localScale = new Vector3(1f, 1f, 1f);
@@ -124,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("WallSlide", true);
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off right wall, to the left
             {
-                StartCoroutine(WallJump(-2f));
+                StartCoroutine(WallJump(-1f));
 
                 facingRight = false;
                 transform.localScale = new Vector3(-1f, 1f, 1f);
@@ -163,10 +168,15 @@ public class PlayerMovement : MonoBehaviour
         {
             Jump(false);
         }
-        else if (Input.GetButtonDown("Jump") && canDoubleJump && doubleJumpUnlocked && walls == Directions.None)
+        else if (Input.GetButtonDown("Jump"))
         {
-            canDoubleJump = false;
-            Jump(true);
+            if (canDoubleJump && doubleJumpUnlocked && !isGrounded()) {
+                if ((wallJumpUnlocked && walls == Directions.None) || !wallJumpUnlocked)
+                {
+                    canDoubleJump = false;
+                    Jump(true);
+                }
+            }
         }
 
         // stop ascending when jump is released
@@ -192,6 +202,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         #endregion
+        
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -278,8 +289,9 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         Physics2D.gravity = new Vector2(0f, -15f);
         isDashing = false;
-        dashParticles.Clear();
+        
         dashParticles.Stop();
+        dashParticles.Clear();
     }
 
     IEnumerator WallJump(float dir)
@@ -287,14 +299,15 @@ public class PlayerMovement : MonoBehaviour
         isWallJumping = true;
         animator.SetBool("WallSlide", false);
 
-        // horizontal
-        Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);
-        rb.velocity = movement;
-
         // vertical
-        rb.AddForce(new Vector2(10 * dir, 0f), ForceMode2D.Impulse);
+        //rb.AddForce(new Vector2(20 * dir, 0), ForceMode2D.Impulse);
 
-        yield return new WaitForSeconds(0.2f);
+        // horizontal
+        Vector2 movement = new Vector2(dir * WallJumpHorizontal, WallJumpVertical);
+        rb.velocity = movement;
+        //rb.AddForce(new Vector2(20 * dir, 20*5), ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(WallJumpTimer);
         isWallJumping = false;
     }
 
