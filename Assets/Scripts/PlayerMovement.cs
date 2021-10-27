@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     // hangcounter and hangtime gives an extra timing window where the player can jump shortly after leaving a platform
     public float hangtime;    // max hangtime
     float hangcounter = 0;    // current hangtime
+    public ParticleSystem doubleJumpParticles;   // the double jump particles
 
     [Space(10)]
     public float jumpBufferTime;        // min amount of time where player can jump after hangtime
@@ -50,11 +51,23 @@ public class PlayerMovement : MonoBehaviour
     private Directions walls;
     private bool isWallJumping = false;
 
+    [HideInInspector]
+    public Vector2 respawnPoint;
+
+    public float WallJumpTimer;
+    public float WallJumpHorizontal;
+    public float WallJumpVertical;
+
     private enum Directions
     { 
         Left,
         Right,
         None
+    }
+
+    void Start()
+    {
+        respawnPoint = transform.position;
     }
 
     void Update()
@@ -98,30 +111,28 @@ public class PlayerMovement : MonoBehaviour
         }
         
         // wall jump check
-        if (walls == Directions.Left && wallJumpUnlocked)
+        if (walls == Directions.Left && wallJumpUnlocked && !isGrounded())
         {
             animator.SetBool("WallSlide", true);
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off left wall, to the right
             {
-                StartCoroutine(WallJump(2f));
+                StartCoroutine(WallJump(1f));
 
                 facingRight = true;
                 transform.localScale = new Vector3(1f, 1f, 1f);
-                canDoubleJump = true;
-                canDash = true;
+                refresh();
             }
         }
-        else if (walls == Directions.Right && wallJumpUnlocked)
+        else if (walls == Directions.Right && wallJumpUnlocked && !isGrounded())
         {
             animator.SetBool("WallSlide", true);
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off right wall, to the left
             {
-                StartCoroutine(WallJump(-2f));
+                StartCoroutine(WallJump(-1f));
 
                 facingRight = false;
                 transform.localScale = new Vector3(-1f, 1f, 1f);
-                canDoubleJump = true;
-                canDash = true;
+                refresh();
             }
         }
         // If the player is not next to a wall, or wall jump is not unlocked
@@ -155,10 +166,15 @@ public class PlayerMovement : MonoBehaviour
         {
             Jump(false);
         }
-        else if (Input.GetButtonDown("Jump") && canDoubleJump && doubleJumpUnlocked && walls == Directions.None)
+        else if (Input.GetButtonDown("Jump"))
         {
-            canDoubleJump = false;
-            Jump(true);
+            if (canDoubleJump && doubleJumpUnlocked && !isGrounded()) {
+                if ((wallJumpUnlocked && walls == Directions.None) || !wallJumpUnlocked)
+                {
+                    canDoubleJump = false;
+                    Jump(true);
+                }
+            }
         }
 
         // stop ascending when jump is released
@@ -184,6 +200,17 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         #endregion
+        
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "outOfBounds")
+        {
+            Respawn();
+            GetComponent<PlayerCombat>().takeDamage(1);
+        }
+
     }
 
     void Dash()
@@ -201,13 +228,25 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void Respawn()
+    {
+        transform.position = respawnPoint;
+
+        // reposition camera
+        GameObject.FindWithTag("MainCamera").GetComponent<CameraClamp>().Respawn(respawnPoint);
+
+    }
+
     void Jump(bool djump)
     {
-        if (djump)
+        if (djump) // when double jumping
         {
             Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);
             rb.velocity = movement;
-        } else
+            doubleJumpParticles.Play();
+            doubleJumpParticles.transform.position = new Vector2(rb.position.x, rb.position.y); // align the particles with the player
+
+        } else // when normal jumping
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isJumping = true;
@@ -219,8 +258,44 @@ public class PlayerMovement : MonoBehaviour
         lastJumpTime = jumpBufferTime;
     }
 
+    public void yeet(float force = 25)
+    {
+        StartCoroutine(knockback(force));
+    }
+
+    public void refresh(string ability = "all")
+    {
+        /// <summary> Refreshes dash/jump cooldowns </summary>
+        /// This function exists so that other entities (like world pickups or abilities) can interact with cooldowns
+        /// Pass it the name of abilities to refresh or leave it blank to refresh all
+
+        // Dash
+        if (ability.Contains("dash") || ability.Contains("all"))
+        {
+            canDash = true;
+            dashOnCooldown = false;
+        }
+
+        // Double Jump
+        if (ability.Contains("djump") || ability.Contains("all"))
+        {
+            canDoubleJump = true;
+        }
+    }
+
+    // knock back the player (currently only knocks upward)
+    public IEnumerator knockback(float force)
+    {
+        Vector2 knockbackDirection = new Vector2(0f, 1f);
+        rb.AddForce(knockbackDirection.normalized * force, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(0.5f);
+    }
+
     IEnumerator Dash(float dir)
     {
+        // Become immune during dash
+        GetComponent<PlayerCombat>().iFrames(100);
+
         isDashing = true;
         dashParticles.Play();
         animator.SetTrigger("Dash");
@@ -236,8 +311,9 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         Physics2D.gravity = new Vector2(0f, -15f);
         isDashing = false;
-        dashParticles.Clear();
+        
         dashParticles.Stop();
+        dashParticles.Clear();
     }
 
     IEnumerator WallJump(float dir)
@@ -245,14 +321,15 @@ public class PlayerMovement : MonoBehaviour
         isWallJumping = true;
         animator.SetBool("WallSlide", false);
 
-        // horizontal
-        Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);
-        rb.velocity = movement;
-
         // vertical
-        rb.AddForce(new Vector2(10 * dir, 0f), ForceMode2D.Impulse);
+        //rb.AddForce(new Vector2(20 * dir, 0), ForceMode2D.Impulse);
 
-        yield return new WaitForSeconds(0.2f);
+        // horizontal
+        Vector2 movement = new Vector2(dir * WallJumpHorizontal, WallJumpVertical);
+        rb.velocity = movement;
+        //rb.AddForce(new Vector2(20 * dir, 20*5), ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(WallJumpTimer);
         isWallJumping = false;
     }
 

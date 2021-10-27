@@ -1,13 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerCombat : MonoBehaviour
 {
 
     private float immunityTimer = 0;
     private bool immunity = false;
-    public int health;
+
+    // removed health variable and placed in PlayerHealth script
+    // refer to player health with
+    // GameObject.Find("Player").GetComponent<PlayerHealth>().health
 
     public LayerMask enemies;
 
@@ -18,6 +22,7 @@ public class PlayerCombat : MonoBehaviour
     public bool isSlapping = false;
     public float slapRange;
     public int slapDamage = 1;
+    private bool immunityFlashing = false;
 
     void Start()
     {
@@ -38,13 +43,17 @@ public class PlayerCombat : MonoBehaviour
             StartCoroutine(Attack());
         }
         
+        // Damage immunity Logic
         if (immunityTimer > 0)
         {
             immunityTimer -= 1;
-            
+
             if (immunityTimer % 2 == 0)
             {
-                GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f, .2f);
+                if (immunityFlashing) // Immunity flash is not always necessary
+                {
+                    GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f, .2f);
+                }
             }
             else
             {
@@ -55,9 +64,11 @@ public class PlayerCombat : MonoBehaviour
         {
             GetComponent<Renderer>().material.color = Color.white;
             immunity = false;
+            immunityFlashing = false;
             GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f, 1f);
         }
     }
+
     IEnumerator Attack()
     {
         isSlapping = true;
@@ -67,11 +78,11 @@ public class PlayerCombat : MonoBehaviour
         if (GetComponent<PlayerMovement>().facingRight)
         {
             enemiesToDamage = Physics2D.OverlapCircleAll(new Vector2
-                (GetComponent<PlayerMovement>().rb.position.x + 1, GetComponent<PlayerMovement>().rb.position.y + 1), slapRange, enemies);
+                (GetComponent<PlayerMovement>().rb.position.x + 1, GetComponent<PlayerMovement>().rb.position.y + 1.5f), slapRange, enemies);
         } else
         {
             enemiesToDamage = Physics2D.OverlapCircleAll(new Vector2
-                (GetComponent<PlayerMovement>().rb.position.x - 1, GetComponent<PlayerMovement>().rb.position.y + 1), slapRange, enemies);
+                (GetComponent<PlayerMovement>().rb.position.x - 1, GetComponent<PlayerMovement>().rb.position.y + 1.5f), slapRange, enemies);
         }
 
         for (int i = 0; i < enemiesToDamage.Length; i++)
@@ -87,9 +98,9 @@ public class PlayerCombat : MonoBehaviour
     {
         // visualizer gizmos for attack range
 
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawWireSphere(new Vector2(GetComponent<PlayerMovement>().rb.position.x + 1, GetComponent<PlayerMovement>().rb.position.y + 1), slapRange);
-        //Gizmos.DrawWireSphere(new Vector2(GetComponent<PlayerMovement>().rb.position.x - 1, GetComponent<PlayerMovement>().rb.position.y + 1), slapRange);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(new Vector2(GetComponent<PlayerMovement>().rb.position.x + 1, GetComponent<PlayerMovement>().rb.position.y + 1.5f), slapRange);
+        Gizmos.DrawWireSphere(new Vector2(GetComponent<PlayerMovement>().rb.position.x - 1, GetComponent<PlayerMovement>().rb.position.y + 1.5f), slapRange);
     }
 
     // damage handler
@@ -97,13 +108,55 @@ public class PlayerCombat : MonoBehaviour
     {
         if (!immunity)
         {
-            health -= damage_taken;
-            if (health <= 0)
+            Debug.Log("Ouch");
+            GetComponent<PlayerHealth>().health -= damage_taken;
+            if (GetComponent<PlayerHealth>().health <= 0)
             {
                 //die
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
+
+            iFrames(300, true);
+        } else
+        {
+            Debug.Log("Im immune lol");
         }
+    }
+
+    // General immunity handler
+    public void iFrames(int duration = 300, bool flashing = false)
+    {
         immunity = true;
-        immunityTimer = 300;
+        immunityTimer = duration;
+        immunityFlashing = flashing;
+    }
+
+    // collision with enemies
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        // get all enemies in Enemies object
+        if (collision.gameObject.transform.parent.name == "Enemies")
+        {
+            // object from enemy component
+            EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
+            // object from player
+            PlayerMovement player = GetComponent<PlayerMovement>();
+
+            // head bounce check
+            if (player.rb.position.y - 0.4 > enemy.rb.position.y)
+            {
+                iFrames(10);
+                enemy.stun(2f);
+                player.yeet();
+                player.refresh();
+            } 
+            else
+            {
+                collision.gameObject.GetComponent<EnemyAI>().yeet();
+                takeDamage(1);
+            }
+
+            
+        }
     }
 }
