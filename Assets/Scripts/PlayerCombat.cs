@@ -134,6 +134,11 @@ public class PlayerCombat : MonoBehaviour
     // collision with enemies
     void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.gameObject.transform.parent == null)
+        {
+            return;
+        }
+
         // get all enemies in Enemies object
         if (collision.gameObject.transform.parent.name == "Enemies")
         {

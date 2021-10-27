@@ -82,10 +82,16 @@ public class PlayerMovement : MonoBehaviour
         if (Physics2D.OverlapBox(new Vector2(rb.position.x + 1, rb.position.y + 1), new Vector2(0.25f, 1.5f), 0, groundLayers)) // right side
         {
             walls = Directions.Right;
+            facingRight = false;
+            canDash = true;
+            canDoubleJump = true;
         }
         else if (Physics2D.OverlapBox(new Vector2(rb.position.x - 1, rb.position.y + 1), new Vector2(0.25f, 1.5f), 0, groundLayers)) // left side
         {
             walls = Directions.Left;
+            facingRight = true;
+            canDash = true;
+            canDoubleJump = true;
         } else
         {
             walls = Directions.None;
@@ -297,6 +303,16 @@ public class PlayerMovement : MonoBehaviour
         GetComponent<PlayerCombat>().iFrames(100);
 
         isDashing = true;
+
+        // dash animation direction
+        if (dir > 0)
+        {
+            transform.localScale = new Vector3(1f, 1f, 1f);
+        } else if (dir < 0)
+        {
+            transform.localScale = new Vector3(-1f, 1f, 1f);
+        }
+
         dashParticles.Play();
         animator.SetTrigger("Dash");
 
