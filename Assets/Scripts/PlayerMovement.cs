@@ -178,7 +178,7 @@ public class PlayerMovement : MonoBehaviour
 
         #region Dashing
         // move dash particles to player
-        dashParticles.transform.position = new Vector2(rb.position.x, rb.position.y + 1);
+        // dashParticles.transform.position = new Vector2(rb.position.x, rb.position.y + 1);
 
         // when pressing dash key
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashUnlocked && !GetComponent<PlayerCombat>().isSlapping)
@@ -299,8 +299,6 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         Physics2D.gravity = new Vector2(0f, -15f);
         isDashing = false;
-        dashParticles.Clear();
-        dashParticles.Stop();
     }
 
     IEnumerator WallJump(float dir)
