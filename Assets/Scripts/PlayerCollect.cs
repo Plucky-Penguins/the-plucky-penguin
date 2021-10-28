@@ -6,7 +6,9 @@ using UnityEngine;
 public class PlayerCollect : MonoBehaviour
 {
     public TextMeshProUGUI collection;
-    int score;
+    int level_score;
+    // total_score should be carried across levels
+    int total_score;
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("collectible")) {
@@ -18,8 +20,11 @@ public class PlayerCollect : MonoBehaviour
     }
 
     public void ChangeScore(int coinValue) {
-        score += coinValue;
-        collection.text = "" + score.ToString() + "/66";
+        level_score += coinValue;
+        /** TODO: /66 needs to be turned into a variable 
+         * changed per level
+         */
+        collection.text = "" + level_score.ToString() + "/66";
     }
 
 }
