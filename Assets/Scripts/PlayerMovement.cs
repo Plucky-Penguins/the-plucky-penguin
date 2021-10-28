@@ -70,6 +70,15 @@ public class PlayerMovement : MonoBehaviour
         respawnPoint = transform.position;
     }
 
+    void OnDrawGizmosSelected()
+    {
+        // visualizer gizmos for wall detection
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(new Vector2(rb.position.x + 1, rb.position.y + 1), new Vector2(0.25f, 1.5f));
+        Gizmos.DrawWireCube(new Vector2(rb.position.x - 1, rb.position.y + 1), new Vector2(0.25f, 1.5f));
+    }
+
     void Update()
     {
         // get horizontal input
