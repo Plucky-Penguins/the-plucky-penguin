@@ -22,6 +22,7 @@ public class PlayerCombat : MonoBehaviour
     public bool isSlapping = false;
     public float slapRange;
     public int slapDamage = 1;
+    private bool immunityFlashing = false;
 
     void Start()
     {
@@ -42,13 +43,17 @@ public class PlayerCombat : MonoBehaviour
             StartCoroutine(Attack());
         }
         
+        // Damage immunity Logic
         if (immunityTimer > 0)
         {
             immunityTimer -= 1;
-            
+
             if (immunityTimer % 2 == 0)
             {
-                GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f, .2f);
+                if (immunityFlashing) // Immunity flash is not always necessary
+                {
+                    GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f, .2f);
+                }
             }
             else
             {
@@ -59,9 +64,11 @@ public class PlayerCombat : MonoBehaviour
         {
             GetComponent<Renderer>().material.color = Color.white;
             immunity = false;
+            immunityFlashing = false;
             GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f, 1f);
         }
     }
+
     IEnumerator Attack()
     {
         isSlapping = true;
@@ -101,7 +108,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if (!immunity)
         {
-            Debug.Log("OW!");
+            Debug.Log("Ouch");
             GetComponent<PlayerHealth>().health -= damage_taken;
             if (GetComponent<PlayerHealth>().health <= 0)
             {
@@ -109,12 +116,19 @@ public class PlayerCombat : MonoBehaviour
                 SceneManager.LoadScene("Level1_Scene");
             }
 
-            immunity = true;
-            immunityTimer = 300;
+            iFrames(300, true);
         } else
         {
             Debug.Log("Im immune lol");
         }
+    }
+
+    // General immunity handler
+    public void iFrames(int duration = 300, bool flashing = false)
+    {
+        immunity = true;
+        immunityTimer = duration;
+        immunityFlashing = flashing;
     }
 
     // collision with enemies
@@ -123,19 +137,26 @@ public class PlayerCombat : MonoBehaviour
         // get all enemies in Enemies object
         if (collision.gameObject.transform.parent.name == "Enemies")
         {
-            // enemy position
-            Vector2 enemyPos = collision.gameObject.GetComponent<EnemyAI>().rb.position;
-            // player position
-            Vector2 plrPos = GetComponent<PlayerMovement>().rb.position;
+            // object from enemy component
+            EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
+            // object from player
+            PlayerMovement player = GetComponent<PlayerMovement>();
 
             // head bounce check
-            if (plrPos.y - 0.5 < enemyPos.y)
+            if (player.rb.position.y - 0.4 > enemy.rb.position.y)
             {
-                GetComponent<PlayerMovement>().yeet();
+                iFrames(10);
+                enemy.stun(2f);
+                player.yeet();
+                player.refresh();
+            } 
+            else
+            {
+                collision.gameObject.GetComponent<EnemyAI>().yeet();
+                takeDamage(1);
             }
 
-            collision.gameObject.GetComponent<EnemyAI>().yeet();
-            takeDamage(1);
+            
         }
     }
 }

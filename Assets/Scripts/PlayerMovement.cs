@@ -115,8 +115,7 @@ public class PlayerMovement : MonoBehaviour
 
                 facingRight = true;
                 transform.localScale = new Vector3(1f, 1f, 1f);
-                canDoubleJump = true;
-                canDash = true;
+                refresh();
             }
         }
         else if (walls == Directions.Right && wallJumpUnlocked && !isGrounded())
@@ -128,8 +127,7 @@ public class PlayerMovement : MonoBehaviour
 
                 facingRight = false;
                 transform.localScale = new Vector3(-1f, 1f, 1f);
-                canDoubleJump = true;
-                canDash = true;
+                refresh();
             }
         }
         // If the player is not next to a wall, or wall jump is not unlocked
@@ -180,7 +178,7 @@ public class PlayerMovement : MonoBehaviour
 
         #region Dashing
         // move dash particles to player
-        dashParticles.transform.position = new Vector2(rb.position.x, rb.position.y + 1);
+        // dashParticles.transform.position = new Vector2(rb.position.x, rb.position.y + 1);
 
         // when pressing dash key
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashUnlocked && !GetComponent<PlayerCombat>().isSlapping)
@@ -253,6 +251,26 @@ public class PlayerMovement : MonoBehaviour
         StartCoroutine(knockback(force));
     }
 
+    public void refresh(string ability = "all")
+    {
+        /// <summary> Refreshes dash/jump cooldowns </summary>
+        /// This function exists so that other entities (like world pickups or abilities) can interact with cooldowns
+        /// Pass it the name of abilities to refresh or leave it blank to refresh all
+
+        // Dash
+        if (ability.Contains("dash") || ability.Contains("all"))
+        {
+            canDash = true;
+            dashOnCooldown = false;
+        }
+
+        // Double Jump
+        if (ability.Contains("djump") || ability.Contains("all"))
+        {
+            canDoubleJump = true;
+        }
+    }
+
     // knock back the player (currently only knocks upward)
     public IEnumerator knockback(float force)
     {
@@ -263,6 +281,9 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator Dash(float dir)
     {
+        // Become immune during dash
+        GetComponent<PlayerCombat>().iFrames(100);
+
         isDashing = true;
         dashParticles.Play();
         animator.SetTrigger("Dash");
@@ -278,8 +299,6 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         Physics2D.gravity = new Vector2(0f, -15f);
         isDashing = false;
-        dashParticles.Clear();
-        dashParticles.Stop();
     }
 
     IEnumerator WallJump(float dir)
