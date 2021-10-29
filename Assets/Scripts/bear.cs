@@ -6,7 +6,8 @@ using UnityEngine;
 public class bear : MonoBehaviour
 {
     [Header("References")]
-    public GameObject player, bearObj;
+    public GameObject player;
+    public GameObject bearObj;
     public Rigidbody2D rb;
     public LayerMask groundLayers;
     public Animator animator;
@@ -38,15 +39,31 @@ public class bear : MonoBehaviour
     void Start()
     {
         player_close = false;
-        width = Get_Width(bearObj);
-        height = Get_Height(bearObj);
+        width = GetComponent<SpriteRenderer>().bounds.size.x;
+        height = GetComponent<SpriteRenderer>().bounds.size.y;
+    }
 
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(new Vector2(rb.position.x + width/2, rb.position.y), new Vector3(0.25f, 2, 1));
+        Gizmos.DrawWireCube(new Vector2(rb.position.x - width/2, rb.position.y), new Vector3(0.25f, 2, 1));
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(new Vector2(rb.position.x, rb.position.y - height / 2), new Vector3(1.5f, 0.5f, 1));
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+
+        #region Wall Check
         // get horizontal walls
-        if (Physics2D.OverlapBox(new Vector2(rb.position.x + width, rb.position.y + height), new Vector2(0.25f, 1.5f), 0, groundLayers)) // right side
+        if (Physics2D.OverlapBox(new Vector2(rb.position.x + width/2, rb.position.y), new Vector2(0.25f, 2f), 0, groundLayers)) // right side
         {
             walls = Directions.Right;
         }
-        else if (Physics2D.OverlapBox(new Vector2(rb.position.x - width, rb.position.y + height), new Vector2(0.25f, 1.5f), 0, groundLayers)) // left side
+        else if (Physics2D.OverlapBox(new Vector2(rb.position.x - width/2, rb.position.y), new Vector2(0.25f, 2f), 0, groundLayers)) // left side
         {
             walls = Directions.Left;
         }
@@ -54,11 +71,8 @@ public class bear : MonoBehaviour
         {
             walls = Directions.None;
         }
-    }
+        #endregion
 
-    // Update is called once per frame
-    void Update()
-    {
         if (jumpNow)
         {
             StartCoroutine(Jump());
@@ -92,17 +106,23 @@ public class bear : MonoBehaviour
     {
         if (!cannotMove)
         {
-            // wall check
+            #region Wall Check
+            // If there's a wall, jump over it
             if (walls == Directions.Left)
             {
-                Debug.Log("Wall Left");
-                StartCoroutine(Jump());
+                if (isGrounded())
+                {
+                    StartCoroutine(Jump());
+                }
             }
             else if (walls == Directions.Right)
             {
-                Debug.Log("Wall Right");
-                StartCoroutine(Jump());
+                if (isGrounded())
+                {
+                    StartCoroutine(Jump());
+                }
             }
+            #endregion
 
 
             if (player.transform.position.x > bearObj.transform.position.x)
@@ -150,70 +170,17 @@ public class bear : MonoBehaviour
         StartCoroutine(knockback(18));
     }
 
-    private static Rect Get_Rect(GameObject gameObject)
+    // find if grounded or not
+    private bool isGrounded()
     {
-        if (gameObject != null)
+        if (Physics2D.OverlapBox(new Vector2(rb.position.x, rb.position.y - height / 2), new Vector2(1.5f, 0.2f), 0, groundLayers))
         {
-            RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
-
-            if (rectTransform != null)
-            {
-                return rectTransform.rect;
-            }
+            return true;
         }
         else
         {
-            Debug.Log("Game object is null.");
+            return false;
         }
-
-        return new Rect();
-    }
-
-    public static float Get_Width(Component component)
-    {
-        if (component != null)
-        {
-            return Get_Width(component.gameObject);
-        }
-
-        return 0;
-    }
-    public static float Get_Width(GameObject gameObject)
-    {
-        if (gameObject != null)
-        {
-            var rect = Get_Rect(gameObject);
-            if (rect != null)
-            {
-                return rect.width;
-            }
-        }
-
-        return 0;
-    }
-
-
-    public static float Get_Height(Component component)
-    {
-        if (component != null)
-        {
-            return Get_Height(component.gameObject);
-        }
-
-        return 0;
-    }
-    public static float Get_Height(GameObject gameObject)
-    {
-        if (gameObject != null)
-        {
-            var rect = Get_Rect(gameObject);
-            if (rect != null)
-            {
-                return rect.height;
-            }
-        }
-
-        return 0;
     }
 
     // stun status efect
@@ -246,7 +213,7 @@ public class bear : MonoBehaviour
     IEnumerator Jump()
     {
         // add jump force
-        rb.AddForce(new Vector2(15f, 10f), ForceMode2D.Impulse);
+        rb.AddForce(new Vector2(15f, 15f), ForceMode2D.Impulse);
         yield return new WaitForSeconds(0.3f);
     }
 }
