@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 6118059892669255326}
   - component: {fileID: 6118059892669255329}
   - component: {fileID: 6118059892669255328}
-  - component: {fileID: 2490031086961869655}
   - component: {fileID: 6118059892669255331}
   - component: {fileID: 6118059892669255330}
+  - component: {fileID: 5320940281006361244}
+  - component: {fileID: 2490031086961869655}
   - component: {fileID: 6118059892669255333}
   - component: {fileID: 6118059892669255332}
   - component: {fileID: 6118059892669255335}
@@ -143,20 +144,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &2490031086961869655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6118059892669255337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d389d37a4225c814c9988a6c4271f856, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  burst: {fileID: 7843778647993396481, guid: b1ea7ff27cef7014c9755b4220077fd0, type: 3}
-  cooldown: 1
 --- !u!114 &6118059892669255331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,6 +197,33 @@ MonoBehaviour:
   isSlapping: 0
   slapRange: 1.5
   slapDamage: 1
+--- !u!114 &5320940281006361244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6118059892669255337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52387fcdc46a0c846af3212b363ed86f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2490031086961869655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6118059892669255337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d389d37a4225c814c9988a6c4271f856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  burst: {fileID: 7843778647993396481, guid: b1ea7ff27cef7014c9755b4220077fd0, type: 3}
+  cooldown: 1
+  currentCooldown: 0
 --- !u!114 &6118059892669255333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,6 +239,7 @@ MonoBehaviour:
   projectile: {fileID: 3826360787906304732, guid: 4f0669a11a9c0774c9a348f70b964327, type: 3}
   speed: 50
   cooldown: 1
+  currentCooldown: 0
 --- !u!114 &6118059892669255332
 MonoBehaviour:
   m_ObjectHideFlags: 0
