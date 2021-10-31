@@ -182,10 +182,10 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 424177677}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 1.5, y: -1.6}
@@ -210,10 +210,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   animator: {fileID: 0}
-  sight_range: 2
+  sight_range: 10
   speed: 4
   health: 4
-  jumpNow: 0
   player_close: 0
 --- !u!61 &424177680
 BoxCollider2D:
@@ -253,7 +252,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -443,6 +442,10 @@ PrefabInstance:
     - target: {fileID: 6459203522542920168, guid: 40db203f09fae5844ad724367019adad, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860249315778962430, guid: 40db203f09fae5844ad724367019adad, type: 3}
+      propertyPath: groundLayers.m_Bits
+      value: 264
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40db203f09fae5844ad724367019adad, type: 3}

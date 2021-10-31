@@ -17,9 +17,6 @@ public class bear : MonoBehaviour
     public float speed;
     public int health;
 
-    [Header("TEST")]
-    public bool jumpNow;
-
     public bool player_close;
     private bool cannotMove = false;
     private int curStunDuration = 0; // This is only used for managing the stunMe coroutine
@@ -73,16 +70,10 @@ public class bear : MonoBehaviour
         }
         #endregion
 
-        if (jumpNow)
-        {
-            StartCoroutine(Jump());
-            jumpNow = false;
-        }
-
         player_close = PlayerInRange(player, bearObj);
         if (player_close)
         {
-
+            chasePlayer(bearObj);
         }
 
         // do normal walk cycle
@@ -124,22 +115,29 @@ public class bear : MonoBehaviour
             }
             #endregion
 
+            //move right
+            rb.velocity = new Vector2(speed, rb.velocity.y);
+            bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x), bearObj.transform.localScale.y, 1);
 
-            if (player.transform.position.x > bearObj.transform.position.x)
-            {
-                //move right
-                rb.velocity = new Vector2(speed, rb.velocity.y);
-                bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x), bearObj.transform.localScale.y, 1);
-                //facingRight = true;
+        }
+    }
 
-            }
-            else
-            {
-                //move left
-                rb.velocity = new Vector2(speed * -1, rb.velocity.y);
-                bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x) * -1, Mathf.Abs(bearObj.transform.localScale.y), 1);
-                //facingRight = false;
-            }
+    private void chasePlayer(GameObject bearObj)
+    {
+        if (player.transform.position.x > bearObj.transform.position.x)
+        {
+            //move right
+            rb.velocity = new Vector2(speed, rb.velocity.y);
+            bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x), bearObj.transform.localScale.y, 1);
+            //facingRight = true;
+
+        }
+        else
+        {
+            //move left
+            rb.velocity = new Vector2(speed * -1, rb.velocity.y);
+            bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x) * -1, Mathf.Abs(bearObj.transform.localScale.y), 1);
+            //facingRight = false;
         }
     }
 
@@ -181,6 +179,19 @@ public class bear : MonoBehaviour
         {
             return false;
         }
+    }
+
+    // When the circle collider exits
+    void OnCollisionExit(Collision collision)
+    {
+        Debug.Log("Edge Nearby!");
+
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("coll entererd");
+
     }
 
     // stun status efect
