@@ -21,6 +21,7 @@ public class bear : MonoBehaviour
     private bool cannotMove = false;
     private int curStunDuration = 0; // This is only used for managing the stunMe coroutine
     private Directions walls;
+    private bool facingRight;
 
     [HideInInspector]
     private float width;
@@ -36,6 +37,7 @@ public class bear : MonoBehaviour
     void Start()
     {
         player_close = false;
+        facingRight = true;
         width = GetComponent<SpriteRenderer>().bounds.size.x;
         height = GetComponent<SpriteRenderer>().bounds.size.y;
     }
@@ -43,10 +45,10 @@ public class bear : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(new Vector2(rb.position.x + width/2, rb.position.y), new Vector3(0.25f, 2, 1));
-        Gizmos.DrawWireCube(new Vector2(rb.position.x - width/2, rb.position.y), new Vector3(0.25f, 2, 1));
+        Gizmos.DrawWireCube(new Vector2(rb.position.x + width/2, rb.position.y), new Vector3(0.25f, height/2, 1));
+        Gizmos.DrawWireCube(new Vector2(rb.position.x - width/2, rb.position.y), new Vector3(0.25f, height/2, 1));
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(new Vector2(rb.position.x, rb.position.y - height / 2), new Vector3(1.5f, 0.5f, 1));
+        Gizmos.DrawWireCube(new Vector2(rb.position.x, rb.position.y - height / 2), new Vector3(width * 0.9f, 0.5f, 1));
     }
 
     // Update is called once per frame
@@ -56,11 +58,11 @@ public class bear : MonoBehaviour
 
         #region Wall Check
         // get horizontal walls
-        if (Physics2D.OverlapBox(new Vector2(rb.position.x + width/2, rb.position.y), new Vector2(0.25f, 2f), 0, groundLayers)) // right side
+        if (Physics2D.OverlapBox(new Vector2(rb.position.x + width/2, rb.position.y), new Vector2(0.25f, height/2), 0, groundLayers)) // right side
         {
             walls = Directions.Right;
         }
-        else if (Physics2D.OverlapBox(new Vector2(rb.position.x - width/2, rb.position.y), new Vector2(0.25f, 2f), 0, groundLayers)) // left side
+        else if (Physics2D.OverlapBox(new Vector2(rb.position.x - width/2, rb.position.y), new Vector2(0.25f, height/2), 0, groundLayers)) // left side
         {
             walls = Directions.Left;
         }
@@ -75,9 +77,12 @@ public class bear : MonoBehaviour
         {
             chasePlayer(bearObj);
         }
+        else
+        {
+            // do normal walk cycle
+            WalkAround(bearObj);
+        }
 
-        // do normal walk cycle
-        WalkAround(bearObj);
     }
 
     private bool PlayerInRange(GameObject player, GameObject bearObj)
@@ -95,49 +100,80 @@ public class bear : MonoBehaviour
 
     private void WalkAround(GameObject bearObj)
     {
-        if (!cannotMove)
+        if (!cannotMove && isGrounded())
         {
             #region Wall Check
-            // If there's a wall, jump over it
+            // If there's a wall, turn around
             if (walls == Directions.Left)
             {
                 if (isGrounded())
                 {
-                    StartCoroutine(Jump());
+                    facingRight = true;
                 }
             }
             else if (walls == Directions.Right)
             {
                 if (isGrounded())
                 {
-                    StartCoroutine(Jump());
+                    facingRight = false;
                 }
             }
             #endregion
 
-            //move right
-            rb.velocity = new Vector2(speed, rb.velocity.y);
-            bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x), bearObj.transform.localScale.y, 1);
-
+            if (facingRight)
+            {
+                //move right
+                rb.velocity = new Vector2(speed, rb.velocity.y);
+                bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x), bearObj.transform.localScale.y, 1);
+            }
+            else
+            {
+                //move left
+                rb.velocity = new Vector2(speed * -1, rb.velocity.y);
+                bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x) * -1, Mathf.Abs(bearObj.transform.localScale.y), 1);
+            }
         }
     }
 
     private void chasePlayer(GameObject bearObj)
     {
+        // Locate the player
+        int playerToRight;
         if (player.transform.position.x > bearObj.transform.position.x)
         {
-            //move right
-            rb.velocity = new Vector2(speed, rb.velocity.y);
-            bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x), bearObj.transform.localScale.y, 1);
-            //facingRight = true;
-
-        }
+            // Chase them right
+            playerToRight = 1;
+            facingRight = true;
+        } 
         else
         {
-            //move left
-            rb.velocity = new Vector2(speed * -1, rb.velocity.y);
-            bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x) * -1, Mathf.Abs(bearObj.transform.localScale.y), 1);
-            //facingRight = false;
+            // Chase them left
+            playerToRight = -1;
+            facingRight = false;
+        }
+
+        // Turn to face the player
+        bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x) * playerToRight, bearObj.transform.localScale.y, 1);
+
+        // If the bear is on the ground:
+        if (isGrounded())
+        {
+            // Move towards the player
+            rb.velocity = new Vector2(speed * 2 * playerToRight, rb.velocity.y);
+            // Also Jump towards them
+            StartCoroutine(Jump());
+        }
+        else if (rb.velocity.x < speed)
+        {
+            // This is to help regain velocity lost by jumping into walls
+            //FIXME: IT HELPS SOMETIMES DOES NOT WORK PERFECTLY AT ALL
+            if (facingRight)
+            {
+                rb.velocity = new Vector2(speed, rb.velocity.y);
+            } else
+            {
+                rb.velocity = new Vector2(speed * -1, rb.velocity.y);
+            }
         }
     }
 
@@ -171,7 +207,7 @@ public class bear : MonoBehaviour
     // find if grounded or not
     private bool isGrounded()
     {
-        if (Physics2D.OverlapBox(new Vector2(rb.position.x, rb.position.y - height / 2), new Vector2(1.5f, 0.2f), 0, groundLayers))
+        if (Physics2D.OverlapBox(new Vector2(rb.position.x, rb.position.y - height / 2), new Vector2(width * 0.9f, 0.2f), 0, groundLayers))
         {
             return true;
         }
@@ -181,17 +217,14 @@ public class bear : MonoBehaviour
         }
     }
 
-    // When the circle collider exits
-    void OnCollisionExit(Collision collision)
+    // Don't move off the edge of a platform
+    void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("Edge Nearby!");
-
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("coll entererd");
-
+        if (collision.name == "platforms")
+        {
+            // Turn around
+            facingRight = !facingRight;
+        }
     }
 
     // stun status efect
@@ -224,7 +257,7 @@ public class bear : MonoBehaviour
     IEnumerator Jump()
     {
         // add jump force
-        rb.AddForce(new Vector2(15f, 15f), ForceMode2D.Impulse);
-        yield return new WaitForSeconds(0.3f);
+        rb.AddForce(new Vector2(20f, 20f), ForceMode2D.Impulse);
+        yield return new WaitForSeconds(0.1f);
     }
 }
