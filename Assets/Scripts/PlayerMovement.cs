@@ -109,25 +109,25 @@ public class PlayerMovement : MonoBehaviour
         if (walls == Directions.Left && wallJumpUnlocked && !isGrounded())
         {
             animator.SetBool("WallSlide", true);
+            refresh();
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off left wall, to the right
             {
                 StartCoroutine(WallJump(2f));
 
                 facingRight = true;
                 transform.localScale = new Vector3(1f, 1f, 1f);
-                refresh();
             }
         }
         else if (walls == Directions.Right && wallJumpUnlocked && !isGrounded())
         {
             animator.SetBool("WallSlide", true);
+            refresh();
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off right wall, to the left
             {
                 StartCoroutine(WallJump(-2f));
 
                 facingRight = false;
                 transform.localScale = new Vector3(-1f, 1f, 1f);
-                refresh();
             }
         }
         // If the player is not next to a wall, or wall jump is not unlocked
