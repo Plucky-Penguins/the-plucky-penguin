@@ -135,7 +135,7 @@ public class PlayerCombat : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         // get all enemies in Enemies object
-        if (collision.gameObject.transform.parent.name == "Enemies")
+        if (LayerMask.LayerToName(collision.gameObject.layer) == "enemy")
         {
             // object from enemy component
             EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();

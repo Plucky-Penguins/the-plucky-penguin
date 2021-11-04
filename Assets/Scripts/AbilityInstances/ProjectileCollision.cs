@@ -5,6 +5,12 @@ using UnityEngine;
 public class ProjectileCollision : MonoBehaviour
 {
     public int damage = 1;
+    public float range = 2f;
+
+    void Awake()
+    {
+        Destroy(gameObject, range);
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
