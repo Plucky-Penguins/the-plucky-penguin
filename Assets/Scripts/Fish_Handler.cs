@@ -32,6 +32,7 @@ public class Fish_Handler : MonoBehaviour
      */
     public void resetLevelFishScore() {
         level_fish = 0;
+        collection.text = "" + level_fish.ToString() + "/?";
     }
 
     /**
