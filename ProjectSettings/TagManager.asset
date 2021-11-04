@@ -3,15 +3,19 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - killable
+  - outOfBounds
+  - collectible
+  - projectileDestroy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - ground
   - Water
   - UI
-  - 
+  - enemy
   - 
   - 
   - 
