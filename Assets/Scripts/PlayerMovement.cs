@@ -88,23 +88,28 @@ public class PlayerMovement : MonoBehaviour
         spriteDirection();
         
         // get horizontal walls
-        if (Physics2D.OverlapBox(new Vector2(rb.position.x + 1, rb.position.y + 1), new Vector2(0.25f, 1.5f), 0, groundLayers)) // right side
+        if (wallJumpUnlocked)
         {
-            walls = Directions.Right;
-            facingRight = false;
-            canDash = true;
-            canDoubleJump = true;
+            if (Physics2D.OverlapBox(new Vector2(rb.position.x + 1, rb.position.y + 1), new Vector2(0.25f, 1.5f), 0, groundLayers)) // right side
+            {
+                walls = Directions.Right;
+                facingRight = false;
+                canDash = true;
+                canDoubleJump = true;
+            }
+            else if (Physics2D.OverlapBox(new Vector2(rb.position.x - 1, rb.position.y + 1), new Vector2(0.25f, 1.5f), 0, groundLayers)) // left side
+            {
+                walls = Directions.Left;
+                facingRight = true;
+                canDash = true;
+                canDoubleJump = true;
+            }
+            else
+            {
+                walls = Directions.None;
+            }
         }
-        else if (Physics2D.OverlapBox(new Vector2(rb.position.x - 1, rb.position.y + 1), new Vector2(0.25f, 1.5f), 0, groundLayers)) // left side
-        {
-            walls = Directions.Left;
-            facingRight = true;
-            canDash = true;
-            canDoubleJump = true;
-        } else
-        {
-            walls = Directions.None;
-        }
+        
 
         // handle cooldowns
         if (dashOnCooldown)

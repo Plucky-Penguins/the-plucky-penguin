@@ -32,7 +32,7 @@ public class EnemyAI : MonoBehaviour
 
     private bool PlayerInRange(GameObject player, GameObject enemy)
     {
-        if (Mathf.Abs(player.transform.position.x - enemy.transform.position.x) < sight_range && Mathf.Abs(player.transform.position.y - enemy.transform.position.y) < sight_range / 2)
+        if (Mathf.Abs(player.transform.position.x - enemy.transform.position.x) < sight_range && Mathf.Abs(player.transform.position.y - enemy.transform.position.y) < sight_range)
         {
             player_close = true;
         } else
