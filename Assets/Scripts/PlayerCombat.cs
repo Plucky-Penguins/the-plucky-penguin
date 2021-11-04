@@ -134,6 +134,32 @@ public class PlayerCombat : MonoBehaviour
     // collision with enemies
     void OnCollisionEnter2D(Collision2D collision)
     {
+        // GET THE BEARS
+        if (collision.gameObject.transform.parent.name == "bear")
+        {
+            Debug.Log("FOUND A BEAR");
+            // THE BEAR OBJECT
+            bear bear = collision.gameObject.GetComponent<bear>();
+            // object from player
+            PlayerMovement player = GetComponent<PlayerMovement>();
+
+            // head bounce check
+            if (player.rb.position.y - 0.4 > bear.rb.position.y)
+            {
+                iFrames(10);
+                bear.stun(2f);
+                player.yeet();
+                player.refresh();
+            }
+            else
+            {
+                collision.gameObject.GetComponent<bear>().yeet();
+                takeDamage(1);
+            }
+
+
+        }
+
         // get all enemies in Enemies object
         if (LayerMask.LayerToName(collision.gameObject.layer) == "enemy")
         {
