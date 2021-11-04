@@ -7,6 +7,7 @@ public class Burst : MonoBehaviour
     public float destroyTimer;
     public int damage;
     public int growFactor;
+    public bool moveToPlayer;
 
     private float maxTimer;
     private Rigidbody2D player;
@@ -41,7 +42,10 @@ public class Burst : MonoBehaviour
             transform.localScale += new Vector3(1, 1, 1) * Time.deltaTime * growFactor;
         }
 
-        transform.position = new Vector2(player.position.x, player.position.y);
+        if (moveToPlayer)
+        {
+            transform.position = new Vector2(player.position.x, player.position.y);
+        }
 
         destroyTimer -= Time.deltaTime;
         if (destroyTimer  <= 0)

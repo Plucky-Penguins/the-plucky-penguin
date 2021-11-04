@@ -14,7 +14,7 @@ public class AbilityManager : MonoBehaviour
     private void Start()
     {
         // example of how to add abilities
-        //abilitySlot1 = GetComponent<BurstAbility>();
+        abilitySlot1 = GetComponent<BombAbility>();
         //abilitySlot2 = GetComponent<ProjectileAbility>();
         //abilitySlot3 = GetComponent<ShieldAbility>();
     }
