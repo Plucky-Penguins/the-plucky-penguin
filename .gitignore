@@ -61,5 +61,5 @@ sysinfo.txt
 crashlytics-build.properties
 
 #UserSettings
-/[Uu]serSettings/
+*EditorUserSettings.*
 /Assets/Scene/Level1_Scene.unity*
