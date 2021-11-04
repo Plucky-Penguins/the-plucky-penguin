@@ -20,8 +20,8 @@ public class PlayerCollect : MonoBehaviour
 
     }
 
-    public void collectFish(int coinValue) {
-        level_score += coinValue;
+    public void collectFish(int fish_value) {
+        level_score += fish_value;
         /** TODO: /66 needs to be turned into a variable 
          * changed per level
          */
