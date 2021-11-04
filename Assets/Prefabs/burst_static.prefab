@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7843778647993396483}
   - component: {fileID: 7843778647993396482}
   m_Layer: 0
-  m_Name: burst
+  m_Name: burst_static
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116,4 +116,4 @@ MonoBehaviour:
   destroyTimer: 0.3
   damage: 1
   growFactor: 8
-  moveToPlayer: 1
+  moveToPlayer: 0

@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 6118059892669255333}
   - component: {fileID: 7846534401555415945}
   - component: {fileID: 6118059892669255332}
+  - component: {fileID: 5033351149482731224}
   - component: {fileID: 6118059892669255335}
   - component: {fileID: 6118059892669255334}
   m_Layer: 0
@@ -283,6 +284,21 @@ MonoBehaviour:
   - {fileID: 4839247808877864044}
   fullHeart: {fileID: -7848039375673857549, guid: c688c3f0a62d73c46a893a709ce338fe, type: 3}
   emptyHeart: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+--- !u!114 &5033351149482731224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6118059892669255337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d45d9b2e698c39444b8f663f501de351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bomb: {fileID: 6282793578149030878, guid: 92312f1c108d6ef41b3c52a2519c7245, type: 3}
+  cooldown: 3
+  currentCooldown: 0
 --- !u!95 &6118059892669255335
 Animator:
   serializedVersion: 3
