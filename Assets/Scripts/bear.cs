@@ -17,11 +17,12 @@ public class bear : MonoBehaviour
     public float speed;
     public int health;
 
-    public bool player_close;
+    public bool player_close = false;
     private bool cannotMove = false;
     private int curStunDuration = 0; // This is only used for managing the stunMe coroutine
     private Directions walls;
-    private bool facingRight;
+    private bool facingRight = true;
+    private int jumpCooldown = 100;
 
     [HideInInspector]
     private float width;
@@ -36,8 +37,6 @@ public class bear : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player_close = false;
-        facingRight = true;
         width = GetComponent<SpriteRenderer>().bounds.size.x;
         height = GetComponent<SpriteRenderer>().bounds.size.y;
     }
@@ -54,7 +53,11 @@ public class bear : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (isGrounded() && jumpCooldown > 0)
+        {
+            // tick down jump cooldown
+            jumpCooldown--;
+        }
 
         #region Wall Check
         // get horizontal walls
@@ -82,7 +85,6 @@ public class bear : MonoBehaviour
             // do normal walk cycle
             WalkAround(bearObj);
         }
-
     }
 
     private bool PlayerInRange(GameObject player, GameObject bearObj)
@@ -159,21 +161,19 @@ public class bear : MonoBehaviour
         if (isGrounded())
         {
             // Move towards the player
-            rb.velocity = new Vector2(speed * 2 * playerToRight, rb.velocity.y);
+            rb.velocity = new Vector2(speed * playerToRight, rb.velocity.y);
             // Also Jump towards them
-            StartCoroutine(Jump());
-        }
-        else if (rb.velocity.x < speed)
-        {
-            // This is to help regain velocity lost by jumping into walls
-            //FIXME: IT HELPS SOMETIMES DOES NOT WORK PERFECTLY AT ALL
-            if (facingRight)
+            if (jumpCooldown == 0)
             {
-                rb.velocity = new Vector2(speed, rb.velocity.y);
-            } else
-            {
-                rb.velocity = new Vector2(speed * -1, rb.velocity.y);
+                StartCoroutine(Jump());
+                jumpCooldown = 200;
             }
+        }
+        else if (true) // if jumping towards the player, and the bear has not gone over their head
+        {
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // move towards the player so that walls don't destroy all velocity
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
     }
 
@@ -258,6 +258,6 @@ public class bear : MonoBehaviour
     {
         // add jump force
         rb.AddForce(new Vector2(20f, 20f), ForceMode2D.Impulse);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
     }
 }
