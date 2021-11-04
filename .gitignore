@@ -61,4 +61,4 @@ sysinfo.txt
 crashlytics-build.properties
 
 #UserSettings
-/[Uu]serSettings/*.asset
+/[Uu]serSettings/
