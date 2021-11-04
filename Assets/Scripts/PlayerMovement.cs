@@ -327,6 +327,7 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(-1f, 1f, 1f);
         }
 
+        Debug.Log("test");
         dashParticles.Play();
         animator.SetTrigger("Dash");
 
