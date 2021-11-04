@@ -53,6 +53,11 @@ public class PlayerMovement : MonoBehaviour
 
     [HideInInspector]
     public Vector2 respawnPoint;
+
+    public float WallJumpTimer;
+    public float WallJumpHorizontal;
+    public float WallJumpVertical;
+
     private enum Directions
     { 
         Left,
@@ -65,6 +70,15 @@ public class PlayerMovement : MonoBehaviour
         respawnPoint = transform.position;
     }
 
+    void OnDrawGizmosSelected()
+    {
+        // visualizer gizmos for wall detection
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(new Vector2(rb.position.x + 1, rb.position.y + 1), new Vector2(0.25f, 1.5f));
+        Gizmos.DrawWireCube(new Vector2(rb.position.x - 1, rb.position.y + 1), new Vector2(0.25f, 1.5f));
+    }
+
     void Update()
     {
         // get horizontal input
@@ -74,17 +88,28 @@ public class PlayerMovement : MonoBehaviour
         spriteDirection();
         
         // get horizontal walls
-        if (Physics2D.OverlapBox(new Vector2(rb.position.x + 1, rb.position.y + 1), new Vector2(0.25f, 1.5f), 0, groundLayers)) // right side
+        if (wallJumpUnlocked)
         {
-            walls = Directions.Right;
+            if (Physics2D.OverlapBox(new Vector2(rb.position.x + 1, rb.position.y + 1), new Vector2(0.25f, 1.5f), 0, groundLayers)) // right side
+            {
+                walls = Directions.Right;
+                facingRight = false;
+                canDash = true;
+                canDoubleJump = true;
+            }
+            else if (Physics2D.OverlapBox(new Vector2(rb.position.x - 1, rb.position.y + 1), new Vector2(0.25f, 1.5f), 0, groundLayers)) // left side
+            {
+                walls = Directions.Left;
+                facingRight = true;
+                canDash = true;
+                canDoubleJump = true;
+            }
+            else
+            {
+                walls = Directions.None;
+            }
         }
-        else if (Physics2D.OverlapBox(new Vector2(rb.position.x - 1, rb.position.y + 1), new Vector2(0.25f, 1.5f), 0, groundLayers)) // left side
-        {
-            walls = Directions.Left;
-        } else
-        {
-            walls = Directions.None;
-        }
+        
 
         // handle cooldowns
         if (dashOnCooldown)
@@ -109,25 +134,25 @@ public class PlayerMovement : MonoBehaviour
         if (walls == Directions.Left && wallJumpUnlocked && !isGrounded())
         {
             animator.SetBool("WallSlide", true);
+            refresh();
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off left wall, to the right
             {
-                StartCoroutine(WallJump(2f));
+                StartCoroutine(WallJump(1f));
 
                 facingRight = true;
                 transform.localScale = new Vector3(1f, 1f, 1f);
-                refresh();
             }
         }
         else if (walls == Directions.Right && wallJumpUnlocked && !isGrounded())
         {
             animator.SetBool("WallSlide", true);
+            refresh();
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off right wall, to the left
             {
-                StartCoroutine(WallJump(-2f));
+                StartCoroutine(WallJump(-1f));
 
                 facingRight = false;
                 transform.localScale = new Vector3(-1f, 1f, 1f);
-                refresh();
             }
         }
         // If the player is not next to a wall, or wall jump is not unlocked
@@ -161,10 +186,15 @@ public class PlayerMovement : MonoBehaviour
         {
             Jump(false);
         }
-        else if (Input.GetButtonDown("Jump") && canDoubleJump && doubleJumpUnlocked && walls == Directions.None)
+        else if (Input.GetButtonDown("Jump"))
         {
-            canDoubleJump = false;
-            Jump(true);
+            if (canDoubleJump && doubleJumpUnlocked && !isGrounded()) {
+                if ((wallJumpUnlocked && walls == Directions.None) || !wallJumpUnlocked)
+                {
+                    canDoubleJump = false;
+                    Jump(true);
+                }
+            }
         }
 
         // stop ascending when jump is released
@@ -190,6 +220,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         #endregion
+        
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -197,6 +228,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.tag == "outOfBounds")
         {
             Respawn();
+            GetComponent<PlayerCombat>().takeDamage(1);
         }
 
     }
@@ -285,6 +317,16 @@ public class PlayerMovement : MonoBehaviour
         GetComponent<PlayerCombat>().iFrames(100);
 
         isDashing = true;
+
+        // dash animation direction
+        if (dir > 0)
+        {
+            transform.localScale = new Vector3(1f, 1f, 1f);
+        } else if (dir < 0)
+        {
+            transform.localScale = new Vector3(-1f, 1f, 1f);
+        }
+
         dashParticles.Play();
         animator.SetTrigger("Dash");
 
@@ -306,14 +348,15 @@ public class PlayerMovement : MonoBehaviour
         isWallJumping = true;
         animator.SetBool("WallSlide", false);
 
-        // horizontal
-        Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);
-        rb.velocity = movement;
-
         // vertical
-        rb.AddForce(new Vector2(10 * dir, 0f), ForceMode2D.Impulse);
+        //rb.AddForce(new Vector2(20 * dir, 0), ForceMode2D.Impulse);
 
-        yield return new WaitForSeconds(0.2f);
+        // horizontal
+        Vector2 movement = new Vector2(dir * WallJumpHorizontal, WallJumpVertical);
+        rb.velocity = movement;
+        //rb.AddForce(new Vector2(20 * dir, 20*5), ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(WallJumpTimer);
         isWallJumping = false;
     }
 

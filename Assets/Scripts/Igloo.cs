@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class Igloo : MonoBehaviour
 {
     public TMPro.TextMeshProUGUI winText;
+    public string nextScene;
 
     private void Start()
     {
@@ -28,6 +29,6 @@ public class Igloo : MonoBehaviour
         winText.enabled = true;
         yield return new WaitForSeconds(2);
         winText.enabled = false;
-        SceneManager.LoadScene("Level1_Scene");
+        SceneManager.LoadScene(nextScene);
     }
 }

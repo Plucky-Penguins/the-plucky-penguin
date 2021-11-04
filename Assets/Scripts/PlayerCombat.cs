@@ -112,8 +112,8 @@ public class PlayerCombat : MonoBehaviour
             GetComponent<PlayerHealth>().health -= damage_taken;
             if (GetComponent<PlayerHealth>().health <= 0)
             {
-                //die, restart level
-                SceneManager.LoadScene("Level1_Scene");
+                //die
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
 
             iFrames(300, true);
@@ -161,7 +161,7 @@ public class PlayerCombat : MonoBehaviour
         }
 
         // get all enemies in Enemies object
-        if (collision.gameObject.transform.parent.name == "Enemies")
+        if (LayerMask.LayerToName(collision.gameObject.layer) == "enemy")
         {
             // object from enemy component
             EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
