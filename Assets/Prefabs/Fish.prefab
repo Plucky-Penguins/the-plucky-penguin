@@ -113,4 +113,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 342a4303f40210149b2b9b22e6f20004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinValue: 1
+  fish_value: 1
