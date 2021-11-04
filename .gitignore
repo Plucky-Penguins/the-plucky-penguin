@@ -60,3 +60,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+#UserSettings
+/[Uu]serSettings/
+/Assets/Scene/Level1_Scene.unity*
