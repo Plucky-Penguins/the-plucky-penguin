@@ -57,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
     public float WallJumpTimer;
     public float WallJumpHorizontal;
     public float WallJumpVertical;
+    private float minwalljumptimer = 0;
 
     private enum Directions
     { 
@@ -107,8 +108,10 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 walls = Directions.None;
+                animator.SetBool("WallSlide", false);
             }
         }
+        
         
 
         // handle cooldowns
@@ -137,19 +140,18 @@ public class PlayerMovement : MonoBehaviour
             refresh();
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off left wall, to the right
             {
-                StartCoroutine(WallJump(1f));
+                WallJump(1f);
 
                 facingRight = true;
                 transform.localScale = new Vector3(1f, 1f, 1f);
             }
-        }
-        else if (walls == Directions.Right && wallJumpUnlocked && !isGrounded())
+        } else if (walls == Directions.Right && wallJumpUnlocked && !isGrounded())
         {
             animator.SetBool("WallSlide", true);
             refresh();
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off right wall, to the left
             {
-                StartCoroutine(WallJump(-1f));
+                WallJump(-1f);
 
                 facingRight = false;
                 transform.localScale = new Vector3(-1f, 1f, 1f);
@@ -197,12 +199,40 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        if (isWallJumping)
+        {
+            minwalljumptimer += Time.deltaTime;
+            if (minwalljumptimer >= WallJumpTimer)
+            {
+                isWallJumping = false;
+                minwalljumptimer = 0;
+            }
+        } else
+        {
+            minwalljumptimer = 0;
+        }
+
+        
+
         // stop ascending when jump is released
         // allows for short hops
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0)
+        if (Input.GetButtonUp("Jump"))
         {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
+            //if (minwalljumptimer >= 0.3)
+            //{
+                isWallJumping = false;
+                minwalljumptimer = 0;
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
+                Debug.Log("cancel");
+            //}
+            
+            if (rb.velocity.y > 1)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
+            }
+            
         }
+        
 
         #endregion
 
@@ -343,7 +373,7 @@ public class PlayerMovement : MonoBehaviour
         isDashing = false;
     }
 
-    IEnumerator WallJump(float dir)
+    void WallJump(float dir)
     {
         isWallJumping = true;
         animator.SetBool("WallSlide", false);
@@ -356,8 +386,8 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = movement;
         //rb.AddForce(new Vector2(20 * dir, 20*5), ForceMode2D.Impulse);
 
-        yield return new WaitForSeconds(WallJumpTimer);
-        isWallJumping = false;
+        //yield return new WaitForSeconds(WallJumpTimer);
+        //isWallJumping = false;
     }
 
     // find if grounded or not
