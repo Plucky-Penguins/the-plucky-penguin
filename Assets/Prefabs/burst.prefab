@@ -116,3 +116,4 @@ MonoBehaviour:
   destroyTimer: 0.3
   damage: 1
   growFactor: 8
+  moveToPlayer: 1
