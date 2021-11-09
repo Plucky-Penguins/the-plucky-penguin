@@ -63,7 +63,8 @@ public class PlayerMovement : MonoBehaviour
     { 
         Left,
         Right,
-        None
+        None,
+        Both
     }
 
     void Start()
@@ -91,7 +92,11 @@ public class PlayerMovement : MonoBehaviour
         // get horizontal walls
         if (wallJumpUnlocked)
         {
-            if (Physics2D.OverlapBox(new Vector2(rb.position.x + 1, rb.position.y + 1), new Vector2(0.25f, 1.5f), 0, groundLayers)) // right side
+            if (Physics2D.OverlapBox(new Vector2(rb.position.x + 1, rb.position.y + 1), new Vector2(0.25f, 1.5f), 0, groundLayers) && (Physics2D.OverlapBox(new Vector2(rb.position.x - 1, rb.position.y + 1), new Vector2(0.25f, 1.5f), 0, groundLayers)))
+            {
+                walls = Directions.Both;
+            }
+            else if (Physics2D.OverlapBox(new Vector2(rb.position.x + 1, rb.position.y + 1), new Vector2(0.25f, 1.5f), 0, groundLayers)) // right side
             {
                 walls = Directions.Right;
                 facingRight = false;
@@ -138,6 +143,12 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool("WallSlide", true);
             refresh();
+
+            if(!isWallJumping)
+            {
+                transform.localScale = new Vector3(-1f, 1f, 1f);
+            }
+            
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off left wall, to the right
             {
                 WallJump(1f);
@@ -149,6 +160,13 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool("WallSlide", true);
             refresh();
+
+            if(!isWallJumping)
+            {
+                transform.localScale = new Vector3(1f, 1f, 1f);
+            }
+            
+
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off right wall, to the left
             {
                 WallJump(-1f);
@@ -405,7 +423,7 @@ public class PlayerMovement : MonoBehaviour
     // flip sprite to moving direction
     void spriteDirection()
     {
-        if (!isDashing && !isWallJumping && !GetComponent<PlayerCombat>().isSlapping)
+        if (!isDashing && !GetComponent<PlayerCombat>().isSlapping && !isWallJumping)
         {
             // right
             if (movementX > 0f)
