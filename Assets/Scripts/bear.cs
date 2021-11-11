@@ -23,6 +23,8 @@ public class bear : MonoBehaviour
     private Directions walls;
     private bool facingRight = true;
     private int jumpCooldown = 100;
+    private int playerToRight; // Set to 1 if player is to right, set to -1 if player is left
+    private string lastJumpDir;
 
     [HideInInspector]
     private float width;
@@ -39,6 +41,7 @@ public class bear : MonoBehaviour
     {
         width = GetComponent<SpriteRenderer>().bounds.size.x;
         height = GetComponent<SpriteRenderer>().bounds.size.y;
+
     }
 
     void OnDrawGizmosSelected()
@@ -58,6 +61,8 @@ public class bear : MonoBehaviour
             // tick down jump cooldown
             jumpCooldown--;
         }
+
+        findPlayerToRight();
 
         #region Wall Check
         // get horizontal walls
@@ -139,41 +144,50 @@ public class bear : MonoBehaviour
 
     private void chasePlayer(GameObject bearObj)
     {
-        // Locate the player
-        int playerToRight;
-        if (player.transform.position.x > bearObj.transform.position.x)
+
+        #region turn to player
+        // Turn to face the player
+        if (playerToRight == 1)
         {
-            // Chase them right
-            playerToRight = 1;
             facingRight = true;
-        } 
-        else
+        } else if (playerToRight == -1)
         {
-            // Chase them left
-            playerToRight = -1;
             facingRight = false;
         }
-
-        // Turn to face the player
+        // flip sprite
         bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x) * playerToRight, bearObj.transform.localScale.y, 1);
+        #endregion
+
+        Debug.Log(playerToRight == 1);
+        Debug.Log(facingRight);
 
         // If the bear is on the ground:
         if (isGrounded())
         {
+
             // Move towards the player
             rb.velocity = new Vector2(speed * playerToRight, rb.velocity.y);
-            // Also Jump towards them
+
+            // Also Jump towards player
             if (jumpCooldown == 0)
             {
                 StartCoroutine(Jump());
                 jumpCooldown = 200;
             }
         }
-        else if (true) // if jumping towards the player, and the bear has not gone over their head
+        else if (playerToRight == 1 && lastJumpDir == "right") // if jumping towards the player, and the bear is still hasn't passed by them:
         {
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // move towards the player so that walls don't destroy all velocity
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            Vector2 curVelocity = new Vector2(rb.velocity.x, rb.velocity.y);
+            curVelocity.x += 0.1f;
+            rb.velocity = curVelocity;
+        }
+        else if (playerToRight == -1 && lastJumpDir == "left") // if jumping towards the player, and the bear is still hasn't passed by them:
+        {
+            // move towards the player so that walls don't destroy all velocity
+            Vector2 curVelocity = new Vector2(rb.velocity.x, rb.velocity.y);
+            curVelocity.x -= 0.1f;
+            rb.velocity = curVelocity;
         }
     }
 
@@ -217,6 +231,21 @@ public class bear : MonoBehaviour
         }
     }
 
+    // sets value of playerToRight
+    private void findPlayerToRight()
+    {
+        if (player.transform.position.x > bearObj.transform.position.x)
+        {
+            // Chase them right
+            playerToRight = 1;
+        }
+        else
+        {
+            // Chase them left
+            playerToRight = -1;
+        }
+    }
+
     // Don't move off the edge of a platform
     void OnTriggerExit2D(Collider2D collision)
     {
@@ -256,8 +285,13 @@ public class bear : MonoBehaviour
 
     IEnumerator Jump()
     {
+        if (facingRight)
+        {
+            lastJumpDir = "right";
+        } else { lastJumpDir = "left"; }
+
         // add jump force
-        rb.AddForce(new Vector2(20f, 20f), ForceMode2D.Impulse);
+        rb.AddForce(new Vector2(10f, 30f), ForceMode2D.Impulse);
         yield return new WaitForSeconds(0.5f);
     }
 }
