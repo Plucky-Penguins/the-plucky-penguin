@@ -144,55 +144,56 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
 
     private void chasePlayer(GameObject bearObj)
     {
-
-        #region turn to player
-        // Turn to face the player
-        if (playerToRight == 1)
-        {
-            facingRight = true;
-        } else if (playerToRight == -1)
-        {
-            facingRight = false;
-        }
-        // flip sprite
-        bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x) * playerToRight, bearObj.transform.localScale.y, 1);
-        #endregion
-
-        // If the bear is on the ground:
-        if (isGrounded())
-        {
-
-            // Move towards the player
-            rb.velocity = new Vector2(speed * playerToRight, rb.velocity.y);
-
-            // Also Jump towards player
-            if (jumpCooldown == 0)
+        if (!cannotMove) {
+            #region turn to player
+            // Turn to face the player
+            if (playerToRight == 1)
             {
-                StartCoroutine(Jump());
-                jumpCooldown = 200;
+                facingRight = true;
+            } else if (playerToRight == -1)
+            {
+                facingRight = false;
+            }
+            // flip sprite
+            bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x) * playerToRight, bearObj.transform.localScale.y, 1);
+            #endregion
+
+            // If the bear is on the ground:
+            if (isGrounded())
+            {
+
+                // Move towards the player
+                rb.velocity = new Vector2(speed * playerToRight, rb.velocity.y);
+
+                // Also Jump towards player
+                if (jumpCooldown == 0)
+                {
+                    StartCoroutine(Jump());
+                    jumpCooldown = 200;
+                }
+            }
+            else if (playerToRight == 1 && lastJumpDir == "right") // if jumping towards the player, and the bear is still hasn't passed by them:
+            {
+                // move towards the player so that walls don't destroy all velocity
+                Vector2 curVelocity = new Vector2(rb.velocity.x, rb.velocity.y);
+                curVelocity.x += 0.1f;
+                rb.velocity = curVelocity;
+            }
+            else if (playerToRight == -1 && lastJumpDir == "left") // if jumping towards the player, and the bear is still hasn't passed by them:
+            {
+                // move towards the player so that walls don't destroy all velocity
+                Vector2 curVelocity = new Vector2(rb.velocity.x, rb.velocity.y);
+                curVelocity.x -= 0.1f;
+                rb.velocity = curVelocity;
             }
         }
-        else if (playerToRight == 1 && lastJumpDir == "right") // if jumping towards the player, and the bear is still hasn't passed by them:
-        {
-            // move towards the player so that walls don't destroy all velocity
-            Vector2 curVelocity = new Vector2(rb.velocity.x, rb.velocity.y);
-            curVelocity.x += 0.1f;
-            rb.velocity = curVelocity;
-        }
-        else if (playerToRight == -1 && lastJumpDir == "left") // if jumping towards the player, and the bear is still hasn't passed by them:
-        {
-            // move towards the player so that walls don't destroy all velocity
-            Vector2 curVelocity = new Vector2(rb.velocity.x, rb.velocity.y);
-            curVelocity.x -= 0.1f;
-            rb.velocity = curVelocity;
-        }
+
     }
 
     public void takeDamage(int damage_dealt, bool doesKnockback = true)
     {
         health -= damage_dealt;
         GetComponent<Renderer>().material.color = Color.yellow;
-        Debug.Log("damage");
 
         if (doesKnockback)
         {
@@ -207,15 +208,17 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
 
     public void stun(float duration = 2f)
     {
-        Debug.Log("stun");
         curStunDuration += 1;
         StartCoroutine(stunMe(duration));
     }
 
     public void yeet()
     {
-        Debug.Log("knock");
         StartCoroutine(knockback(18));
+    }
+
+    public Vector2 getPosition() {
+        return new Vector2(rb.position.x, rb.position.y);
     }
 
     // find if grounded or not

@@ -12,5 +12,7 @@ public class EnemyInterface : MonoBehaviour
 
         public void yeet();
 
+        public Vector2 getPosition();
+
     }
 }

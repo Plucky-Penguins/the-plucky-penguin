@@ -90,6 +90,10 @@ public class EnemyAI : MonoBehaviour, EnemyInterface.IEnemy
         StartCoroutine(knockback(18));
     }
 
+    public Vector2 getPosition() {
+        return new Vector2(rb.position.x, rb.position.y);
+    }
+
     // stun status efect
     public IEnumerator stunMe(float duration)
     {
