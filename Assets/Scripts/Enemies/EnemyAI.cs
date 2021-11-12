@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour, EnemyInterface.IEnemy
 {
     public GameObject player, enemy;
     public bool player_close;
@@ -64,9 +64,9 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    public void takeDamage(int damage_delt, bool doesKnockback = true)
+    public void takeDamage(int damage_dealt, bool doesKnockback = true)
     {
-        health -= damage_delt;
+        health -= damage_dealt;
         GetComponent<Renderer>().material.color = Color.yellow;
         
         if (doesKnockback)

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class bear : MonoBehaviour
+public class bear : MonoBehaviour, EnemyInterface.IEnemy
 {
     [Header("References")]
     public GameObject player;
@@ -158,9 +158,6 @@ public class bear : MonoBehaviour
         bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x) * playerToRight, bearObj.transform.localScale.y, 1);
         #endregion
 
-        Debug.Log(playerToRight == 1);
-        Debug.Log(facingRight);
-
         // If the bear is on the ground:
         if (isGrounded())
         {
@@ -191,10 +188,11 @@ public class bear : MonoBehaviour
         }
     }
 
-    public void takeDamage(int damage_delt, bool doesKnockback = true)
+    public void takeDamage(int damage_dealt, bool doesKnockback = true)
     {
-        health -= damage_delt;
+        health -= damage_dealt;
         GetComponent<Renderer>().material.color = Color.yellow;
+        Debug.Log("damage");
 
         if (doesKnockback)
         {
@@ -209,12 +207,14 @@ public class bear : MonoBehaviour
 
     public void stun(float duration = 2f)
     {
+        Debug.Log("stun");
         curStunDuration += 1;
         StartCoroutine(stunMe(duration));
     }
 
     public void yeet()
     {
+        Debug.Log("knock");
         StartCoroutine(knockback(18));
     }
 

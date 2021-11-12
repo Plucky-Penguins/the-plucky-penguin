@@ -87,7 +87,7 @@ public class PlayerCombat : MonoBehaviour
 
         for (int i = 0; i < enemiesToDamage.Length; i++)
         {
-            enemiesToDamage[i].GetComponent<EnemyAI>().takeDamage(slapDamage);
+            enemiesToDamage[i].GetComponent<EnemyInterface.IEnemy>().takeDamage(slapDamage);
         }
         GetComponent<PlayerMovement>().animator.speed = 1;
         yield return new WaitForSeconds(0.2f);
