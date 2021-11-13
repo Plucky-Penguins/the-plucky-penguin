@@ -8,7 +8,8 @@ public class Fish_Handler : MonoBehaviour
     public TextMeshProUGUI collection;
     int level_fish;
     // total_fish should be carried across levels
-    int total_fish;
+    // made public in order for the shop to have access to this
+    public int total_fish;
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("collectible")) {
