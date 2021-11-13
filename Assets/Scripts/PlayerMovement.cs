@@ -134,25 +134,25 @@ public class PlayerMovement : MonoBehaviour
         if (walls == Directions.Left && wallJumpUnlocked && !isGrounded())
         {
             animator.SetBool("WallSlide", true);
+            refresh();
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off left wall, to the right
             {
                 StartCoroutine(WallJump(1f));
 
                 facingRight = true;
                 transform.localScale = new Vector3(1f, 1f, 1f);
-                refresh();
             }
         }
         else if (walls == Directions.Right && wallJumpUnlocked && !isGrounded())
         {
             animator.SetBool("WallSlide", true);
+            refresh();
             if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off right wall, to the left
             {
                 StartCoroutine(WallJump(-1f));
 
                 facingRight = false;
                 transform.localScale = new Vector3(-1f, 1f, 1f);
-                refresh();
             }
         }
         // If the player is not next to a wall, or wall jump is not unlocked
@@ -208,7 +208,7 @@ public class PlayerMovement : MonoBehaviour
 
         #region Dashing
         // move dash particles to player
-        dashParticles.transform.position = new Vector2(rb.position.x, rb.position.y + 1);
+        // dashParticles.transform.position = new Vector2(rb.position.x, rb.position.y + 1);
 
         // when pressing dash key
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashUnlocked && !GetComponent<PlayerCombat>().isSlapping)
@@ -341,9 +341,6 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         Physics2D.gravity = new Vector2(0f, -15f);
         isDashing = false;
-        
-        dashParticles.Stop();
-        dashParticles.Clear();
     }
 
     IEnumerator WallJump(float dir)

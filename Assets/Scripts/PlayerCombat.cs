@@ -87,7 +87,7 @@ public class PlayerCombat : MonoBehaviour
 
         for (int i = 0; i < enemiesToDamage.Length; i++)
         {
-            enemiesToDamage[i].GetComponent<EnemyAI>().takeDamage(slapDamage);
+            enemiesToDamage[i].GetComponent<EnemyInterface.IEnemy>().takeDamage(slapDamage);
         }
         GetComponent<PlayerMovement>().animator.speed = 1;
         yield return new WaitForSeconds(0.2f);
@@ -134,16 +134,40 @@ public class PlayerCombat : MonoBehaviour
     // collision with enemies
     void OnCollisionEnter2D(Collision2D collision)
     {
+        // GET THE BEARS
+        // if (collision.gameObject.transform.parent.name == "bear")
+        // {
+        //     Debug.Log("FOUND A BEAR");
+        //     // THE BEAR OBJECT
+        //     bear bear = collision.gameObject.GetComponent<bear>();
+        //     // object from player
+        //     PlayerMovement player = GetComponent<PlayerMovement>();
+
+        //     // head bounce check
+        //     if (player.rb.position.y - 0.4 > bear.rb.position.y)
+        //     {
+        //         iFrames(10);
+        //         bear.stun(2f);
+        //         player.yeet();
+        //         player.refresh();
+        //     }
+        //     else
+        //     {
+        //         collision.gameObject.GetComponent<bear>().yeet();
+        //         takeDamage(1);
+        //     }
+        // }
+
         // get all enemies in Enemies object
         if (LayerMask.LayerToName(collision.gameObject.layer) == "enemy")
         {
             // object from enemy component
-            EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
+            var enemy = collision.gameObject.GetComponent<EnemyInterface.IEnemy>();
             // object from player
             PlayerMovement player = GetComponent<PlayerMovement>();
 
             // head bounce check
-            if (player.rb.position.y - 0.4 > enemy.rb.position.y)
+            if (player.rb.position.y - 0.4 > enemy.getPosition().y)
             {
                 iFrames(10);
                 enemy.stun(2f);
@@ -152,7 +176,7 @@ public class PlayerCombat : MonoBehaviour
             } 
             else
             {
-                collision.gameObject.GetComponent<EnemyAI>().yeet();
+                collision.gameObject.GetComponent<EnemyInterface.IEnemy>().yeet();
                 takeDamage(1);
             }
 
