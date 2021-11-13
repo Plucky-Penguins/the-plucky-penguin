@@ -177,9 +177,9 @@ MonoBehaviour:
   facingRight: 1
   wallJumpUnlocked: 1
   respawnPoint: {x: 0, y: 0}
-  WallJumpTimer: 0.1
-  WallJumpHorizontal: 18
-  WallJumpVertical: 16
+  WallJumpTimer: 0.8
+  WallJumpHorizontal: 8
+  WallJumpVertical: 15
 --- !u!114 &6118059892669255330
 MonoBehaviour:
   m_ObjectHideFlags: 0
