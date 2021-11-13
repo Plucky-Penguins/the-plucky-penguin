@@ -25,6 +25,7 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
     private int jumpCooldown = 100;
     private int playerToRight; // Set to 1 if player is to right, set to -1 if player is left
     private string lastJumpDir;
+    float distToGround; 
 
     [HideInInspector]
     private float width;
@@ -41,6 +42,11 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
     {
         width = GetComponent<SpriteRenderer>().bounds.size.x;
         height = GetComponent<SpriteRenderer>().bounds.size.y;
+
+        // // AN ALTERNATIVE I TRIED
+        // BoxCollider2D collider = GetComponent<BoxCollider2D>();
+        // width = collider.bounds.extents.x * 2;
+        // height = collider.bounds.extents.y * 2;
 
     }
 
@@ -224,12 +230,29 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
     // find if grounded or not
     private bool isGrounded()
     {
+        // THIS DIDN'T WORK
+        // Debug.Log(Physics.Raycast(transform.position, -Vector3.up, height + 0.2f));
+        // return Physics.Raycast(transform.position, -Vector3.up, height + 0.2f);
+
+        // THIS DIDN'T WORK
+        // var result = Physics.CheckCapsule(
+        //     GetComponent<BoxCollider2D>().bounds.center,
+        //     new Vector3(GetComponent<BoxCollider2D>().bounds.center.x,
+        //         GetComponent<BoxCollider2D>().bounds.min.y-0.1f,
+        //         GetComponent<BoxCollider2D>().bounds.center.z),
+        //     0.18f);
+
+        // Debug.Log(result);
+        // return result;
+
         if (Physics2D.OverlapBox(new Vector2(rb.position.x, rb.position.y - height / 2), new Vector2(width * 0.9f, 0.2f), 0, groundLayers))
         {
+            Debug.Log($"grounded, {Physics2D.OverlapBox(new Vector2(rb.position.x, rb.position.y - height / 2), new Vector2(width * 0.9f, 0.2f), 0, groundLayers)}");
             return true;
         }
         else
         {
+            Debug.Log("not grounded");
             return false;
         }
     }
@@ -263,6 +286,7 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
     public IEnumerator stunMe(float duration)
     {
         cannotMove = true;
+        animator.speed = 0;
         GetComponent<Renderer>().material.color = Color.blue;
         yield return new WaitForSeconds(duration);
 
@@ -271,6 +295,7 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
         {
             GetComponent<Renderer>().material.color = Color.white;
             cannotMove = false;
+            animator.speed = 1;
         }
         curStunDuration -= 1;
     }
