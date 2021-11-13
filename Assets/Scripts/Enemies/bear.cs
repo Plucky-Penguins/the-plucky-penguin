@@ -53,10 +53,11 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(new Vector2(rb.position.x + width/2, rb.position.y), new Vector3(0.25f, height/2, 1));
-        Gizmos.DrawWireCube(new Vector2(rb.position.x - width/2, rb.position.y), new Vector3(0.25f, height/2, 1));
+        Gizmos.DrawWireCube(new Vector2(rb.position.x + 1, rb.position.y + 1), new Vector2(0.25f, 1.5f));
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(new Vector2(rb.position.x, rb.position.y - height / 2), new Vector3(width * 0.9f, 0.5f, 1));
+        Gizmos.DrawWireCube(new Vector2(rb.position.x - 1.5f, rb.position.y + 1), new Vector2(0.25f, 1.5f));
+        
+        Gizmos.DrawWireCube(rb.position, new Vector2(1.5f, 0.5f));
     }
 
     // Update is called once per frame
@@ -72,11 +73,11 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
 
         #region Wall Check
         // get horizontal walls
-        if (Physics2D.OverlapBox(new Vector2(rb.position.x + width/2, rb.position.y), new Vector2(0.25f, height/2), 0, groundLayers)) // right side
+        if (Physics2D.OverlapBox(new Vector2(rb.position.x + 1, rb.position.y + 1), new Vector2(0.25f, height / 2), 0, groundLayers)) // right side
         {
             walls = Directions.Right;
         }
-        else if (Physics2D.OverlapBox(new Vector2(rb.position.x - width/2, rb.position.y), new Vector2(0.25f, height/2), 0, groundLayers)) // left side
+        else if (Physics2D.OverlapBox(new Vector2(rb.position.x - 1.5f, rb.position.y + 1), new Vector2(0.25f, 1.5f),0,groundLayers)) // left side
         {
             walls = Directions.Left;
         }
@@ -136,12 +137,14 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
             if (facingRight)
             {
                 //move right
+                Debug.Log("Moving right");
                 rb.velocity = new Vector2(speed, rb.velocity.y);
                 bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x), bearObj.transform.localScale.y, 1);
             }
             else
             {
                 //move left
+                Debug.Log("Moving left");
                 rb.velocity = new Vector2(speed * -1, rb.velocity.y);
                 bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x) * -1, Mathf.Abs(bearObj.transform.localScale.y), 1);
             }
@@ -245,9 +248,9 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
         // Debug.Log(result);
         // return result;
 
-        if (Physics2D.OverlapBox(new Vector2(rb.position.x, rb.position.y - height / 2), new Vector2(width * 0.9f, 0.2f), 0, groundLayers))
+        if (Physics2D.OverlapBox(rb.position, new Vector2(1.5f, 0.5f), 0, groundLayers))
         {
-            Debug.Log($"grounded, {Physics2D.OverlapBox(new Vector2(rb.position.x, rb.position.y - height / 2), new Vector2(width * 0.9f, 0.2f), 0, groundLayers)}");
+            Debug.Log($"grounded");
             return true;
         }
         else
@@ -275,10 +278,12 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
     // Don't move off the edge of a platform
     void OnTriggerExit2D(Collider2D collision)
     {
+        
         if (collision.name == "platforms")
         {
             // Turn around
             facingRight = !facingRight;
+            Debug.Log(facingRight);
         }
     }
 
