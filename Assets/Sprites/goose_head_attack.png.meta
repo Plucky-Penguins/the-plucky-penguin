@@ -309,27 +309,6 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: goose_head_attack_8
-      rect:
-        serializedVersion: 2
-        x: 2974
-        y: 354
-        width: 540
-        height: 614
-      alignment: 9
-      pivot: {x: 0.7848827, y: 0.21604457}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d378f8b645b993450800000000000000
-      internalID: 6069052759742580541
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     physicsShape: []
     bones: []

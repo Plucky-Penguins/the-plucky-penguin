@@ -116,7 +116,7 @@ public class PlayerCombat : MonoBehaviour
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
 
-            iFrames(300, true);
+            iFrames(200, true);
         } else
         {
             Debug.Log("Im immune lol");
