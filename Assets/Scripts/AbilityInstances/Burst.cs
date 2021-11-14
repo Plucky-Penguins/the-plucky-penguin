@@ -25,7 +25,7 @@ public class Burst : MonoBehaviour
 
         if (collision.gameObject.tag == "killable")
         {
-            collision.gameObject.GetComponent<EnemyAI>().takeDamage(damage);
+            collision.gameObject.GetComponent<EnemyInterface.IEnemy>().takeDamage(damage);
         }
 
     }

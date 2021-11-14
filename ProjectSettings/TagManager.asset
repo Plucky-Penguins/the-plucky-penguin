@@ -45,3 +45,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: goose
+    uniqueID: 3087566723
+    locked: 0
+  - name: platforms
+    uniqueID: 81718015
+    locked: 0

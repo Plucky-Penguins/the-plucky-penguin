@@ -1,0 +1,348 @@
+fileFormatVersion: 2
+guid: d55b22fa694d7d14794072265a228c41
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3619142514285990958
+    second: goose_head_0
+  - first:
+      213: 2525115026759330850
+    second: goose_head_1
+  - first:
+      213: 6160783881747290134
+    second: goose_head_2
+  - first:
+      213: 5223772158310363849
+    second: goose_head_2
+  - first:
+      213: 3838191732595710121
+    second: goose_head_attack_0
+  - first:
+      213: -8378850411062471472
+    second: goose_head_attack_1
+  - first:
+      213: 4542990648733177964
+    second: goose_head_attack_2
+  - first:
+      213: 1350157329435099866
+    second: goose_head_attack_3
+  - first:
+      213: 1908458972715361196
+    second: goose_head_attack_4
+  - first:
+      213: 1636867054625185526
+    second: goose_head_attack_5
+  - first:
+      213: 1652022498901554346
+    second: goose_head_attack_6
+  - first:
+      213: -8031568902627720072
+    second: goose_head_attack_7
+  - first:
+      213: 6069052759742580541
+    second: goose_head_attack_0
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: goose_head_attack_0
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 2242
+        width: 262
+        height: 706
+      alignment: 9
+      pivot: {x: 0.6304806, y: 0.16588733}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a855319b0ff34530800000000000000
+      internalID: 3838191732595710121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goose_head_attack_1
+      rect:
+        serializedVersion: 2
+        x: 1069
+        y: 2252
+        width: 541
+        height: 612
+      alignment: 9
+      pivot: {x: 0.7969944, y: 0.21511622}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d45c76b1f758bb80800000000000000
+      internalID: -8378850411062471472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goose_head_attack_2
+      rect:
+        serializedVersion: 2
+        x: 2087
+        y: 2254
+        width: 674
+        height: 413
+      alignment: 9
+      pivot: {x: 0.860119, y: 0.32617247}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6899abdce1fb0f30800000000000000
+      internalID: 4542990648733177964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goose_head_attack_3
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 1467
+        width: 675
+        height: 413
+      alignment: 9
+      pivot: {x: 0.844392, y: 0.3675599}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad28edb00f8bcb210800000000000000
+      internalID: 1350157329435099866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goose_head_attack_4
+      rect:
+        serializedVersion: 2
+        x: 1468
+        y: 1305
+        width: 669
+        height: 440
+      alignment: 9
+      pivot: {x: 0.8270406, y: 0.7253165}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca32b1103553c7a10800000000000000
+      internalID: 1908458972715361196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goose_head_attack_5
+      rect:
+        serializedVersion: 2
+        x: 2862
+        y: 1304
+        width: 669
+        height: 442
+      alignment: 9
+      pivot: {x: 0.84237057, y: 0.73203135}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fe5977e9e157b610800000000000000
+      internalID: 1636867054625185526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goose_head_attack_6
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 311
+        width: 669
+        height: 441
+      alignment: 9
+      pivot: {x: 0.84748065, y: 0.77131677}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa4faffb5b92de610800000000000000
+      internalID: 1652022498901554346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goose_head_attack_7
+      rect:
+        serializedVersion: 2
+        x: 1644
+        y: 287
+        width: 626
+        height: 456
+      alignment: 9
+      pivot: {x: 0.9189453, y: 0.76239187}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8740dc9d2a22a8090800000000000000
+      internalID: -8031568902627720072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goose_head_attack_8
+      rect:
+        serializedVersion: 2
+        x: 2974
+        y: 354
+        width: 540
+        height: 614
+      alignment: 9
+      pivot: {x: 0.7848827, y: 0.21604457}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d378f8b645b993450800000000000000
+      internalID: 6069052759742580541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
