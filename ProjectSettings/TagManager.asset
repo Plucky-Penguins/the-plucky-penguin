@@ -42,11 +42,17 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: background
+    uniqueID: 2863698245
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
   - name: goose
     uniqueID: 3087566723
+    locked: 0
+  - name: goosehead
+    uniqueID: 1389061527
     locked: 0
   - name: platforms
     uniqueID: 81718015

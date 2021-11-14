@@ -241,7 +241,6 @@ public class PlayerMovement : MonoBehaviour
                 isWallJumping = false;
                 minwalljumptimer = 0;
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
-                Debug.Log("cancel");
             //}
             
             if (rb.velocity.y > 1)
