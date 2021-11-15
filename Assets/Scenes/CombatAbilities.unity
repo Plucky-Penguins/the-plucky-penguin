@@ -2095,6 +2095,10 @@ PrefabInstance:
       propertyPath: bomb
       value: 
       objectReference: {fileID: 6282793578149030878, guid: 92312f1c108d6ef41b3c52a2519c7245, type: 3}
+    - target: {fileID: 5033351149482731224, guid: 70bf43b6e6e78544a8177c1d84298d54, type: 3}
+      propertyPath: cooldown
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6118059892669255327, guid: 70bf43b6e6e78544a8177c1d84298d54, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -2147,6 +2151,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -10
       objectReference: {fileID: 0}
+    - target: {fileID: 7846534401555415945, guid: 70bf43b6e6e78544a8177c1d84298d54, type: 3}
+      propertyPath: cooldown
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70bf43b6e6e78544a8177c1d84298d54, type: 3}
 --- !u!1 &1228172803 stripped
@@ -2166,6 +2174,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52387fcdc46a0c846af3212b363ed86f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1228172805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228172803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4b5c25ea7b2e6344ba6e4f70d15f897, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boots: {fileID: 5480229570908805126, guid: 0ae2a50a948b3f14e8e1bd0c278736c3, type: 3}
+  cooldown: 5
+  currentCooldown: 0
 --- !u!1001 &1630734951
 PrefabInstance:
   m_ObjectHideFlags: 0
