@@ -1,18 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MMOptionsButton : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject OptionsContainer;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void OpenCloseOptions() {
+        OptionsContainer.SetActive(!OptionsContainer.activeSelf);
     }
 }
