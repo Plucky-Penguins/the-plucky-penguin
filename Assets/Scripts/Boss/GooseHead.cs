@@ -16,7 +16,9 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
     private bool turning = false;
     private bool following = false;
     private bool smacking = false;
-
+    private bool shooting = false;
+    private bool spawning = false;
+    private bool dying = false;
 
     private bool facingRight = false;
 
@@ -25,22 +27,29 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
     public GameObject cam;
     public GameObject burst;
     public GameObject projectile;
+    public GameObject egg;
+    public GameObject heart;
+
+
     private bossPhase currentPhase;
     public float newPhaseTimer;
     private float currentPhaseTimer = 0;
+    private float healthPoints = 30;
 
     public enum bossPhase {
         smacking,
-        shooting
+        shooting,
+        nothing,
+        dead
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        currentPhase = bossPhase.shooting;
+        currentPhase = bossPhase.smacking;
         bodySpawn = body.transform.position;
-        //body.transform.position = new Vector2(body.transform.position.x, body.transform.position.y - 50);
-        //bodyRb.velocity = new Vector2(0, 12);
+        body.transform.position = new Vector2(body.transform.position.x, body.transform.position.y - 50);
+        bodyRb.velocity = new Vector2(0, 12);
     }
 
     void OnDrawGizmosSelected()
@@ -57,8 +66,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
         // jump to body position
         transform.position = body.transform.position;
 
-        //StartCoroutine(doIntro());
-        intro = false;
+        StartCoroutine(doIntro());
 
         StartCoroutine(facePlayer());
 
@@ -69,9 +77,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
             if (currentPhaseTimer >= newPhaseTimer)
             {
                 currentPhaseTimer = 0;
-                // get new phase
-                currentPhase = (bossPhase)Random.Range(0, System.Enum.GetValues(typeof(bossPhase)).Length);
-                Debug.Log("changing phase: " + currentPhase);
+                swapPhases();
             }
 
             if (currentPhase == bossPhase.smacking)
@@ -84,11 +90,65 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
             if (currentPhase == bossPhase.shooting)
             {
                 bodyRb.velocity = new Vector2(0,0);
-                Instantiate(projectile, new Vector2(transform.position.x, transform.position.y+12), transform.rotation);
+                StartCoroutine(shoot());
+            }
+
+            if (healthPoints <= 20)
+            {
+                StartCoroutine(spawnEggs());
             }
             
         }
         
+    }
+
+    public IEnumerator spawnEggs()
+    {
+        if (!spawning)
+        {
+            spawning = true;
+
+            roar(0.2f);
+            // spawn eggs
+            if (Random.Range(0, 2) == 1)
+                Instantiate(egg, new Vector2(-29, 38), transform.rotation);
+
+            if (Random.Range(0,3) == 1)
+            {
+                Instantiate(egg, new Vector2(-2, 38), transform.rotation);
+            } else
+            {
+                Instantiate(heart, new Vector2(-2, 38), transform.rotation);
+            }
+            if (Random.Range(0, 2) == 1)
+                Instantiate(egg, new Vector2(25, 38), transform.rotation);
+            yield return new WaitForSeconds(10);
+            spawning = false;
+        }
+        
+    }
+
+    public void swapPhases()
+    {
+        // get new phase
+        bossPhase newPhase = (bossPhase)Random.Range(0, System.Enum.GetValues(typeof(bossPhase)).Length);
+        if (newPhase != currentPhase)
+        {
+            roar(0.5f);
+            currentPhase = newPhase;
+        }
+    }
+
+    public IEnumerator shoot()
+    {
+        if (!shooting)
+        {
+            shooting = true;
+            
+            yield return new WaitForSeconds(Random.Range(1f, 2.5f));
+            Instantiate(projectile, new Vector2(transform.position.x, transform.position.y + 12), transform.rotation);
+            shooting = false;
+        }
     }
 
     public IEnumerator headSmack()
@@ -99,7 +159,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
         }
              
         smacking = true;
-        yield return new WaitForSeconds(Random.Range(1f,2f));
+        yield return new WaitForSeconds(Random.Range(2f,4f));
         
         if (currentPhase == bossPhase.smacking)
         {
@@ -164,15 +224,18 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
         if (!following)
         {
             following = true;
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1f);
 
-            if (player.transform.position.x < (transform.position.x - followRangeX))
+            if (player.transform.position.x < (transform.position.x - followRangeX) || transform.position.x > 45)
             {
                 bodyRb.velocity = new Vector2(-movespeed, bodyRb.velocity.y);
             }
-            else if (player.transform.position.x > (transform.position.x + followRangeX))
+            else if (player.transform.position.x > (transform.position.x + followRangeX) || transform.position.x < -45)
             {
                 bodyRb.velocity = new Vector2(+movespeed, bodyRb.velocity.y);
+            } else
+            {
+                
             }
             
             following = false;
@@ -190,6 +253,28 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
     public void takeDamage(int damage_dealt, bool doesKnockback = true)
     {
         StartCoroutine(changeColor(Color.red));
+        healthPoints -= damage_dealt;
+
+        Debug.Log(healthPoints);
+        if (healthPoints <= 0)
+        {
+            currentPhase = bossPhase.dead;
+            StartCoroutine(die());
+        }
+    }
+
+    public IEnumerator die()
+    {
+        if (!dying)
+        {
+            GetComponent<SpriteRenderer>().sortingLayerName = "goosehead";
+            dying = true;
+            roar(2f);
+            bodyRb.velocity = new Vector2(0, -8);
+            yield return new WaitForSeconds(3);
+            Destroy(body);
+            Destroy(gameObject);
+        }
         
     }
 

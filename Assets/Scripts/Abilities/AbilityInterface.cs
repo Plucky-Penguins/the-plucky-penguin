@@ -17,5 +17,11 @@ public class AbilityInterface : MonoBehaviour
         /// </summary>
         /// <returns></returns>
         public float getCurrentCooldown();
+
+        /// <summary>
+        /// Returns the cost of the ability
+        /// </summary>
+        /// <returns></returns>
+        public int getCost();
     }
 }
