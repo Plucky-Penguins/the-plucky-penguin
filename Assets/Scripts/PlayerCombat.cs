@@ -87,7 +87,8 @@ public class PlayerCombat : MonoBehaviour
 
         for (int i = 0; i < enemiesToDamage.Length; i++)
         {
-            enemiesToDamage[i].GetComponent<EnemyInterface.IEnemy>().takeDamage(slapDamage);
+               enemiesToDamage[i].GetComponent<EnemyInterface.IEnemy>().takeDamage(slapDamage);
+            
         }
         GetComponent<PlayerMovement>().animator.speed = 1;
         yield return new WaitForSeconds(0.2f);
@@ -108,7 +109,6 @@ public class PlayerCombat : MonoBehaviour
     {
         if (!immunity)
         {
-            Debug.Log("Ouch");
             GetComponent<PlayerHealth>().health -= damage_taken;
             if (GetComponent<PlayerHealth>().health <= 0)
             {
@@ -116,10 +116,7 @@ public class PlayerCombat : MonoBehaviour
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
 
-            iFrames(300, true);
-        } else
-        {
-            Debug.Log("Im immune lol");
+            iFrames(200, true);
         }
     }
 

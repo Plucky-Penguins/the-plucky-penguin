@@ -9,7 +9,11 @@ public class ShieldAbility : MonoBehaviour, AbilityInterface.IAbility
 
     [HideInInspector]
     public float currentCooldown;
-    
+
+    public int getCost()
+    {
+        return 20;
+    }
 
     // Start is called before the first frame update
     void Start()

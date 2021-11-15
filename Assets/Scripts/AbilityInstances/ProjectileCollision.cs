@@ -24,7 +24,7 @@ public class ProjectileCollision : MonoBehaviour
         if (collision.gameObject.tag == "killable")
         {
             Destroy(gameObject);
-            collision.gameObject.GetComponent<EnemyAI>().takeDamage(damage, false);
+            collision.gameObject.GetComponent<EnemyInterface.IEnemy>().takeDamage(damage, false);
         }
 
     }
