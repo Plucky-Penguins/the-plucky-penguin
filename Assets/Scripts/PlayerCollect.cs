@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerCollect : MonoBehaviour
 {
     public TextMeshProUGUI collection;
+    public int TotalFishCount;
     int level_score;
 
     // total_score should be carried across levels
@@ -25,7 +26,7 @@ public class PlayerCollect : MonoBehaviour
         /** TODO: /66 needs to be turned into a variable 
          * changed per level
          */
-        collection.text = "" + level_score.ToString() + "/66";
+        collection.text = "" + level_score.ToString() + "/" + TotalFishCount;
     }
 
 }

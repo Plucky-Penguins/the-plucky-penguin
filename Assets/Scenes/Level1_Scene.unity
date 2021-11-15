@@ -504,6 +504,10 @@ PrefabInstance:
       propertyPath: EmissionModule.m_Bursts.Array.data[0].cycleCount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4379357087585985752, guid: 40db203f09fae5844ad724367019adad, type: 3}
+      propertyPath: TotalFishCount
+      value: 66
+      objectReference: {fileID: 0}
     - target: {fileID: 6459203522542920168, guid: 40db203f09fae5844ad724367019adad, type: 3}
       propertyPath: m_RootOrder
       value: 0
