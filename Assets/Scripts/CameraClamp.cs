@@ -28,9 +28,10 @@ public class CameraClamp : MonoBehaviour
         else
         {
             shakeDuration = 0f;
-            transform.localPosition = player.position;
+            
             if (player.position.y < 1)
             {
+                transform.localPosition = player.position;
                 transform.position = new Vector3(player.position.x, 1, -10);
                 initialPosition = transform.localPosition;
             }
