@@ -14,6 +14,15 @@ public class BurstAbility : MonoBehaviour, AbilityInterface.IAbility
     {
         return 60;
     }
+    public string getName()
+    {
+        return "Burst";
+    }
+
+    public string getDescription()
+    {
+        return "Push away and deal damage to enemies in an area around you.";
+    }
 
     // Start is called before the first frame update
     void Start()

@@ -253,12 +253,18 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
     {
         StartCoroutine(changeColor(Color.red));
         healthPoints -= damage_dealt;
-        GameObject.Find("healthbar").GetComponent<BossHealthBar>().updateHealth(healthPoints);
+        GameObject.Find("healthbar").GetComponent<BossHealthBar>().updateHealth(healthPoints,30);
 
-        Debug.Log(healthPoints);
+        
+
         if (healthPoints <= 0)
         {
-            GameObject.Find("healthbar").GetComponent<BossHealthBar>().updateHealth(0);
+            Destroy(GameObject.Find("healthbar"));
+            foreach (GameObject t in GameObject.FindGameObjectsWithTag("killable"))
+            {
+                Destroy(t);
+            }
+
             currentPhase = bossPhase.dead;
             StartCoroutine(die());
         }
