@@ -110,10 +110,9 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
 
             roar(0.2f);
             // spawn eggs
-            if (Random.Range(0, 2) == 1)
-                Instantiate(egg, new Vector2(-29, 38), transform.rotation);
+            Instantiate(egg, new Vector2(-29, 38), transform.rotation);
 
-            if (Random.Range(0,3) == 1)
+            if (Random.Range(0,2) == 1)
             {
                 Instantiate(egg, new Vector2(-2, 38), transform.rotation);
             } else
