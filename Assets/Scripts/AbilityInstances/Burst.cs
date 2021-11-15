@@ -20,12 +20,12 @@ public class Burst : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
         // check object by tag
 
         if (collision.gameObject.tag == "killable")
         {
-            collision.gameObject.GetComponent<EnemyAI>().takeDamage(damage);
+            
+            collision.gameObject.GetComponent<EnemyInterface.IEnemy>().takeDamage(damage);
         }
 
     }

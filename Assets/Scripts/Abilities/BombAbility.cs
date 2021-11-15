@@ -40,4 +40,9 @@ public class BombAbility : MonoBehaviour, AbilityInterface.IAbility
             Instantiate(bomb, new Vector2(transform.position.x, transform.position.y + 2), transform.rotation);
         } 
     }
+
+    public int getCost()
+    {
+        return 30;
+    }
 }

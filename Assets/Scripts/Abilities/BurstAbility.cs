@@ -9,7 +9,11 @@ public class BurstAbility : MonoBehaviour, AbilityInterface.IAbility
 
     [HideInInspector]
     public float currentCooldown;
-    
+
+    public int getCost()
+    {
+        return 60;
+    }
 
     // Start is called before the first frame update
     void Start()

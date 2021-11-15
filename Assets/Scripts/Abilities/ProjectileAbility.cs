@@ -10,6 +10,10 @@ public class ProjectileAbility : MonoBehaviour, AbilityInterface.IAbility
 
     [HideInInspector]
     public float currentCooldown;
+    public int getCost()
+    {
+        return 25;
+    }
 
     // Start is called before the first frame update
     void Start()
