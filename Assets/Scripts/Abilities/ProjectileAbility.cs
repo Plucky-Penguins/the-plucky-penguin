@@ -10,6 +10,19 @@ public class ProjectileAbility : MonoBehaviour, AbilityInterface.IAbility
 
     [HideInInspector]
     public float currentCooldown;
+    public int getCost()
+    {
+        return 25;
+    }
+    public string getName()
+    {
+        return "Snowball";
+    }
+
+    public string getDescription()
+    {
+        return "Shoot a snowball in a straight line that damages enemies.";
+    }
 
     // Start is called before the first frame update
     void Start()

@@ -18,7 +18,7 @@ public class Bomb : MonoBehaviour
         transform.position = new Vector2(player.position.x, player.position.y + 2.5f);
         redValue = 0;
 
-        GetComponent<Rigidbody2D>().AddForce(Vector2.up * 10, ForceMode2D.Impulse);
+        GetComponent<Rigidbody2D>().AddForce(Vector2.up * 13, ForceMode2D.Impulse);
     }
 
     // Update is called once per frame
