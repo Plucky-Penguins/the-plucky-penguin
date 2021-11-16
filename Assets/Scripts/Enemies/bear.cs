@@ -137,14 +137,12 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
             if (facingRight)
             {
                 //move right
-                Debug.Log("Moving right");
                 rb.velocity = new Vector2(speed, rb.velocity.y);
                 bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x), bearObj.transform.localScale.y, 1);
             }
             else
             {
                 //move left
-                Debug.Log("Moving left");
                 rb.velocity = new Vector2(speed * -1, rb.velocity.y);
                 bearObj.transform.localScale = new Vector3(Mathf.Abs(bearObj.transform.localScale.x) * -1, Mathf.Abs(bearObj.transform.localScale.y), 1);
             }
@@ -250,12 +248,10 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
 
         if (Physics2D.OverlapBox(rb.position, new Vector2(1.5f, 0.5f), 0, groundLayers))
         {
-            Debug.Log($"grounded");
             return true;
         }
         else
         {
-            Debug.Log("not grounded");
             return false;
         }
     }
