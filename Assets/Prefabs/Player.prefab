@@ -286,7 +286,7 @@ MonoBehaviour:
   - {fileID: 5426454585455884449}
   - {fileID: 5426454585759545849}
   fullHeart: {fileID: -7848039375673857549, guid: c688c3f0a62d73c46a893a709ce338fe, type: 3}
-  emptyHeart: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+  emptyHeart: {fileID: 0}
 --- !u!114 &5033351149482731224
 MonoBehaviour:
   m_ObjectHideFlags: 0
