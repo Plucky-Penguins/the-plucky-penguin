@@ -2184,8 +2184,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 81718015
-  m_SortingLayer: 3
+  m_SortingLayerID: 788495429
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: aa1e5c52bd961704cac79036d57688d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2243,6 +2243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe81236a9a2794448d80e19bcb57dc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthbar_full: {fileID: 1930720202}
 --- !u!1 &1130197554
 GameObject:
   m_ObjectHideFlags: 0
@@ -2772,8 +2773,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 599681997
-  m_SortingLayer: 4
+  m_SortingLayerID: 788495429
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e47e05571fca9ae448514575baeb18b7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2800,7 +2801,7 @@ GameObject:
   - component: {fileID: 2095274286}
   - component: {fileID: 2095274287}
   - component: {fileID: 2095274288}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: goose_head_0
   m_TagString: killable
   m_Icon: {fileID: 0}

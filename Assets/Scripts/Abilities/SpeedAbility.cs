@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BurstAbility : MonoBehaviour, AbilityInterface.IAbility
+public class SpeedAbility : MonoBehaviour, AbilityInterface.IAbility
 {
-    public GameObject burst;
+    public GameObject boots;
     public float cooldown = 1;
 
     [HideInInspector]
@@ -12,16 +12,16 @@ public class BurstAbility : MonoBehaviour, AbilityInterface.IAbility
 
     public int getCost()
     {
-        return 60;
+        return 20;
     }
     public string getName()
     {
-        return "Burst";
+        return "Speed Boost";
     }
 
     public string getDescription()
     {
-        return "Push away and deal damage to enemies in an area around you.";
+        return "Increase your movement speed for a short duration.";
     }
 
     // Start is called before the first frame update
@@ -50,7 +50,8 @@ public class BurstAbility : MonoBehaviour, AbilityInterface.IAbility
         if (currentCooldown <= 0)
         {
             currentCooldown = cooldown;
-            Instantiate(burst, new Vector2(transform.position.x, transform.position.y + 1), transform.rotation);
+            GetComponent<PlayerCombat>().iFrames(1000, false);
+            Instantiate(boots, new Vector3(transform.position.x, transform.position.y + 1, -1), transform.rotation);
         } 
     }
 }

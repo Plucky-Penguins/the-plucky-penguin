@@ -23,5 +23,17 @@ public class AbilityInterface : MonoBehaviour
         /// </summary>
         /// <returns></returns>
         public int getCost();
+
+        /// <summary>
+        /// Get the name of the ability.
+        /// </summary>
+        /// <returns></returns>
+        public string getName();
+
+        /// <summary>
+        /// Get the description of the ability.
+        /// </summary>
+        /// <returns></returns>
+        public string getDescription();
     }
 }

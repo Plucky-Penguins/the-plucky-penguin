@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2474134983242896237}
   - component: {fileID: 2474134983242896238}
   - component: {fileID: 8592142746880232688}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: egg
   m_TagString: killable
   m_Icon: {fileID: 0}

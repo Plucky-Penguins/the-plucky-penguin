@@ -34,7 +34,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
     private bossPhase currentPhase;
     public float newPhaseTimer;
     private float currentPhaseTimer = 0;
-    private float healthPoints = 30;
+    private int healthPoints = 30;
 
     public enum bossPhase {
         smacking,
@@ -253,10 +253,18 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
     {
         StartCoroutine(changeColor(Color.red));
         healthPoints -= damage_dealt;
+        GameObject.Find("healthbar").GetComponent<BossHealthBar>().updateHealth(healthPoints,30);
 
-        Debug.Log(healthPoints);
+        
+
         if (healthPoints <= 0)
         {
+            Destroy(GameObject.Find("healthbar"));
+            foreach (GameObject t in GameObject.FindGameObjectsWithTag("killable"))
+            {
+                Destroy(t);
+            }
+
             currentPhase = bossPhase.dead;
             StartCoroutine(die());
         }

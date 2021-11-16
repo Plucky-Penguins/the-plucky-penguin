@@ -25,6 +25,7 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
     private int jumpCooldown = 100;
     private int playerToRight; // Set to 1 if player is to right, set to -1 if player is left
     private string lastJumpDir;
+    float distToGround; 
 
     [HideInInspector]
     private float width;
@@ -42,15 +43,21 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
         width = GetComponent<SpriteRenderer>().bounds.size.x;
         height = GetComponent<SpriteRenderer>().bounds.size.y;
 
+        // // AN ALTERNATIVE I TRIED
+        // BoxCollider2D collider = GetComponent<BoxCollider2D>();
+        // width = collider.bounds.extents.x * 2;
+        // height = collider.bounds.extents.y * 2;
+
     }
 
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(new Vector2(rb.position.x + width/2, rb.position.y), new Vector3(0.25f, height/2, 1));
-        Gizmos.DrawWireCube(new Vector2(rb.position.x - width/2, rb.position.y), new Vector3(0.25f, height/2, 1));
+        Gizmos.DrawWireCube(new Vector2(rb.position.x + 1, rb.position.y + 1), new Vector2(0.25f, 1.5f));
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(new Vector2(rb.position.x, rb.position.y - height / 2), new Vector3(width * 0.9f, 0.5f, 1));
+        Gizmos.DrawWireCube(new Vector2(rb.position.x - 1.5f, rb.position.y + 1), new Vector2(0.25f, 1.5f));
+        
+        Gizmos.DrawWireCube(rb.position, new Vector2(1.5f, 0.5f));
     }
 
     // Update is called once per frame
@@ -66,11 +73,11 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
 
         #region Wall Check
         // get horizontal walls
-        if (Physics2D.OverlapBox(new Vector2(rb.position.x + width/2, rb.position.y), new Vector2(0.25f, height/2), 0, groundLayers)) // right side
+        if (Physics2D.OverlapBox(new Vector2(rb.position.x + 1, rb.position.y + 1), new Vector2(0.25f, height / 2), 0, groundLayers)) // right side
         {
             walls = Directions.Right;
         }
-        else if (Physics2D.OverlapBox(new Vector2(rb.position.x - width/2, rb.position.y), new Vector2(0.25f, height/2), 0, groundLayers)) // left side
+        else if (Physics2D.OverlapBox(new Vector2(rb.position.x - 1.5f, rb.position.y + 1), new Vector2(0.25f, 1.5f),0,groundLayers)) // left side
         {
             walls = Directions.Left;
         }
@@ -224,7 +231,22 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
     // find if grounded or not
     private bool isGrounded()
     {
-        if (Physics2D.OverlapBox(new Vector2(rb.position.x, rb.position.y - height / 2), new Vector2(width * 0.9f, 0.2f), 0, groundLayers))
+        // THIS DIDN'T WORK
+        // Debug.Log(Physics.Raycast(transform.position, -Vector3.up, height + 0.2f));
+        // return Physics.Raycast(transform.position, -Vector3.up, height + 0.2f);
+
+        // THIS DIDN'T WORK
+        // var result = Physics.CheckCapsule(
+        //     GetComponent<BoxCollider2D>().bounds.center,
+        //     new Vector3(GetComponent<BoxCollider2D>().bounds.center.x,
+        //         GetComponent<BoxCollider2D>().bounds.min.y-0.1f,
+        //         GetComponent<BoxCollider2D>().bounds.center.z),
+        //     0.18f);
+
+        // Debug.Log(result);
+        // return result;
+
+        if (Physics2D.OverlapBox(rb.position, new Vector2(1.5f, 0.5f), 0, groundLayers))
         {
             return true;
         }
@@ -252,6 +274,7 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
     // Don't move off the edge of a platform
     void OnTriggerExit2D(Collider2D collision)
     {
+        
         if (collision.name == "platforms")
         {
             // Turn around
@@ -263,6 +286,7 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
     public IEnumerator stunMe(float duration)
     {
         cannotMove = true;
+        animator.speed = 0;
         GetComponent<Renderer>().material.color = Color.blue;
         yield return new WaitForSeconds(duration);
 
@@ -271,6 +295,7 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
         {
             GetComponent<Renderer>().material.color = Color.white;
             cannotMove = false;
+            animator.speed = 1;
         }
         curStunDuration -= 1;
     }

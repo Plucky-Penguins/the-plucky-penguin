@@ -9,7 +9,21 @@ public class BombAbility : MonoBehaviour, AbilityInterface.IAbility
 
     [HideInInspector]
     public float currentCooldown;
-    
+
+    public int getCost()
+    {
+        return 30;
+    }
+
+    public string getName()
+    {
+        return "Bomb";
+    }
+
+    public string getDescription()
+    {
+        return "Throw a bomb that explodes after a certain amount of time.";
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -41,8 +55,5 @@ public class BombAbility : MonoBehaviour, AbilityInterface.IAbility
         } 
     }
 
-    public int getCost()
-    {
-        return 30;
-    }
+    
 }

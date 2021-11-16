@@ -14,6 +14,15 @@ public class ShieldAbility : MonoBehaviour, AbilityInterface.IAbility
     {
         return 20;
     }
+    public string getName()
+    {
+        return "Shield";
+    }
+
+    public string getDescription()
+    {
+        return "Protect yourself from taking damage from enemies for a short duration.";
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +60,6 @@ public class ShieldAbility : MonoBehaviour, AbilityInterface.IAbility
     public IEnumerator expireIndicator()
     {
         yield return new WaitForSeconds(1);
-        GetComponent<PlayerCombat>().iFrames(200, true);
+        GetComponent<PlayerCombat>().iFrames(600, true);
     }
 }
