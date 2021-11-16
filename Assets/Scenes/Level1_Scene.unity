@@ -272,6 +272,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1284480969 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 895891877282704677, guid: 40db203f09fae5844ad724367019adad, type: 3}
+  m_PrefabInstance: {fileID: 7802807568134145865}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1475028022 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4379357087585985751, guid: 40db203f09fae5844ad724367019adad, type: 3}
@@ -483,7 +494,7 @@ PrefabInstance:
     - target: {fileID: 4379357087585985752, guid: 40db203f09fae5844ad724367019adad, type: 3}
       propertyPath: collection
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1284480969}
     - target: {fileID: 4379357087585985754, guid: 40db203f09fae5844ad724367019adad, type: 3}
       propertyPath: fullHeart
       value: 
