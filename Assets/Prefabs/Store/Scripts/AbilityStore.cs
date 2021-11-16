@@ -34,7 +34,7 @@ public class AbilityStore : MonoBehaviour
     public Text Leave;
 
     private static List<AbilityInterface.IAbility> availableAbilityList;
-    private List<AbilityInterface.IAbility> selectedAbility;
+    private List<AbilityInterface.IAbility> randomSelectedAbilityList;
 
     private const string CARD_COST = "Cost: ";
     private const string FISH = " Fish";
@@ -66,7 +66,7 @@ public class AbilityStore : MonoBehaviour
     }
 
     private void selectRandomAbilitiesAndPopulateText() {
-        selectedAbility = new List<AbilityInterface.IAbility>();
+        randomSelectedAbilityList = new List<AbilityInterface.IAbility>();
 
         HashSet<int> setOfIndexs = new HashSet<int>();
         for (int i = 0; setOfIndexs.Count < 3; i++) {
@@ -82,51 +82,51 @@ public class AbilityStore : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            selectedAbility.Add(null);
-            selectedAbility[i] = availableAbilityList[intIndexArray[i]];
+            randomSelectedAbilityList.Add(null);
+            randomSelectedAbilityList[i] = availableAbilityList[intIndexArray[i]];
             /*print(selectedAbility[i].getName());*/
         }
 
 
         // Ability 1
-        System.Type typeAbility1 = selectedAbility[0].GetType();
+        System.Type typeAbility1 = randomSelectedAbilityList[0].GetType();
         abilityCard1.AddComponent(typeAbility1);
-        abilityName1.text = selectedAbility[0].getName();
-        abilityCost1.text = CARD_COST + selectedAbility[0].getCost().ToString() + FISH;
-        abilityDescription1.text = selectedAbility[0].getDescription();
+        abilityName1.text = randomSelectedAbilityList[0].getName();
+        abilityCost1.text = CARD_COST + randomSelectedAbilityList[0].getCost().ToString() + FISH;
+        abilityDescription1.text = randomSelectedAbilityList[0].getDescription();
 
         // Ability 2
-        System.Type typeAbility2 = selectedAbility[1].GetType();
+        System.Type typeAbility2 = randomSelectedAbilityList[1].GetType();
         abilityCard2.AddComponent(typeAbility2);
-        abilityName2.text = selectedAbility[1].getName();
-        abilityCost2.text = CARD_COST + selectedAbility[1].getCost().ToString() + FISH;
-        abilityDescription2.text = selectedAbility[1].getDescription();
+        abilityName2.text = randomSelectedAbilityList[1].getName();
+        abilityCost2.text = CARD_COST + randomSelectedAbilityList[1].getCost().ToString() + FISH;
+        abilityDescription2.text = randomSelectedAbilityList[1].getDescription();
 
         // Ability 3
-        System.Type typeAbility3 = selectedAbility[2].GetType();
+        System.Type typeAbility3 = randomSelectedAbilityList[2].GetType();
         abilityCard3.AddComponent(typeAbility3);
-        abilityName3.text = selectedAbility[2].getName();
-        abilityCost3.text = CARD_COST + selectedAbility[2].getCost().ToString() + FISH;
-        abilityDescription3.text = selectedAbility[2].getDescription();
+        abilityName3.text = randomSelectedAbilityList[2].getName();
+        abilityCost3.text = CARD_COST + randomSelectedAbilityList[2].getCost().ToString() + FISH;
+        abilityDescription3.text = randomSelectedAbilityList[2].getDescription();
 
 
         // DISABLE BUTTONS IF TOTAL FISH IS NOT ENOUGH TO BUY
-        if (Fish_Handler.total_fish < selectedAbility[0].getCost())
+        if (Fish_Handler.total_fish < randomSelectedAbilityList[0].getCost())
         {
             abilityCard1.GetComponent<Button>().interactable = false;
         }
-        if (Fish_Handler.total_fish < selectedAbility[1].getCost())
+        if (Fish_Handler.total_fish < randomSelectedAbilityList[1].getCost())
         {
             abilityCard2.GetComponent<Button>().interactable = false;
         }
-        if (Fish_Handler.total_fish < selectedAbility[2].getCost())
+        if (Fish_Handler.total_fish < randomSelectedAbilityList[2].getCost())
         {
             abilityCard3.GetComponent<Button>().interactable = false;
         }
 
-        if (Fish_Handler.total_fish < selectedAbility[0].getCost() &&
-            Fish_Handler.total_fish < selectedAbility[1].getCost() &&
-            Fish_Handler.total_fish < selectedAbility[2].getCost()) {
+        if (Fish_Handler.total_fish < randomSelectedAbilityList[0].getCost() &&
+            Fish_Handler.total_fish < randomSelectedAbilityList[1].getCost() &&
+            Fish_Handler.total_fish < randomSelectedAbilityList[2].getCost()) {
             Leave.text = NOT_ENOUGH;
         }
         

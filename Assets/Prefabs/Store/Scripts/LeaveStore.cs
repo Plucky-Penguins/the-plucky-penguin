@@ -10,6 +10,7 @@ public class LeaveStore : MonoBehaviour
     public string nextScene;
     public void Leave()
     {
+        BuyAbility.buyAbility();
         SceneManager.LoadScene(nextScene);
     }
 }
