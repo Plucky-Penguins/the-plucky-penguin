@@ -16,7 +16,7 @@ public class spike : MonoBehaviour
         
     }
 
-    void OnCollisionEnter(Collision collision) {
+    void OnCollisionEnter2D(Collision2D collision) {
         // damage for enemies
         Debug.Log("spiking!");
         if (LayerMask.LayerToName(collision.gameObject.layer) == "enemy")
@@ -27,6 +27,7 @@ public class spike : MonoBehaviour
         else if (collision.gameObject.name == "Player") {
             collision.gameObject.GetComponent<PlayerCombat>().takeDamage(1);
             collision.gameObject.GetComponent<PlayerMovement>().yeet();
+            collision.gameObject.GetComponent<PlayerMovement>().refresh();
         }
         else {
             Debug.Log(collision.gameObject.name);
