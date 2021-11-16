@@ -271,6 +271,7 @@ MonoBehaviour:
   abilityName3: {fileID: 432413276}
   abilityCost3: {fileID: 432413275}
   abilityDescription3: {fileID: 432413274}
+  Leave: {fileID: 0}
 --- !u!114 &252857834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -682,18 +683,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AbilityCard_3
       objectReference: {fileID: 0}
-    - target: {fileID: 6679205216731772797, guid: 58d15919244fea64c8897b76c65d1a19, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6679205216731772797, guid: 58d15919244fea64c8897b76c65d1a19, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6679205216731772797, guid: 58d15919244fea64c8897b76c65d1a19, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58d15919244fea64c8897b76c65d1a19, type: 3}
 --- !u!224 &432413273 stripped
@@ -754,7 +743,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &567257027
 RectTransform:
   m_ObjectHideFlags: 0
@@ -893,10 +882,6 @@ PrefabInstance:
     - target: {fileID: 6679205216731772795, guid: 58d15919244fea64c8897b76c65d1a19, type: 3}
       propertyPath: m_Name
       value: AbilityCard_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6679205216731772797, guid: 58d15919244fea64c8897b76c65d1a19, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58d15919244fea64c8897b76c65d1a19, type: 3}
@@ -1282,22 +1267,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AbilityCard_1
       objectReference: {fileID: 0}
-    - target: {fileID: 6679205216731772797, guid: 58d15919244fea64c8897b76c65d1a19, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6679205216731772797, guid: 58d15919244fea64c8897b76c65d1a19, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6679205216731772797, guid: 58d15919244fea64c8897b76c65d1a19, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6679205216731772797, guid: 58d15919244fea64c8897b76c65d1a19, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58d15919244fea64c8897b76c65d1a19, type: 3}
 --- !u!114 &1257646248 stripped
@@ -1575,18 +1544,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 252857833}
-        m_TargetAssemblyTypeName: AbilityStore, Assembly-CSharp
-        m_MethodName: buyAbility
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1622286883}
         m_TargetAssemblyTypeName: LeaveStore, Assembly-CSharp
         m_MethodName: Leave
