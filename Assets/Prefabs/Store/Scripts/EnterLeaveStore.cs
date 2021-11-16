@@ -11,6 +11,9 @@ public class EnterLeaveStore : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // uncomment for testing with stocked fish
+        Fish_Handler.total_fish = 100;
+
         fish.text = (Fish_Handler.total_fish.ToString() + " Fish");
     }
 

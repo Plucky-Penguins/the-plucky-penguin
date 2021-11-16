@@ -30,16 +30,24 @@ public class AbilityStore : MonoBehaviour
     public Text abilityCost3;
     public Text abilityDescription3;
 
+    [Header("Other Text")]
+    public Text Leave;
+
     private static List<AbilityInterface.IAbility> availableAbilityList;
     private List<AbilityInterface.IAbility> selectedAbility;
 
     private const string CARD_COST = "Cost: ";
     private const string FISH = " Fish";
+    private const string NOT_ENOUGH = "Not enough fish...\nLeave to next level...";
 
     private void Start()
     {
         setUp();
+        // Uncomment to test remove ability before loading the shop
+        /*removeAbilityFromAvailableList(GetComponent<BombAbility>());*/
         selectRandomAbilitiesAndPopulateText();
+
+        // Uncomment to test remove ability after loading the shop
         /*removeAbilityFromAvailableList(GetComponent<BombAbility>());*/
     }
 
@@ -100,19 +108,36 @@ public class AbilityStore : MonoBehaviour
         abilityName3.text = selectedAbility[2].getName();
         abilityCost3.text = CARD_COST + selectedAbility[2].getCost().ToString() + FISH;
         abilityDescription3.text = selectedAbility[2].getDescription();
+
+
+        // DISABLE BUTTONS IF TOTAL FISH IS NOT ENOUGH TO BUY
+        if (Fish_Handler.total_fish < selectedAbility[0].getCost())
+        {
+            abilityCard1.GetComponent<Button>().interactable = false;
+        }
+        if (Fish_Handler.total_fish < selectedAbility[1].getCost())
+        {
+            abilityCard2.GetComponent<Button>().interactable = false;
+        }
+        if (Fish_Handler.total_fish < selectedAbility[2].getCost())
+        {
+            abilityCard3.GetComponent<Button>().interactable = false;
+        }
+
+        if (Fish_Handler.total_fish < selectedAbility[0].getCost() &&
+            Fish_Handler.total_fish < selectedAbility[1].getCost() &&
+            Fish_Handler.total_fish < selectedAbility[2].getCost()) {
+            Leave.text = NOT_ENOUGH;
+        }
+        
+
     }
 
-    public void removeAbilityFromAvailableList(AbilityInterface.IAbility ability) {
+    public static void removeAbilityFromAvailableList(AbilityInterface.IAbility ability) {
         availableAbilityList.Remove(ability);
         /*print("Removed: " + ability.getName());
         for (int i = 0; i < availableAbilityList.Count; i++) {
             print(availableAbilityList[i].getName());
         }*/
     }
-
-    // Buying ability
-    // Remove ability from available
-    // AbilityManager add slot etc
-    // Subtract and Update Total Fish
-    // Leave Store
 }
