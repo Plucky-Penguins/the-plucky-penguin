@@ -279,7 +279,6 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
         {
             // Turn around
             facingRight = !facingRight;
-            Debug.Log(facingRight);
         }
     }
 
