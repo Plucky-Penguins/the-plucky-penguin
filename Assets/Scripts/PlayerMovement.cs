@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("References")]
     public Rigidbody2D rb;
     public LayerMask groundLayers;
+    public LayerMask iceLayers;
     public Animator animator;
 
     [Header("Movement")]
@@ -79,6 +80,11 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(new Vector2(rb.position.x + 1, rb.position.y + 1), new Vector2(0.25f, 1.5f));
         Gizmos.DrawWireCube(new Vector2(rb.position.x - 1, rb.position.y + 1), new Vector2(0.25f, 1.5f));
+    }
+
+    public IEnumerator directionChanged()
+    {
+        yield return new WaitForSeconds(1f);
     }
 
     void Update()
@@ -410,7 +416,8 @@ public class PlayerMovement : MonoBehaviour
     // find if grounded or not
     private bool isGrounded()
     {
-        if (Physics2D.OverlapBox(rb.position, new Vector2(1.5f, 0.5f), 0, groundLayers))
+        if (Physics2D.OverlapBox(rb.position, new Vector2(1.5f, 0.5f), 0, groundLayers) 
+            || Physics2D.OverlapBox(rb.position, new Vector2(1.5f, 0.5f), 0, iceLayers))
         {
             return true;
         } else
@@ -470,6 +477,4 @@ public class PlayerMovement : MonoBehaviour
         }
         
     }
-
-    
 }
