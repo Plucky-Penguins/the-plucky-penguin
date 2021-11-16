@@ -7,13 +7,11 @@ public class EnterLeaveStore : MonoBehaviour
 {
     [Header("UpdateText")]
     public Text fish;
-
-    
     
     // Start is called before the first frame update
     void Start()
     {
-        fish.text = (Fish_Handler.total_fish.ToString() + "Fish");
+        fish.text = (Fish_Handler.total_fish.ToString() + " Fish");
     }
 
 }
