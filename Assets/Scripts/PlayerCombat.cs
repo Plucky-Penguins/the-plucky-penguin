@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerCombat : MonoBehaviour
 {
-    public List<AbilityInterface.IAbility> abilities = new List<AbilityInterface.IAbility>();
-
     private float immunityTimer = 0;
     private bool immunity = false;
 
@@ -25,17 +23,9 @@ public class PlayerCombat : MonoBehaviour
     public int slapDamage = 1;
     private bool immunityFlashing = false;
 
-    void Start()
+    void Awake()
     {
         currentCooldown = cooldown;
-        foreach (AbilityInterface.IAbility ability in Controller.abilities) {
-            Debug.Log(ability);
-            abilities.Add(ability);
-        }
-        foreach (AbilityInterface.IAbility ability in abilities)
-        {
-            //Debug.Log(ability);
-        }
         
     }
 
