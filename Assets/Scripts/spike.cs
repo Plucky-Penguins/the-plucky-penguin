@@ -18,7 +18,6 @@ public class spike : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision) {
         // damage for enemies
-        Debug.Log("spiking!");
         if (LayerMask.LayerToName(collision.gameObject.layer) == "enemy")
         {
             collision.gameObject.GetComponent<EnemyInterface.IEnemy>().takeDamage(1);
@@ -30,7 +29,7 @@ public class spike : MonoBehaviour
             collision.gameObject.GetComponent<PlayerMovement>().refresh();
         }
         else {
-            Debug.Log(collision.gameObject.name);
+            //Debug.Log(collision.gameObject.name);
         }
     }
 }

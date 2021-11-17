@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
 {
@@ -29,6 +30,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
     public GameObject projectile;
     public GameObject egg;
     public GameObject heart;
+    public TMPro.TextMeshProUGUI winText;
 
 
     private bossPhase currentPhase;
@@ -50,6 +52,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
         bodySpawn = body.transform.position;
         body.transform.position = new Vector2(body.transform.position.x, body.transform.position.y - 50);
         bodyRb.velocity = new Vector2(0, 12);
+        winText.enabled = false;
     }
 
     void OnDrawGizmosSelected()
@@ -82,7 +85,6 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
 
             if (currentPhase == bossPhase.smacking)
             {
-                Debug.Log("smacking");
                 if (!smacking) { StartCoroutine(headSmack()); }
                 StartCoroutine(followPlayer());
             }
@@ -158,7 +160,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
         }
              
         smacking = true;
-        yield return new WaitForSeconds(Random.Range(2f,4f));
+        yield return new WaitForSeconds(Random.Range(2f,3f));
         
         if (currentPhase == bossPhase.smacking)
         {
@@ -253,7 +255,11 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
     {
         StartCoroutine(changeColor(Color.red));
         healthPoints -= damage_dealt;
-        GameObject.Find("healthbar").GetComponent<BossHealthBar>().updateHealth(healthPoints,30);
+        if (GameObject.Find("healthbar"))
+        {
+            GameObject.Find("healthbar").GetComponent<BossHealthBar>().updateHealth(healthPoints, 30);
+        }
+        
 
         
 
@@ -262,7 +268,11 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
             Destroy(GameObject.Find("healthbar"));
             foreach (GameObject t in GameObject.FindGameObjectsWithTag("killable"))
             {
-                Destroy(t);
+                if (t.name != "goose_head_0")
+                {
+                    Destroy(t);
+                }
+                
             }
 
             currentPhase = bossPhase.dead;
@@ -272,17 +282,16 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
 
     public IEnumerator die()
     {
-        if (!dying)
-        {
-            GetComponent<SpriteRenderer>().sortingLayerName = "goosehead";
-            dying = true;
-            roar(2f);
-            bodyRb.velocity = new Vector2(0, -8);
-            yield return new WaitForSeconds(3);
-            Destroy(body);
-            Destroy(gameObject);
-        }
-        
+        GetComponent<SpriteRenderer>().sortingLayerName = "goosehead";
+        dying = true;
+        roar(2f);
+        bodyRb.velocity = new Vector2(0, -8);
+        yield return new WaitForSeconds(3f);
+        winText.enabled = true;
+        Destroy(body);
+        Destroy(gameObject);
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("Main_Menu");
     }
 
     public IEnumerator changeColor(Color c)
