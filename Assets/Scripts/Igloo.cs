@@ -18,8 +18,9 @@ public class Igloo : MonoBehaviour
         // check object by tag
         if (collision.gameObject.tag == "Player")
         {
+            // TODO: play level completion sfx
+            // TODO: display score
             StartCoroutine(ShowMessage("You Win!"));
-            
         }
 
     }

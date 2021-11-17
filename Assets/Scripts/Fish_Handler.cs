@@ -9,7 +9,7 @@ public class Fish_Handler : MonoBehaviour
     int level_fish;
     // total_fish should be carried across levels
     // made public in order for the shop to have access to this
-    public int total_fish;
+    public static int total_fish;
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("collectible")) {
@@ -33,6 +33,7 @@ public class Fish_Handler : MonoBehaviour
      */
     public void resetLevelFishScore() {
         level_fish = 0;
+        collection.text = "" + level_fish.ToString() + "/?";
     }
 
     /**
