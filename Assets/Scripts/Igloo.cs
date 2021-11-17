@@ -8,9 +8,12 @@ public class Igloo : MonoBehaviour
     public TMPro.TextMeshProUGUI winText;
     public string nextScene;
 
+    public static string currentLevel;
+
     private void Start()
     {
         winText.enabled = false;
+        currentLevel = SceneManager.GetActiveScene().name;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

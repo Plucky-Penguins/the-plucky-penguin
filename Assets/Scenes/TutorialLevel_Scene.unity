@@ -229,7 +229,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Double Jump
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -772,7 +772,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Wall Jump
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -948,7 +948,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: '[Shift]'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1285,7 +1285,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: '[Q]'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -19400,10 +19400,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1240487081}
     m_Modifications:
-    - target: {fileID: 6188428276831216201, guid: 8d6a65cbc3478f74fb2affdfa9706830, type: 3}
-      propertyPath: nextScene
-      value: Level1_Scene
-      objectReference: {fileID: 0}
     - target: {fileID: 6188428276831216204, guid: 8d6a65cbc3478f74fb2affdfa9706830, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -20911,7 +20907,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: '[Space] + Hold'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}

@@ -26,6 +26,7 @@ public class BombAbility : MonoBehaviour, AbilityInterface.IAbility
     }
 
     // Start is called before the first frame update
+
     void Start()
     {
         currentCooldown = 0;

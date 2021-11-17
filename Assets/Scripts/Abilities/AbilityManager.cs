@@ -11,6 +11,8 @@ public class AbilityManager : MonoBehaviour
 
     public static Dictionary<int, string> slotToKey = new Dictionary<int, string>();
 
+    public List<AbilityInterface.IAbility> listOfAllAbilities = new List<AbilityInterface.IAbility>();
+
     private void Start()
     {
         if (slotToKey.Count != 3) {
@@ -19,24 +21,47 @@ public class AbilityManager : MonoBehaviour
             slotToKey.Add(2, "F");
         }
 
-        if (abilities.Count < 3) {
+        if (abilities.Count < 3)
+        {
             for (int i = 0; i < 3; i++)
             {
                 abilities.Add(null);
             }
         }
-        
 
-        // example of how to add abilities
-        /*abilities[0] = GetComponent<BombAbility>();
-        abilities[1] = GetComponent<ShieldAbility>();
-        abilities[2] = GetComponent<SpeedAbility>();*/
+        if (listOfAllAbilities.Count < 5)
+        {
+            listOfAllAbilities.Add(GameObject.Find("Player").GetComponent<BombAbility>());
+            listOfAllAbilities.Add(GameObject.Find("Player").GetComponent<ShieldAbility>());
+            listOfAllAbilities.Add(GameObject.Find("Player").GetComponent<SpeedAbility>());
+            listOfAllAbilities.Add(GameObject.Find("Player").GetComponent<ProjectileAbility>());
+            listOfAllAbilities.Add(GameObject.Find("Player").GetComponent<BurstAbility>());
+        }
+
+        print(listOfAllAbilities.Count);
+        print(listOfAllAbilities);
+        
+        // fails here
+        print(listOfAllAbilities[2]);
+        print(listOfAllAbilities[2].getName());
+
+        if (abilities[0] != null) {
+            print("Start: " + abilities[0].getName());
+            for (int i = 0; i < listOfAllAbilities.Count; i++) {
+                if (abilities[0].getName() == listOfAllAbilities[i].getName()) {
+                    abilities[0] = listOfAllAbilities[i];
+                } 
+            }
+        }
+
     }
+
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E) && abilities[0] != null) // activate first ability slot
         {
+            print("Update: " + abilities[0].getName());
             abilities[0].activateAbility();
         }
         
@@ -49,7 +74,17 @@ public class AbilityManager : MonoBehaviour
         {
             abilities[2].activateAbility();
         }
-
-
     }
+
+    /*public static void addIndexAbility(int index, string abilityName) {
+        print("Adding: " + abilityName);
+        string manageAbilityName = "";
+        manageAbilityName = abilityName;
+        for (int i = 0; i < listOfAllAbilities.Count; i++) {
+            // print(listOfAllAbilities[i].getName());
+            if (manageAbilityName == listOfAllAbilities[i].getName()) {
+                abilities[index] = listOfAllAbilities[i];
+            }
+        }
+    }*/
 }

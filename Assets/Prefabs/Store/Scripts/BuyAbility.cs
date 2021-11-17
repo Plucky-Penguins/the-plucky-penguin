@@ -13,7 +13,7 @@ public class BuyAbility : MonoBehaviour
     public GameObject BuyDialogue;
     public Text Prompt;
 
-    private static AbilityInterface.IAbility selectedAbility;
+    public static AbilityInterface.IAbility selectedAbility;
 
     private const string PROMPT_PRE_TEXT = "Buy Ability: ";
     private const string PROMPT_POST_TEXT = "?";
@@ -43,6 +43,13 @@ public class BuyAbility : MonoBehaviour
             print("Bought: " + selectedAbility.getName());
             AbilityStore.removeAbilityFromAvailableList(selectedAbility);
             Fish_Handler.total_fish -= selectedAbility.getCost();
+            for (int i = 0; i < AbilityManager.abilities.Count; i++) {
+                if (AbilityManager.abilities[i] == null) {
+                    AbilityManager.abilities[i] = selectedAbility;
+                    //AbilityManager.addIndexAbility(i, selectedAbility.getName());
+                    break;
+                }
+            }
         }
     }
 }
