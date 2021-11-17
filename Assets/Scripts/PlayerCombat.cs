@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerCombat : MonoBehaviour
 {
-
     private float immunityTimer = 0;
     private bool immunity = false;
 
@@ -24,9 +23,10 @@ public class PlayerCombat : MonoBehaviour
     public int slapDamage = 1;
     private bool immunityFlashing = false;
 
-    void Start()
+    void Awake()
     {
         currentCooldown = cooldown;
+        
     }
 
     // Update is called once per frame
