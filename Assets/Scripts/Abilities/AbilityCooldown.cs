@@ -20,11 +20,11 @@ public class AbilityCooldown : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (AbilityManager.abilities[slotNumber] != null) {
-            float cooldown = AbilityManager.abilities[slotNumber].getCurrentCooldown();
+        if (Controller.abilities[slotNumber] != null) {
+            float cooldown = Controller.abilities[slotNumber].getCurrentCooldown();
             if (cooldown <= 0) {
                 cooldownText.color = Color.black;
-                cooldownText.text = AbilityManager.slotToKey[slotNumber];
+                cooldownText.text = Controller.slotToKey[slotNumber];
             } else {
                 cooldownText.color = Color.red;
                 cooldownText.text = System.Math.Truncate(cooldown + 1).ToString();

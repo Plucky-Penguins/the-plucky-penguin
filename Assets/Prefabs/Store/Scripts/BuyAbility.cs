@@ -39,13 +39,23 @@ public class BuyAbility : MonoBehaviour
     // Leave Store
     public static void buyAbility()
     {
+        foreach (AbilityInterface.IAbility ability in Controller.abilities) {
+            int i = 0;
+            print("Listing: " + i + " " + ability);
+            i++;
+        }
+
         if (selectedAbility != null) {
             print("Bought: " + selectedAbility.getName());
             AbilityStore.removeAbilityFromAvailableList(selectedAbility);
             Fish_Handler.total_fish -= selectedAbility.getCost();
-            for (int i = 0; i < AbilityManager.abilities.Count; i++) {
-                if (AbilityManager.abilities[i] == null) {
-                    AbilityManager.abilities[i] = selectedAbility;
+            // AbilityManager.abilities.Add(selectedAbility);
+            for (int i = 0; i < Controller.abilities.Count; i++)
+            {
+                print("Check:" + Controller.abilities[i]);
+                if (Controller.abilities[i] == null)
+                {
+                    Controller.abilities[i] = selectedAbility;
                     //AbilityManager.addIndexAbility(i, selectedAbility.getName());
                     break;
                 }

@@ -7,72 +7,49 @@ using UnityEngine;
 /// </summary>
 public class AbilityManager : MonoBehaviour
 {
-    public static List<AbilityInterface.IAbility> abilities = new List<AbilityInterface.IAbility>();
 
-    public static Dictionary<int, string> slotToKey = new Dictionary<int, string>();
-
-    public List<AbilityInterface.IAbility> listOfAllAbilities = new List<AbilityInterface.IAbility>();
-
-    private void Start()
+    private void Awake()
     {
-        if (slotToKey.Count != 3) {
-            slotToKey.Add(0, "E");
-            slotToKey.Add(1, "R");
-            slotToKey.Add(2, "F");
-        }
-
-        if (abilities.Count < 3)
+        /*for (int ai = 0; ai < Controller.abilities.Count; ai++)
         {
-            for (int i = 0; i < 3; i++)
+            if ((ai + 1) < Controller.abilities.Count - 1)
             {
-                abilities.Add(null);
+                if (abilities[ai + 1] == null || ai == 2)
+                {
+                    print("Start: " + abilities[ai].getName());
+                    for (int i = 0; i < listOfAllAbilities.Count; i++)
+                    {
+                        if (abilities[ai].getName() == listOfAllAbilities[i].getName())
+                        {
+                            abilities[ai] = listOfAllAbilities[i];
+                        }
+                    }
+                }
             }
-        }
 
-        if (listOfAllAbilities.Count < 5)
-        {
-            listOfAllAbilities.Add(GameObject.Find("Player").GetComponent<BombAbility>());
-            listOfAllAbilities.Add(GameObject.Find("Player").GetComponent<ShieldAbility>());
-            listOfAllAbilities.Add(GameObject.Find("Player").GetComponent<SpeedAbility>());
-            listOfAllAbilities.Add(GameObject.Find("Player").GetComponent<ProjectileAbility>());
-            listOfAllAbilities.Add(GameObject.Find("Player").GetComponent<BurstAbility>());
-        }
-
-        print(listOfAllAbilities.Count);
-        print(listOfAllAbilities);
-        
-        // fails here
-        print(listOfAllAbilities[2]);
-        print(listOfAllAbilities[2].getName());
-
-        if (abilities[0] != null) {
-            print("Start: " + abilities[0].getName());
-            for (int i = 0; i < listOfAllAbilities.Count; i++) {
-                if (abilities[0].getName() == listOfAllAbilities[i].getName()) {
-                    abilities[0] = listOfAllAbilities[i];
-                } 
-            }
-        }
+        }*/
 
     }
 
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && abilities[0] != null) // activate first ability slot
+        if (Input.GetKeyDown(KeyCode.E) && Controller.abilities[0] != null) // activate first ability slot
         {
-            print("Update: " + abilities[0].getName());
-            abilities[0].activateAbility();
+            print("Update: " + Controller.abilities[0].getName());
+            GameObject.Find("Player").GetComponent<PlayerCombat>().abilities[0].activateAbility();
         }
         
-        if (Input.GetKeyDown(KeyCode.R) && abilities[1] != null) // activate second ability slot
+        if (Input.GetKeyDown(KeyCode.R) && Controller.abilities[1] != null) // activate second ability slot
         {
-            abilities[1].activateAbility();
+            print("Update: " + Controller.abilities[1].getName());
+            GameObject.Find("Player").GetComponent<PlayerCombat>().abilities[1].activateAbility();
         }
         
-        if (Input.GetKeyDown(KeyCode.F) && abilities[2] != null) // activate third ability slot
+        if (Input.GetKeyDown(KeyCode.F) && Controller.abilities[2] != null) // activate third ability slot
         {
-            abilities[2].activateAbility();
+            print("Update: " + Controller.abilities[2].getName());
+            GameObject.Find("Player").GetComponent<PlayerCombat>().abilities[2].activateAbility();
         }
     }
 
