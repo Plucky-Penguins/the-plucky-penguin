@@ -38,6 +38,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4325598975835250172}
     m_Modifications:
+    - target: {fileID: 5801674295966796632, guid: 02b4782668afc3741a4860b769a8f4dc, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a7de26a96f3ecf54f9531182bdc03f29, type: 3}
     - target: {fileID: 6505536291731612770, guid: 02b4782668afc3741a4860b769a8f4dc, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -129,6 +133,14 @@ PrefabInstance:
     - target: {fileID: 6505536291731612783, guid: 02b4782668afc3741a4860b769a8f4dc, type: 3}
       propertyPath: m_Camera
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6610714091962817858, guid: 02b4782668afc3741a4860b769a8f4dc, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 37.7635
+      objectReference: {fileID: 0}
+    - target: {fileID: 6610714091962817858, guid: 02b4782668afc3741a4860b769a8f4dc, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 576.1182
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02b4782668afc3741a4860b769a8f4dc, type: 3}
