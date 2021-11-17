@@ -131,13 +131,17 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
 
     public void swapPhases()
     {
-        // get new phase
-        bossPhase newPhase = (bossPhase)Random.Range(0, System.Enum.GetValues(typeof(bossPhase)).Length);
-        if (newPhase != currentPhase)
+        if (currentPhase != bossPhase.dead)
         {
-            roar(0.5f);
-            currentPhase = newPhase;
+            // get new phase
+            bossPhase newPhase = (bossPhase)Random.Range(0, System.Enum.GetValues(typeof(bossPhase)).Length);
+            if (newPhase != currentPhase)
+            {
+                roar(0.5f);
+                currentPhase = newPhase;
+            }
         }
+        
     }
 
     public IEnumerator shoot()
@@ -275,22 +279,33 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
                 
             }
 
-            currentPhase = bossPhase.dead;
-            StartCoroutine(die());
+            
+            if (!dying)
+            {
+                currentPhase = bossPhase.dead;
+                StartCoroutine(die());
+                StartCoroutine(restartGame());
+            }
+            
         }
     }
 
     public IEnumerator die()
     {
+        print(currentPhase);
         GetComponent<SpriteRenderer>().sortingLayerName = "goosehead";
         dying = true;
         roar(2f);
         bodyRb.velocity = new Vector2(0, -8);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSecondsRealtime(3f);
         winText.enabled = true;
-        Destroy(body);
-        Destroy(gameObject);
-        yield return new WaitForSeconds(3f);
+    }
+
+    public IEnumerator restartGame()
+    {
+        print("waiting");
+        yield return new WaitForSecondsRealtime(8f);
+        print("done waiting");
         SceneManager.LoadScene("Main_Menu");
     }
 

@@ -12,7 +12,7 @@ public class EnterLeaveStore : MonoBehaviour
     void Start()
     {
         // uncomment for testing with stocked fish
-        Fish_Handler.total_fish = 100;
+        //Fish_Handler.total_fish = 21;
 
         fish.text = (Fish_Handler.total_fish.ToString() + " Fish");
     }

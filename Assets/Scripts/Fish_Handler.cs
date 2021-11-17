@@ -13,7 +13,14 @@ public class Fish_Handler : MonoBehaviour
     private int maxSceneFish;
     private void Start()
     {
-        maxSceneFish = GameObject.Find("Map_Currency").transform.childCount + 9;
+        if (GameObject.Find("Map_Currency") != null)
+        {
+            maxSceneFish = GameObject.Find("Map_Currency").transform.childCount + 9;
+        } else
+        {
+            maxSceneFish = 0;
+        }
+        
     }
     private void OnTriggerEnter2D(Collider2D other)
     {

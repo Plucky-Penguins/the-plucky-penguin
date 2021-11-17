@@ -1573,6 +1573,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -5.8741055
       objectReference: {fileID: 0}
+    - target: {fileID: 7802807567710367976, guid: 40db203f09fae5844ad724367019adad, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+    - target: {fileID: 7802807567710367976, guid: 40db203f09fae5844ad724367019adad, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
     - target: {fileID: 7802807567877584436, guid: 40db203f09fae5844ad724367019adad, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 49.935894
@@ -1580,6 +1588,10 @@ PrefabInstance:
     - target: {fileID: 7802807568396480520, guid: 40db203f09fae5844ad724367019adad, type: 3}
       propertyPath: m_LocalPosition.y
       value: -5.8741055
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860249314386911409, guid: 40db203f09fae5844ad724367019adad, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 666.4
       objectReference: {fileID: 0}
     - target: {fileID: 7860249314386911409, guid: 40db203f09fae5844ad724367019adad, type: 3}
       propertyPath: m_LocalPosition.y

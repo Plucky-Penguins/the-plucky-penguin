@@ -30,7 +30,10 @@ public class BuyAbility : MonoBehaviour
             BuyDialogue.SetActive(true);
         }
     }
-
+    public void deselectAbility()
+    {
+        selectedAbility = null;
+    }
 
     // Buying ability
     // Remove ability from available

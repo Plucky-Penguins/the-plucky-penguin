@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class LeaveStore : MonoBehaviour
 {
+    public void deselectAbility()
+    {
+        BuyAbility.selectedAbility = null;
+    }
 
     public void Leave()
     {

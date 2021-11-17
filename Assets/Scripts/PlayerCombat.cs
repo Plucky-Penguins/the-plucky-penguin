@@ -113,7 +113,15 @@ public class PlayerCombat : MonoBehaviour
             if (GetComponent<PlayerHealth>().health <= 0)
             {
                 //die
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                if (SceneManager.GetActiveScene().name == "Boss")
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                } else
+                {
+                    GetComponent<PlayerMovement>().Respawn();
+                    GetComponent<PlayerHealth>().health = 3;
+                }
+                
             }
 
             iFrames(200, true);

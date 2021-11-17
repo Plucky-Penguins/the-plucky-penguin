@@ -61,16 +61,16 @@ public class ProjectileCollisionBad : MonoBehaviour, EnemyInterface.IEnemy
 
     public void stun(float duration = 2)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public void yeet()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public Vector2 getPosition()
     {
-        throw new System.NotImplementedException();
+        return this.transform.position;
     }
 }
