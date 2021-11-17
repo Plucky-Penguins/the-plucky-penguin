@@ -162,6 +162,9 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 264
+  iceLayers:
+    serializedVersion: 2
+    m_Bits: 128
   animator: {fileID: 6118059892669255335}
   movementSpeed: 10
   hangtime: 0.15
@@ -270,7 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 3
-  numHearts: 3
+  numHearts: 10
   hearts:
   - {fileID: 5426454584931088744}
   - {fileID: 5426454584627937862}
@@ -283,7 +286,7 @@ MonoBehaviour:
   - {fileID: 5426454585455884449}
   - {fileID: 5426454585759545849}
   fullHeart: {fileID: -7848039375673857549, guid: c688c3f0a62d73c46a893a709ce338fe, type: 3}
-  emptyHeart: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+  emptyHeart: {fileID: 0}
 --- !u!114 &5033351149482731224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,6 +334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collection: {fileID: 7228266362415384411}
+  total_fish: 0
 --- !u!1 &6118059892847256406
 GameObject:
   m_ObjectHideFlags: 0
@@ -10155,6 +10159,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7961aa90a37515d4b9e61c311e20fabd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialPosition: {x: 0, y: 0, z: 0}
+  shakeDuration: 0
 --- !u!1001 &6118059893427565224
 PrefabInstance:
   m_ObjectHideFlags: 0

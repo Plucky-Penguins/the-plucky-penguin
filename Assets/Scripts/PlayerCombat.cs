@@ -155,6 +155,7 @@ public class PlayerCombat : MonoBehaviour
         //     }
         // }
 
+
         // get all enemies in Enemies object
         if (LayerMask.LayerToName(collision.gameObject.layer) == "enemy")
         {
