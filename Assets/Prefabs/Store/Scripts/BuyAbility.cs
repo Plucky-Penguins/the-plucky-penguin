@@ -50,7 +50,7 @@ public class BuyAbility : MonoBehaviour
 
         if (selectedAbility != null) {
             print("Bought: " + selectedAbility.getName());
-            AbilityStore.removeAbilityFromAvailableList(selectedAbility);
+            //AbilityStore.removeAbilityFromAvailableList(selectedAbility);
             Fish_Handler.total_fish -= selectedAbility.getCost();
             // AbilityManager.abilities.Add(selectedAbility);
             for (int i = 0; i < Controller.abilities.Count; i++)

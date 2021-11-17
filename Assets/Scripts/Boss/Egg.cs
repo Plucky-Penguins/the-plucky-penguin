@@ -18,12 +18,13 @@ public class Egg : MonoBehaviour, EnemyInterface.IEnemy
 
     public Vector2 getPosition()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
+        return transform.position;
     }
 
     public void stun(float duration = 2)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public void takeDamage(int damage_dealt, bool doesKnockback = true)

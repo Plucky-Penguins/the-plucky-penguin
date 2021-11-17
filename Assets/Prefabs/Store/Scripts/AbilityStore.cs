@@ -57,11 +57,23 @@ public class AbilityStore : MonoBehaviour
             for (int i = 0; i < 5; i++) {
                 availableAbilityList.Add(null);
             }
-            availableAbilityList[0] = GetComponent<BombAbility>();
-            availableAbilityList[1] = GetComponent<ShieldAbility>();
-            availableAbilityList[2] = GetComponent<SpeedAbility>();
-            availableAbilityList[3] = GetComponent<BurstAbility>();
-            availableAbilityList[4] = GetComponent<ProjectileAbility>();
+
+            if (!Controller.abilities.Contains(GetComponent<BombAbility>())) {
+                availableAbilityList[0] = GetComponent<BombAbility>();
+            }
+            if (!Controller.abilities.Contains(GetComponent<ShieldAbility>())) {
+                availableAbilityList[1] = GetComponent<ShieldAbility>();
+            }
+            if (!Controller.abilities.Contains(GetComponent<SpeedAbility>())) {
+                availableAbilityList[2] = GetComponent<SpeedAbility>();
+            }
+            if (!Controller.abilities.Contains(GetComponent<BurstAbility>())) {
+                availableAbilityList[3] = GetComponent<BurstAbility>();
+            }
+            if (!Controller.abilities.Contains(GetComponent<ProjectileAbility>())) {
+                availableAbilityList[4] = GetComponent<ProjectileAbility>();
+            }
+            
         }
     }
 

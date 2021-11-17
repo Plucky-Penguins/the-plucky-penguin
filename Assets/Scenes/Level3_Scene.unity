@@ -41802,7 +41802,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3628971026711983095, guid: 70bf43b6e6e78544a8177c1d84298d54, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6118059892669255327, guid: 70bf43b6e6e78544a8177c1d84298d54, type: 3}
       propertyPath: m_RootOrder
@@ -41859,7 +41859,7 @@ PrefabInstance:
     - target: {fileID: 6118059892669255332, guid: 70bf43b6e6e78544a8177c1d84298d54, type: 3}
       propertyPath: emptyHeart
       value: 
-      objectReference: {fileID: 21300000, guid: 86a875462c6c76543906d571fa3296e4, type: 3}
+      objectReference: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 6118059892669255332, guid: 70bf43b6e6e78544a8177c1d84298d54, type: 3}
       propertyPath: hearts.Array.data[0]
       value: 

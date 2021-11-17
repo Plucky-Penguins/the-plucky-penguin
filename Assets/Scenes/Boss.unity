@@ -2583,7 +2583,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6118059892669255332, guid: 70bf43b6e6e78544a8177c1d84298d54, type: 3}
       propertyPath: health
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6118059892669255332, guid: 70bf43b6e6e78544a8177c1d84298d54, type: 3}
       propertyPath: fullHeart
@@ -3145,7 +3145,7 @@ MonoBehaviour:
   body: {fileID: 1130197554}
   bodyRb: {fileID: 1130197558}
   player: {fileID: 1228172803}
-  followRangeX: 20
+  followRangeX: 5
   movespeed: 8
   cam: {fileID: 652506120}
   burst: {fileID: 7843778647993396481, guid: bfece8dbd159d11439e99620ffd5c817, type: 3}

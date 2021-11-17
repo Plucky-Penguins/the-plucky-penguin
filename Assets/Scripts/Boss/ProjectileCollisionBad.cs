@@ -27,7 +27,7 @@ public class ProjectileCollisionBad : MonoBehaviour, EnemyInterface.IEnemy
             Destroy(gameObject);
         }
 
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" && !backfire)
         {
             Destroy(gameObject);
             collision.gameObject.GetComponent<PlayerCombat>().takeDamage(1);
@@ -53,10 +53,14 @@ public class ProjectileCollisionBad : MonoBehaviour, EnemyInterface.IEnemy
 
     public void takeDamage(int damage_dealt, bool doesKnockback = true)
     {
-        backfire = true;
-        GetComponent<SpriteRenderer>().sprite = friendlyVersion;
-        GetComponent<Renderer>().material.color = new Color(0, 255, 255, 1);
-        GetComponent<Rigidbody2D>().velocity = -(GetComponent<Rigidbody2D>().velocity);
+        if (!backfire)
+        {
+            backfire = true;
+            GetComponent<SpriteRenderer>().sprite = friendlyVersion;
+            GetComponent<Renderer>().material.color = new Color(0, 255, 255, 1);
+            GetComponent<Rigidbody2D>().velocity = -(GetComponent<Rigidbody2D>().velocity);
+        }
+        
     }
 
     public void stun(float duration = 2)

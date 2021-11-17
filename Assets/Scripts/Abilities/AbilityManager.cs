@@ -21,6 +21,7 @@ public class AbilityManager : MonoBehaviour
 
     void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.E) && Controller.abilities[0] != null) // activate first ability slot
         {
             abilitySwitcher[Controller.abilities[0].getName()].activateAbility();

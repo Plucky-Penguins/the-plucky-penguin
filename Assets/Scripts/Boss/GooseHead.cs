@@ -37,12 +37,11 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
     public float newPhaseTimer;
     private float currentPhaseTimer = 0;
     private int healthPoints = 30;
+    private bool dead = false;
 
     public enum bossPhase {
         smacking,
-        shooting,
-        nothing,
-        dead
+        shooting
     }
 
     // Start is called before the first frame update
@@ -83,23 +82,22 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
                 swapPhases();
             }
 
-            if (currentPhase == bossPhase.smacking)
+            if (currentPhase == bossPhase.smacking && !dead)
             {
                 if (!smacking) { StartCoroutine(headSmack()); }
-                StartCoroutine(followPlayer());
+                if (!following) { StartCoroutine(followPlayer()); }
             }
             
-            if (currentPhase == bossPhase.shooting)
+            if (currentPhase == bossPhase.shooting && !dead)
             {
                 bodyRb.velocity = new Vector2(0,0);
                 StartCoroutine(shoot());
             }
 
-            if (healthPoints <= 20)
+            if (healthPoints <= 20 && !dead)
             {
                 StartCoroutine(spawnEggs());
             }
-            
         }
         
     }
@@ -112,18 +110,18 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
 
             roar(0.2f);
             // spawn eggs
-            Instantiate(egg, new Vector2(-29, 38), transform.rotation);
-
+            
+            yield return new WaitForSeconds(30);
             if (Random.Range(0,2) == 1)
             {
-                Instantiate(egg, new Vector2(-2, 38), transform.rotation);
+                Instantiate(egg, new Vector2(-29, 38), transform.rotation);
             } else
             {
-                Instantiate(heart, new Vector2(-2, 38), transform.rotation);
-            }
-            if (Random.Range(0, 2) == 1)
+                Instantiate(heart, new Vector2(-29, 38), transform.rotation);
                 Instantiate(egg, new Vector2(25, 38), transform.rotation);
-            yield return new WaitForSeconds(10);
+            }
+            Instantiate(heart, new Vector2(-2, 38), transform.rotation);
+                
             spawning = false;
         }
         
@@ -131,7 +129,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
 
     public void swapPhases()
     {
-        if (currentPhase != bossPhase.dead)
+        if (!dead)
         {
             // get new phase
             bossPhase newPhase = (bossPhase)Random.Range(0, System.Enum.GetValues(typeof(bossPhase)).Length);
@@ -146,27 +144,32 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
 
     public IEnumerator shoot()
     {
+        print("shooting");
         if (!shooting)
         {
             shooting = true;
             
             yield return new WaitForSeconds(Random.Range(1f, 2.5f));
-            Instantiate(projectile, new Vector2(transform.position.x, transform.position.y + 12), transform.rotation);
-            shooting = false;
+            if (!dead)
+            {
+                Instantiate(projectile, new Vector2(transform.position.x, transform.position.y + 12), transform.rotation);
+                shooting = false;
+            }
         }
     }
 
     public IEnumerator headSmack()
     {
+        print("smacking");
         if (currentPhase == bossPhase.smacking)
         {
             GetComponent<Animator>().SetTrigger("attack");
         }
              
         smacking = true;
-        yield return new WaitForSeconds(Random.Range(2f,3f));
+        yield return new WaitForSeconds(Random.Range(2f,3.5f));
         
-        if (currentPhase == bossPhase.smacking)
+        if (currentPhase == bossPhase.smacking && !dead) 
         {
             if (facingRight)
             {
@@ -207,7 +210,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
         if (!turning)
         {
             turning = true;
-            yield return new WaitForSecondsRealtime(1.5f);
+            yield return new WaitForSecondsRealtime(2f);
             // face the player
             if (player.transform.position.x > transform.position.x)
             {
@@ -231,17 +234,21 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
             following = true;
             yield return new WaitForSeconds(1f);
 
-            if (player.transform.position.x < (transform.position.x - followRangeX) || transform.position.x > 45)
+
+            if (player.transform.position.x < (transform.position.x - followRangeX) && transform.position.x > -42 && !dead)
             {
+                print("moving left");
                 bodyRb.velocity = new Vector2(-movespeed, bodyRb.velocity.y);
             }
-            else if (player.transform.position.x > (transform.position.x + followRangeX) || transform.position.x < -45)
+            else if (player.transform.position.x > (transform.position.x + followRangeX) && transform.position.x < 32 && !dead)
             {
-                bodyRb.velocity = new Vector2(+movespeed, bodyRb.velocity.y);
-            } else
+                print("moving right");
+                bodyRb.velocity = new Vector2(movespeed, bodyRb.velocity.y);
+            } else if (!dead)
             {
-                
+                bodyRb.velocity = new Vector2(0, bodyRb.velocity.y);
             }
+            
             
             following = false;
         }
@@ -282,7 +289,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
             
             if (!dying)
             {
-                currentPhase = bossPhase.dead;
+                dead = true;
                 StartCoroutine(die());
                 StartCoroutine(restartGame());
             }
