@@ -11,7 +11,7 @@ public class BouncingEnemy : MonoBehaviour, EnemyInterface.IEnemy
     public float sight_range, speed;
     public float jumpHeight = 15;
 
-    private int health = 3;
+    public int health = 2;
     private bool cannotMove = false;
     private bool player_close = false;
     private int curStunDuration = 0; // This is only used for managing the stunMe coroutine

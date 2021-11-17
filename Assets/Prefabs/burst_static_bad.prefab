@@ -116,4 +116,4 @@ MonoBehaviour:
   destroyTimer: 0.5
   damage: 1
   growFactor: 7
-  startDelay: 0.34
+  startDelay: 0.8

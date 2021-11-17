@@ -36,7 +36,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
     private bossPhase currentPhase;
     public float newPhaseTimer;
     private float currentPhaseTimer = 0;
-    private int healthPoints = 30;
+    private int healthPoints = 25;
     private bool dead = false;
 
     public enum bossPhase {
