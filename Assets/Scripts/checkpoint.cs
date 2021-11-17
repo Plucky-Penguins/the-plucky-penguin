@@ -21,6 +21,7 @@ public class checkpoint : MonoBehaviour
     {
         if (!active && collision.gameObject.tag == "Player")
         {
+            GetComponent<Renderer>().material.color = new Color(0, 0, 0.5f, 1);
             GameObject.Find("Player").GetComponent<PlayerMovement>().respawnPoint = transform.position;
             active = true;
         }

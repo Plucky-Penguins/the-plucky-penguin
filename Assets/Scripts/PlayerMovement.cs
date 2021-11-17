@@ -304,10 +304,6 @@ public class PlayerMovement : MonoBehaviour
     void Respawn()
     {
         transform.position = respawnPoint;
-
-        // reposition camera
-        GameObject.FindWithTag("MainCamera").GetComponent<CameraClamp>().Respawn(respawnPoint);
-
     }
 
     void Jump(bool djump)

@@ -34,13 +34,11 @@ public class CameraClamp : MonoBehaviour
                 transform.localPosition = player.position;
                 transform.position = new Vector3(player.position.x, 1, -10);
                 initialPosition = transform.localPosition;
+            } else
+            {
+                transform.position = new Vector3(player.position.x, player.position.y, -10);
             }
         }
 
-    }
-
-    public void Respawn(Vector2 p)
-    {
-        transform.position = p;
     }
 }
