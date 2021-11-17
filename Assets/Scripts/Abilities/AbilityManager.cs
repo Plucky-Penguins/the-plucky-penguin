@@ -7,25 +7,30 @@ using UnityEngine;
 /// </summary>
 public class AbilityManager : MonoBehaviour
 {
-    public List<AbilityInterface.IAbility> abilities = new List<AbilityInterface.IAbility>();
+    public static List<AbilityInterface.IAbility> abilities = new List<AbilityInterface.IAbility>();
 
-    public Dictionary<int, string> slotToKey = new Dictionary<int, string>();
+    public static Dictionary<int, string> slotToKey = new Dictionary<int, string>();
 
     private void Start()
     {
-        slotToKey.Add(0, "E");
-        slotToKey.Add(1, "R");
-        slotToKey.Add(2, "F");
-
-        for(int i = 0; i < 3; i++)
-        {
-            abilities.Add(null);
+        if (slotToKey.Count != 3) {
+            slotToKey.Add(0, "E");
+            slotToKey.Add(1, "R");
+            slotToKey.Add(2, "F");
         }
-            
+
+        if (abilities.Count < 3) {
+            for (int i = 0; i < 3; i++)
+            {
+                abilities.Add(null);
+            }
+        }
+        
+
         // example of how to add abilities
-        abilities[0] = GetComponent<BombAbility>();
+        /*abilities[0] = GetComponent<BombAbility>();
         abilities[1] = GetComponent<ShieldAbility>();
-        abilities[2] = GetComponent<SpeedAbility>();
+        abilities[2] = GetComponent<SpeedAbility>();*/
     }
 
     void Update()

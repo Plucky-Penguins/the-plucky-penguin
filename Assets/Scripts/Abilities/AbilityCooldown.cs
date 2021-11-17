@@ -9,31 +9,26 @@ public class AbilityCooldown : MonoBehaviour
     public TextMeshProUGUI cooldownText;
     public int slotNumber;
 
-    private AbilityManager abilityManager;
+    // private AbilityManager abilityManager;
 
     // Start is called before the first frame update
     void Start()
     {
-         abilityManager = GameObject.FindGameObjectWithTag("Player").GetComponent<AbilityManager>();
+         // abilityManager = GameObject.FindGameObjectWithTag("Player").GetComponent<AbilityManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (abilityManager.abilities[slotNumber] != null)
-        {
-            float cooldown = abilityManager.abilities[slotNumber].getCurrentCooldown();
-            if (cooldown <= 0)
-            {
+        if (AbilityManager.abilities[slotNumber] != null) {
+            float cooldown = AbilityManager.abilities[slotNumber].getCurrentCooldown();
+            if (cooldown <= 0) {
                 cooldownText.color = Color.black;
-                cooldownText.text = abilityManager.slotToKey[slotNumber];
-            }
-            else
-            {
+                cooldownText.text = AbilityManager.slotToKey[slotNumber];
+            } else {
                 cooldownText.color = Color.red;
                 cooldownText.text = System.Math.Truncate(cooldown + 1).ToString();
             }
         }
-        
     }
 }
