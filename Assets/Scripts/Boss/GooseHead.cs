@@ -94,7 +94,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
                 StartCoroutine(shoot());
             }
 
-            if (healthPoints <= 20 && !dead)
+            if (healthPoints <= 15 && !dead)
             {
                 StartCoroutine(spawnEggs());
             }
