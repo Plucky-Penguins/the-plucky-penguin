@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PlayerCombat : MonoBehaviour
@@ -36,7 +37,7 @@ public class PlayerCombat : MonoBehaviour
         currentCooldown += Time.deltaTime;
         
         // attack
-        if (Input.GetKeyDown(KeyCode.Q) && currentCooldown >= cooldown && !GetComponent<PlayerMovement>().isDashing)
+        if ((Input.GetKeyDown(KeyCode.Q) || Gamepad.current.buttonWest.wasPressedThisFrame) && currentCooldown >= cooldown && !GetComponent<PlayerMovement>().isDashing)
         {
             currentCooldown = 0;
             GetComponent<PlayerMovement>().animator.SetTrigger("Attack");
