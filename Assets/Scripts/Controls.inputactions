@@ -12,14 +12,6 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
-                },
-                {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "a6d9c5e6-dac5-4d2b-befa-c33681a23d6c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -61,7 +53,7 @@
                     "id": "e81b8c93-9fab-4dac-8d50-82a0685a809a",
                     "path": "<Gamepad>/leftStick/left",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "Scale(factor=10)",
                     "groups": "",
                     "action": "Movement",
                     "isComposite": false,
@@ -105,7 +97,7 @@
                     "id": "7044aef1-a5f9-4a89-acfb-0e295a878f87",
                     "path": "<Gamepad>/leftStick/right",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "Scale(factor=10)",
                     "groups": "",
                     "action": "Movement",
                     "isComposite": false,
@@ -121,50 +113,6 @@
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "58912556-0f9b-4129-aa8c-aa7f2fa2f6db",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "61fe309c-0ef9-466f-b5e1-15b3445ac981",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6a0e7efb-4db0-44e6-a384-35dc131e7cc8",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "febcde8c-ac83-4bc0-95ce-6821c3a6dba2",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         }
