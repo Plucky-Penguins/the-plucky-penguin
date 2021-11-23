@@ -16,8 +16,8 @@ TagManager:
   - Water
   - UI
   - enemy
-  - 
-  - 
+  - ice
+  - turnaround
   - 
   - 
   - 
@@ -42,6 +42,24 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: background
+    uniqueID: 2863698245
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: goose
+    uniqueID: 3087566723
+    locked: 0
+  - name: goosehead
+    uniqueID: 1389061527
+    locked: 0
+  - name: platforms
+    uniqueID: 81718015
+    locked: 0
+  - name: player
+    uniqueID: 599681997
+    locked: 0
+  - name: ui
+    uniqueID: 788495429
     locked: 0

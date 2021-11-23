@@ -9,9 +9,24 @@ public class BombAbility : MonoBehaviour, AbilityInterface.IAbility
 
     [HideInInspector]
     public float currentCooldown;
-    
+
+    public int getCost()
+    {
+        return 30;
+    }
+
+    public string getName()
+    {
+        return "Bomb";
+    }
+
+    public string getDescription()
+    {
+        return "Throw a bomb that explodes after a certain amount of time.";
+    }
 
     // Start is called before the first frame update
+
     void Start()
     {
         currentCooldown = 0;
@@ -40,4 +55,6 @@ public class BombAbility : MonoBehaviour, AbilityInterface.IAbility
             Instantiate(bomb, new Vector2(transform.position.x, transform.position.y + 2), transform.rotation);
         } 
     }
+
+    
 }

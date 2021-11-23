@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerCombat : MonoBehaviour
 {
-
     private float immunityTimer = 0;
     private bool immunity = false;
 
@@ -24,9 +23,10 @@ public class PlayerCombat : MonoBehaviour
     public int slapDamage = 1;
     private bool immunityFlashing = false;
 
-    void Start()
+    void Awake()
     {
         currentCooldown = cooldown;
+        
     }
 
     // Update is called once per frame
@@ -87,7 +87,8 @@ public class PlayerCombat : MonoBehaviour
 
         for (int i = 0; i < enemiesToDamage.Length; i++)
         {
-            enemiesToDamage[i].GetComponent<EnemyInterface.IEnemy>().takeDamage(slapDamage);
+               enemiesToDamage[i].GetComponent<EnemyInterface.IEnemy>().takeDamage(slapDamage);
+            
         }
         GetComponent<PlayerMovement>().animator.speed = 1;
         yield return new WaitForSeconds(0.2f);
@@ -108,18 +109,22 @@ public class PlayerCombat : MonoBehaviour
     {
         if (!immunity)
         {
-            Debug.Log("Ouch");
             GetComponent<PlayerHealth>().health -= damage_taken;
             if (GetComponent<PlayerHealth>().health <= 0)
             {
                 //die
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                if (SceneManager.GetActiveScene().name == "Boss")
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                } else
+                {
+                    GetComponent<PlayerMovement>().Respawn();
+                    GetComponent<PlayerHealth>().health = 3;
+                }
+                
             }
 
-            iFrames(300, true);
-        } else
-        {
-            Debug.Log("Im immune lol");
+            iFrames(200, true);
         }
     }
 
@@ -134,30 +139,6 @@ public class PlayerCombat : MonoBehaviour
     // collision with enemies
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // GET THE BEARS
-        // if (collision.gameObject.transform.parent.name == "bear")
-        // {
-        //     Debug.Log("FOUND A BEAR");
-        //     // THE BEAR OBJECT
-        //     bear bear = collision.gameObject.GetComponent<bear>();
-        //     // object from player
-        //     PlayerMovement player = GetComponent<PlayerMovement>();
-
-        //     // head bounce check
-        //     if (player.rb.position.y - 0.4 > bear.rb.position.y)
-        //     {
-        //         iFrames(10);
-        //         bear.stun(2f);
-        //         player.yeet();
-        //         player.refresh();
-        //     }
-        //     else
-        //     {
-        //         collision.gameObject.GetComponent<bear>().yeet();
-        //         takeDamage(1);
-        //     }
-        // }
-
         // get all enemies in Enemies object
         if (LayerMask.LayerToName(collision.gameObject.layer) == "enemy")
         {

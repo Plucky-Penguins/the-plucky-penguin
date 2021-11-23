@@ -6,23 +6,39 @@ public class CameraClamp : MonoBehaviour
 {
     Rigidbody2D player;
 
+    public Vector3 initialPosition;
+    public float shakeDuration = 0;
+
     // Start is called before the first frame update
     void Start()
     {
+        initialPosition = transform.localPosition;
         player = GameObject.Find("Player").GetComponent<PlayerMovement>().rb;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player.position.y < 1)
+        if (shakeDuration > 0)
         {
-            transform.position = new Vector3(player.position.x, 1, -10);
-        }
-    }
+            transform.localPosition = initialPosition + Random.insideUnitSphere * 0.5f;
 
-    public void Respawn(Vector2 p)
-    {
-        transform.position = p;
+            shakeDuration -= Time.deltaTime * 1;
+        }
+        else
+        {
+            shakeDuration = 0f;
+            
+            if (player.position.y < 1)
+            {
+                transform.localPosition = player.position;
+                transform.position = new Vector3(player.position.x, 1, -10);
+                initialPosition = transform.localPosition;
+            } else
+            {
+                transform.position = new Vector3(player.position.x, player.position.y, -10);
+            }
+        }
+
     }
 }

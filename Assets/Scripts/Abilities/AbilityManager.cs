@@ -7,35 +7,46 @@ using UnityEngine;
 /// </summary>
 public class AbilityManager : MonoBehaviour
 {
-    public AbilityInterface.IAbility abilitySlot1 = null;
-    public AbilityInterface.IAbility abilitySlot2 = null;
-    public AbilityInterface.IAbility abilitySlot3 = null;
+    public Dictionary<string, AbilityInterface.IAbility> abilitySwitcher = new Dictionary<string, AbilityInterface.IAbility>();
 
-    private void Start()
+    private void Awake()
     {
-        // example of how to add abilities
-        //abilitySlot1 = GetComponent<BombAbility>();
-        //abilitySlot2 = GetComponent<ProjectileAbility>();
-        //abilitySlot3 = GetComponent<ShieldAbility>();
+        abilitySwitcher.Add("Speed Boost", GameObject.Find("Player").GetComponent<SpeedAbility>());
+        abilitySwitcher.Add("Shield", GameObject.Find("Player").GetComponent<ShieldAbility>());
+        abilitySwitcher.Add("Snowball", GameObject.Find("Player").GetComponent<ProjectileAbility>());
+        abilitySwitcher.Add("Burst", GameObject.Find("Player").GetComponent<BurstAbility>());
+        abilitySwitcher.Add("Bomb", GameObject.Find("Player").GetComponent<BombAbility>());
     }
+
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && abilitySlot1 != null) // activate first ability slot
+
+        if (Input.GetKeyDown(KeyCode.E) && Controller.abilities[0] != null) // activate first ability slot
         {
-            abilitySlot1.activateAbility();
+            abilitySwitcher[Controller.abilities[0].getName()].activateAbility();
         }
         
-        if (Input.GetKeyDown(KeyCode.R) && abilitySlot2 != null) // activate second ability slot
+        if (Input.GetKeyDown(KeyCode.R) && Controller.abilities[1] != null) // activate second ability slot
         {
-            abilitySlot2.activateAbility();
+            abilitySwitcher[Controller.abilities[1].getName()].activateAbility();
         }
         
-        if (Input.GetKeyDown(KeyCode.F) && abilitySlot3 != null) // activate third ability slot
+        if (Input.GetKeyDown(KeyCode.F) && Controller.abilities[2] != null) // activate third ability slot
         {
-            abilitySlot3.activateAbility();
+            abilitySwitcher[Controller.abilities[2].getName()].activateAbility();
         }
-
-
     }
+
+    /*public static void addIndexAbility(int index, string abilityName) {
+        print("Adding: " + abilityName);
+        string manageAbilityName = "";
+        manageAbilityName = abilityName;
+        for (int i = 0; i < listOfAllAbilities.Count; i++) {
+            // print(listOfAllAbilities[i].getName());
+            if (manageAbilityName == listOfAllAbilities[i].getName()) {
+                abilities[index] = listOfAllAbilities[i];
+            }
+        }
+    }*/
 }
