@@ -2,6 +2,7 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
+/[Uu]serSettings/
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
@@ -60,3 +61,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+#UserSettings
+*EditorUserSettings.*
+/Assets/Scene/Level1_Scene.unity*

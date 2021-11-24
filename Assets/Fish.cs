@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class Fish : MonoBehaviour
 {
-    public int coinValue;
+    public int fish_value;
 }
