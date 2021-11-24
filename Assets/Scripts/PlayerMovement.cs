@@ -97,7 +97,6 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         // get horizontal input
-        //movementX = Input.GetAxisRaw("Horizontal");
         movementX = movement.ReadValue<Vector2>().x;
 
         // adjust facing direction
@@ -163,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
                 transform.localScale = new Vector3(-1f, 1f, 1f);
             }
             
-            if ((Input.GetKeyDown(KeyCode.Space) || Gamepad.current.buttonSouth.wasPressedThisFrame) && !isGrounded()) // jump off left wall, to the right
+            if ((Input.GetKeyDown(KeyCode.Space) || (Gamepad.current != null && Gamepad.current.buttonSouth.wasReleasedThisFrame)) && !isGrounded()) // jump off left wall, to the right
             {
                 WallJump(1f);
 
@@ -181,7 +180,7 @@ public class PlayerMovement : MonoBehaviour
             }
             
 
-            if ((Input.GetKeyDown(KeyCode.Space) || Gamepad.current.buttonSouth.wasPressedThisFrame) && !isGrounded()) // jump off right wall, to the left
+            if ((Input.GetKeyDown(KeyCode.Space) || (Gamepad.current != null && Gamepad.current.buttonSouth.wasReleasedThisFrame)) && !isGrounded()) // jump off right wall, to the left
             {
                 WallJump(-1f);
 
@@ -205,7 +204,7 @@ public class PlayerMovement : MonoBehaviour
             isJumping = false;
         }
 
-        if ((Input.GetKeyDown(KeyCode.Space) || Gamepad.current.buttonSouth.wasPressedThisFrame))
+        if ((Input.GetKeyDown(KeyCode.Space) || (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame)))
         {
             JumpButtonDown();
         }
@@ -220,7 +219,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Jump(false);
         }
-        else if ((Input.GetKeyDown(KeyCode.Space) || Gamepad.current.buttonSouth.wasPressedThisFrame))
+        else if ((Input.GetKeyDown(KeyCode.Space) || (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame)))
         {
             if (canDoubleJump && doubleJumpUnlocked && !isGrounded()) {
                 if ((wallJumpUnlocked && walls == Directions.None) || !wallJumpUnlocked)
@@ -248,7 +247,7 @@ public class PlayerMovement : MonoBehaviour
 
         // stop ascending when jump is released
         // allows for short hops
-        if ((Input.GetKeyUp(KeyCode.Space) || Gamepad.current.buttonSouth.wasReleasedThisFrame))
+        if ((Input.GetKeyUp(KeyCode.Space) || (Gamepad.current != null && Gamepad.current.buttonSouth.wasReleasedThisFrame)))
         {
             //if (minwalljumptimer >= 0.3)
             //{
@@ -272,7 +271,7 @@ public class PlayerMovement : MonoBehaviour
         // dashParticles.transform.position = new Vector2(rb.position.x, rb.position.y + 1);
 
         // when pressing dash key
-        if ((Gamepad.current.rightTrigger.wasPressedThisFrame || Input.GetKeyDown(KeyCode.LeftShift)) && dashUnlocked && !GetComponent<PlayerCombat>().isSlapping)
+        if (((Gamepad.current != null && Gamepad.current.rightTrigger.wasPressedThisFrame) || Input.GetKeyDown(KeyCode.LeftShift)) && dashUnlocked && !GetComponent<PlayerCombat>().isSlapping)
         {
             if (!dashOnCooldown && canDash)
             {
@@ -433,7 +432,7 @@ public class PlayerMovement : MonoBehaviour
     // flip sprite to moving direction
     void spriteDirection()
     {
-        if (!isDashing && !GetComponent<PlayerCombat>().isSlapping && !isWallJumping)
+        if (!isDashing && GetComponent<PlayerCombat>().isSlapping == false && !isWallJumping)
         {
             // right
             if (movementX > 0f)
