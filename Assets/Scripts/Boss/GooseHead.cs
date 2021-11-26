@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
 {
@@ -31,6 +32,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
     public GameObject egg;
     public GameObject heart;
     public TMPro.TextMeshProUGUI winText;
+    public Text scoreText, highscoreText;
 
 
     private bossPhase currentPhase;
@@ -52,6 +54,8 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
         body.transform.position = new Vector2(body.transform.position.x, body.transform.position.y - 50);
         bodyRb.velocity = new Vector2(0, 12);
         winText.enabled = false;
+        scoreText.enabled = false;
+        highscoreText.enabled = false;
     }
 
     void OnDrawGizmosSelected()
@@ -305,7 +309,18 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
         roar(2f);
         bodyRb.velocity = new Vector2(0, -8);
         yield return new WaitForSecondsRealtime(3f);
+        updateScore();
         winText.enabled = true;
+        scoreText.enabled = true;
+        highscoreText.enabled = true;
+    }
+
+    public void updateScore()
+    {
+        GameObject eh = GameObject.Find("EventSystem");
+        eh.GetComponent<HighScoreScript>().saveScore();
+        scoreText.GetComponent<ScoreText>().showText();
+        highscoreText.GetComponent<HighScoreText>().showText();
     }
 
     public IEnumerator restartGame()
