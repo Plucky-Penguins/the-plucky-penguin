@@ -47,9 +47,10 @@ public class PlayerCombat : MonoBehaviour
         if (immunityTimer > 0)
         {
             //immunityTimer -= 1;
-            immunityTimer -= Time.deltaTime;
+            immunityTimer -= (Time.deltaTime * 150);
+            print(immunityTimer);
 
-            if (immunityTimer % 2 == 0)
+            if ((int)immunityTimer % 2 == 0)
             {
                 if (immunityFlashing) // Immunity flash is not always necessary
                 {

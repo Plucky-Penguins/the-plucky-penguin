@@ -3354,8 +3354,8 @@ MonoBehaviour:
   egg: {fileID: 2474134983242896239, guid: fffd0fa5f2fc55745b5bba6386e98539, type: 3}
   heart: {fileID: 3823311423053933137, guid: a2cff214a365b5548836db5c489a1d3f, type: 3}
   winText: {fileID: 1804688106}
-  scoreText: {fileID: 0}
-  highscoreText: {fileID: 0}
+  scoreText: {fileID: 180799506}
+  highscoreText: {fileID: 1344339302}
   newPhaseTimer: 3
 --- !u!61 &2095274287
 BoxCollider2D:
