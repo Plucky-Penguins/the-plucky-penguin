@@ -1889,9 +1889,7 @@ MonoBehaviour:
   enemies:
     serializedVersion: 2
     m_Bits: 64
-  cooldown: 0.1
   isSlapping: 0
-  slapRange: 1.5
   slapDamage: 1
 --- !u!114 &5320940281006361244
 MonoBehaviour:
@@ -1949,7 +1947,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shield: {fileID: 6389342568476410656, guid: ef279d6ab1083d140be6603ae5d9dd48, type: 3}
-  cooldown: 5
+  cooldown: 10
   currentCooldown: 0
 --- !u!114 &6118059892669255332
 MonoBehaviour:
