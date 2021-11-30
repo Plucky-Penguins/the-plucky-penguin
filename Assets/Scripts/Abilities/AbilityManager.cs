@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Handles ability slots and activations.
@@ -21,18 +22,17 @@ public class AbilityManager : MonoBehaviour
 
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.E) && Controller.abilities[0] != null) // activate first ability slot
+        if ((Input.GetKeyDown(KeyCode.E) || (Gamepad.current != null && Gamepad.current.leftTrigger.wasPressedThisFrame)) && Controller.abilities[0] != null) // activate first ability slot
         {
             abilitySwitcher[Controller.abilities[0].getName()].activateAbility();
         }
         
-        if (Input.GetKeyDown(KeyCode.R) && Controller.abilities[1] != null) // activate second ability slot
+        if ((Input.GetKeyDown(KeyCode.R) || (Gamepad.current != null && Gamepad.current.buttonNorth.wasPressedThisFrame)) && Controller.abilities[1] != null) // activate second ability slot
         {
             abilitySwitcher[Controller.abilities[1].getName()].activateAbility();
         }
         
-        if (Input.GetKeyDown(KeyCode.F) && Controller.abilities[2] != null) // activate third ability slot
+        if ((Input.GetKeyDown(KeyCode.F) || (Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame)) && Controller.abilities[2] != null) // activate third ability slot
         {
             abilitySwitcher[Controller.abilities[2].getName()].activateAbility();
         }

@@ -27,7 +27,16 @@ public class Igloo : MonoBehaviour
         }
 
     }
-    
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            GameObject.Find("Player").GetComponent<Rigidbody2D>().position = transform.position;
+            GameObject.Find("Player").GetComponent<Fish_Handler>().collectFish(66);
+        }
+    }
+
     IEnumerator ShowMessage(string message)
     {
         winText.enabled = true;

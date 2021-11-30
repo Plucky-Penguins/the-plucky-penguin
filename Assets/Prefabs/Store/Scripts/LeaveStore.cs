@@ -16,7 +16,7 @@ public class LeaveStore : MonoBehaviour
         string[] listOfSceneNames = { "TutorialLevel_Scene", "Level1_Scene", "Level2_Scene", "Level3_Scene", "Boss" };
 
         // check if this gets set
-        print(Igloo.currentLevel.ToString());
+        //print(Igloo.currentLevel.ToString());
 
         for (int i = 0; i < listOfSceneNames.Length - 1; i++) {
             if (Igloo.currentLevel == listOfSceneNames[i]) {
