@@ -44,18 +44,15 @@ public class BuyAbility : MonoBehaviour
     {
         foreach (AbilityInterface.IAbility ability in Controller.abilities) {
             int i = 0;
-            print("Listing: " + i + " " + ability);
             i++;
         }
 
         if (selectedAbility != null) {
-            print("Bought: " + selectedAbility.getName());
             //AbilityStore.removeAbilityFromAvailableList(selectedAbility);
             Fish_Handler.total_fish -= selectedAbility.getCost();
             // AbilityManager.abilities.Add(selectedAbility);
             for (int i = 0; i < Controller.abilities.Count; i++)
             {
-                print("Check:" + Controller.abilities[i]);
                 if (Controller.abilities[i] == null)
                 {
                     Controller.abilities[i] = selectedAbility;

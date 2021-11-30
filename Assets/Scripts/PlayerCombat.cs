@@ -47,9 +47,10 @@ public class PlayerCombat : MonoBehaviour
         // Damage immunity Logic
         if (immunityTimer > 0)
         {
-            immunityTimer -= 1;
+            //immunityTimer -= 1;
+            immunityTimer -= (Time.deltaTime * 150);
 
-            if (immunityTimer % 2 == 0)
+            if ((int)immunityTimer % 2 == 0)
             {
                 if (immunityFlashing) // Immunity flash is not always necessary
                 {
