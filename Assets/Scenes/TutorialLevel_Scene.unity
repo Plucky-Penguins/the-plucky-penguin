@@ -26093,8 +26093,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6118059892669255330, guid: 70bf43b6e6e78544a8177c1d84298d54, type: 3}
+      propertyPath: cooldown
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 6118059892669255330, guid: 70bf43b6e6e78544a8177c1d84298d54, type: 3}
       propertyPath: slapRange
       value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6118059892669255330, guid: 70bf43b6e6e78544a8177c1d84298d54, type: 3}
+      propertyPath: enemies.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 6118059892669255331, guid: 70bf43b6e6e78544a8177c1d84298d54, type: 3}
       propertyPath: dashUnlocked
