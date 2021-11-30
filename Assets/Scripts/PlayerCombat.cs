@@ -48,7 +48,6 @@ public class PlayerCombat : MonoBehaviour
         {
             //immunityTimer -= 1;
             immunityTimer -= (Time.deltaTime * 150);
-            print(immunityTimer);
 
             if ((int)immunityTimer % 2 == 0)
             {
