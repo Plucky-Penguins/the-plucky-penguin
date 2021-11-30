@@ -9,7 +9,19 @@ public class Fish_Handler : MonoBehaviour
     int level_fish;
     // total_fish should be carried across levels
     // made public in order for the shop to have access to this
-    public int total_fish;
+    public static int total_fish;
+    private int maxSceneFish;
+    private void Start()
+    {
+        if (GameObject.Find("Map_Currency") != null)
+        {
+            maxSceneFish = GameObject.Find("Map_Currency").transform.childCount + 9;
+        } else
+        {
+            maxSceneFish = 0;
+        }
+        
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("collectible")) {
@@ -24,7 +36,7 @@ public class Fish_Handler : MonoBehaviour
     public void collectFish(int fish_value) {
         level_fish += fish_value;
         total_fish += fish_value;
-        collection.text = "" + level_fish.ToString() + "/66";
+        collection.text = "" + level_fish.ToString() + "/" + maxSceneFish;
     }
 
     /**
@@ -33,6 +45,7 @@ public class Fish_Handler : MonoBehaviour
      */
     public void resetLevelFishScore() {
         level_fish = 0;
+        collection.text = "" + level_fish.ToString() + "/?";
     }
 
     /**

@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PlayerCombat : MonoBehaviour
 {
-
     private float immunityTimer = 0;
     private bool immunity = false;
 
@@ -16,17 +16,18 @@ public class PlayerCombat : MonoBehaviour
     public LayerMask enemies;
 
     [Header("Slap")]
-    public float cooldown = 1;
+    private float cooldown = 0.35f;
     private float currentCooldown;
     [HideInInspector]
     public bool isSlapping = false;
-    public float slapRange;
+    //public float slapRange;
     public int slapDamage = 1;
     private bool immunityFlashing = false;
 
-    void Start()
+    void Awake()
     {
         currentCooldown = cooldown;
+        
     }
 
     // Update is called once per frame
@@ -36,7 +37,7 @@ public class PlayerCombat : MonoBehaviour
         currentCooldown += Time.deltaTime;
         
         // attack
-        if (Input.GetKeyDown(KeyCode.Q) && currentCooldown >= cooldown && !GetComponent<PlayerMovement>().isDashing)
+        if ((Input.GetKeyDown(KeyCode.Q) || (Gamepad.current != null && Gamepad.current.buttonWest.wasPressedThisFrame)) && currentCooldown >= cooldown && !GetComponent<PlayerMovement>().isDashing)
         {
             currentCooldown = 0;
             GetComponent<PlayerMovement>().animator.SetTrigger("Attack");
@@ -46,9 +47,10 @@ public class PlayerCombat : MonoBehaviour
         // Damage immunity Logic
         if (immunityTimer > 0)
         {
-            immunityTimer -= 1;
+            //immunityTimer -= 1;
+            immunityTimer -= (Time.deltaTime * 150);
 
-            if (immunityTimer % 2 == 0)
+            if ((int)immunityTimer % 2 == 0)
             {
                 if (immunityFlashing) // Immunity flash is not always necessary
                 {
@@ -77,12 +79,12 @@ public class PlayerCombat : MonoBehaviour
 
         if (GetComponent<PlayerMovement>().facingRight)
         {
-            enemiesToDamage = Physics2D.OverlapCircleAll(new Vector2
-                (GetComponent<PlayerMovement>().rb.position.x + 1, GetComponent<PlayerMovement>().rb.position.y + 1.5f), slapRange, enemies);
+            enemiesToDamage = Physics2D.OverlapBoxAll(new Vector2(GetComponent<PlayerMovement>().rb.position.x + 1.6f, GetComponent<PlayerMovement>().rb.position.y + 1.2f),
+            new Vector2(2.5f, 2.15f), 0, enemies);
         } else
         {
-            enemiesToDamage = Physics2D.OverlapCircleAll(new Vector2
-                (GetComponent<PlayerMovement>().rb.position.x - 1, GetComponent<PlayerMovement>().rb.position.y + 1.5f), slapRange, enemies);
+            enemiesToDamage = Physics2D.OverlapBoxAll(new Vector2(GetComponent<PlayerMovement>().rb.position.x - 1.6f, GetComponent<PlayerMovement>().rb.position.y + 1.2f),
+            new Vector2(2.5f, 2.15f), 0, enemies);
         }
 
         for (int i = 0; i < enemiesToDamage.Length; i++)
@@ -91,17 +93,22 @@ public class PlayerCombat : MonoBehaviour
             
         }
         GetComponent<PlayerMovement>().animator.speed = 1;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(cooldown);
         isSlapping = false;
     }
 
     void OnDrawGizmosSelected()
     {
         // visualizer gizmos for attack range
+        //Vector2 playerpos = GetComponent<PlayerMovement>().rb.position;
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(new Vector2(GetComponent<PlayerMovement>().rb.position.x + 1, GetComponent<PlayerMovement>().rb.position.y + 1.5f), slapRange);
-        Gizmos.DrawWireSphere(new Vector2(GetComponent<PlayerMovement>().rb.position.x - 1, GetComponent<PlayerMovement>().rb.position.y + 1.5f), slapRange);
+        Gizmos.DrawWireCube(new Vector2(GetComponent<PlayerMovement>().rb.position.x+1.6f, GetComponent<PlayerMovement>().rb.position.y+1.2f), 
+            new Vector2(2.5f,2.15f));
+        Gizmos.DrawWireCube(new Vector2(GetComponent<PlayerMovement>().rb.position.x-1.6f, GetComponent<PlayerMovement>().rb.position.y+1.2f), 
+            new Vector2(2.5f,2.15f));
+        //Gizmos.DrawWireSphere(new Vector2(GetComponent<PlayerMovement>().rb.position.x + 1, GetComponent<PlayerMovement>().rb.position.y + 1.5f), slapRange);
+       // Gizmos.DrawWireSphere(new Vector2(GetComponent<PlayerMovement>().rb.position.x - 1, GetComponent<PlayerMovement>().rb.position.y + 1.5f), slapRange);
     }
 
     // damage handler
@@ -113,7 +120,15 @@ public class PlayerCombat : MonoBehaviour
             if (GetComponent<PlayerHealth>().health <= 0)
             {
                 //die
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                if (SceneManager.GetActiveScene().name == "Boss")
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                } else
+                {
+                    GetComponent<PlayerMovement>().Respawn();
+                    GetComponent<PlayerHealth>().health = 3;
+                }
+                
             }
 
             iFrames(200, true);
@@ -131,30 +146,6 @@ public class PlayerCombat : MonoBehaviour
     // collision with enemies
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // GET THE BEARS
-        // if (collision.gameObject.transform.parent.name == "bear")
-        // {
-        //     Debug.Log("FOUND A BEAR");
-        //     // THE BEAR OBJECT
-        //     bear bear = collision.gameObject.GetComponent<bear>();
-        //     // object from player
-        //     PlayerMovement player = GetComponent<PlayerMovement>();
-
-        //     // head bounce check
-        //     if (player.rb.position.y - 0.4 > bear.rb.position.y)
-        //     {
-        //         iFrames(10);
-        //         bear.stun(2f);
-        //         player.yeet();
-        //         player.refresh();
-        //     }
-        //     else
-        //     {
-        //         collision.gameObject.GetComponent<bear>().yeet();
-        //         takeDamage(1);
-        //     }
-        // }
-
         // get all enemies in Enemies object
         if (LayerMask.LayerToName(collision.gameObject.layer) == "enemy")
         {

@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sight_range: 25
-  speed: 5
-  jumpHeight: 15
+  speed: 3
+  jumpHeight: 10
 --- !u!50 &3364736116888459954
 Rigidbody2D:
   serializedVersion: 4
