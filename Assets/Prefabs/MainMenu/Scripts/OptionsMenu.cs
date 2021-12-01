@@ -35,6 +35,7 @@ public class OptionsMenu : MonoBehaviour
     {
         SFXTextValue.text = (volume * 100).ToString("0");
         SFXAudio.volume = volume;
+        SFXAudio.Play();
     }
 
 }
