@@ -93,6 +93,7 @@ public class PlayerCombat : MonoBehaviour
             
         }
         GetComponent<PlayerMovement>().animator.speed = 1;
+        AudioController.aCtrl.playAttackSound();
         yield return new WaitForSeconds(cooldown);
         isSlapping = false;
     }

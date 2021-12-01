@@ -42,6 +42,7 @@ public class AbilityStore : MonoBehaviour
 
     private void Start()
     {
+        AudioController.aCtrl.switchedScene = true;
         setUp();
         // Uncomment to test remove ability before loading the shop
         /*removeAbilityFromAvailableList(GetComponent<BombAbility>());*/

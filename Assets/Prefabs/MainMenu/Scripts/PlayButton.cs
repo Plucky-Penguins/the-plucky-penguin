@@ -11,6 +11,7 @@ public class PlayButton : MonoBehaviour
      */
     public string recentlyCompletedLevel = "";
     public void doPlayCurrentLevel() {
+        print("play");
         SceneManager.LoadScene("TutorialLevel_Scene");
     }
 }

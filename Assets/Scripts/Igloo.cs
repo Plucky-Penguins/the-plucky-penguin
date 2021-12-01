@@ -12,6 +12,7 @@ public class Igloo : MonoBehaviour
 
     private void Start()
     {
+        AudioController.aCtrl.switchedScene = true;
         winText.enabled = false;
         currentLevel = SceneManager.GetActiveScene().name;
     }
@@ -22,6 +23,7 @@ public class Igloo : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             // TODO: play level completion sfx
+
             // TODO: display score
             StartCoroutine(ShowMessage("You Win!"));
         }
