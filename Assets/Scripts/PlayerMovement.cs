@@ -325,11 +325,13 @@ public class PlayerMovement : MonoBehaviour
             Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);
             rb.velocity = movement;
             doubleJumpParticles.Play();
+            AudioController.aCtrl.playJumpSound();
             doubleJumpParticles.transform.position = new Vector2(rb.position.x, rb.position.y); // align the particles with the player
 
         } else // when normal jumping
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            AudioController.aCtrl.playJumpSound();
             isJumping = true;
         }
     }
@@ -389,6 +391,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         dashParticles.Play();
+        AudioController.aCtrl.playDashSound();
         animator.SetTrigger("Dash");
 
         // stop moving downwards

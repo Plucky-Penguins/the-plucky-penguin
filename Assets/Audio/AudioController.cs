@@ -47,6 +47,17 @@ public class AudioController : MonoBehaviour
         sfxVolume = defaultVolume;
     }
 
+    public void playJumpSound() {
+        GameObject.Find("Jump").GetComponent<AudioSource>().volume = sfxVolume;
+        GameObject.Find("Jump").GetComponent<AudioSource>().Play();
+    }
+
+    public void playDashSound()
+    {
+        GameObject.Find("Dash").GetComponent<AudioSource>().volume = sfxVolume;
+        GameObject.Find("Dash").GetComponent<AudioSource>().Play();
+    }
+
     public void playAttackSound() {
         GameObject.Find("Shmack").GetComponent<AudioSource>().volume = sfxVolume;
         GameObject.Find("Shmack").GetComponent<AudioSource>().Play();
@@ -65,6 +76,7 @@ public class AudioController : MonoBehaviour
         {
             print(currentScene);
             switch (currentScene) {
+                case "Main_Menu":
                 case "Store":
                     BGM = GameObject.Find("MenuBGM");
                     setLevelMusic();
