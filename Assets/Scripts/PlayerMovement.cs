@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     public float movementSpeed;
     float movementX = -1;
+    public ParticleSystem walkParticles;   // the particles from walking
 
     [Header("Jump")]
     // hangcounter and hangtime gives an extra timing window where the player can jump shortly after leaving a platform
@@ -477,6 +478,15 @@ public class PlayerMovement : MonoBehaviour
             // movement
             Vector2 movement = new Vector2(movementX * movementSpeed, rb.velocity.y);
             rb.velocity = movement;
+
+            // play walk particles
+            if (isGrounded() && rb.velocity.x != 0) {
+                if (!walkParticles.isPlaying) {
+                    walkParticles.Play();
+                }
+            } else {
+                walkParticles.Stop();
+            }
         }
         
     }
