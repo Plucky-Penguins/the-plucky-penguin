@@ -12138,7 +12138,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: -803343218078481729}
         m_TargetAssemblyTypeName: PauseHandler, Assembly-CSharp
         m_MethodName: closeGame
         m_Mode: 1
