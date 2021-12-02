@@ -274,7 +274,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
         healthPoints -= damage_dealt;
         if (GameObject.Find("healthbar"))
         {
-            GameObject.Find("healthbar").GetComponent<BossHealthBar>().updateHealth(healthPoints, 30);
+            GameObject.Find("healthbar").GetComponent<BossHealthBar>().updateHealth(healthPoints, 25);
         }
         
 
