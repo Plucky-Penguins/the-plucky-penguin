@@ -330,7 +330,8 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
         print("waiting");
         yield return new WaitForSecondsRealtime(8f);
         print("done waiting");
-        SceneManager.LoadScene("Main_Menu");
+        //SceneManager.LoadScene("Main_Menu");
+        Application.Quit();
     }
 
     public IEnumerator changeColor(Color c)
