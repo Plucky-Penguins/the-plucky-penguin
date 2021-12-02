@@ -79,10 +79,14 @@ public class AudioController : MonoBehaviour
         GameObject.Find("Nom").GetComponent<AudioSource>().Play();
     }
 
+    public void playHurtSound() {
+        GameObject.Find("PenguinHurt").GetComponent<AudioSource>().volume = sfxVolume;
+        GameObject.Find("PenguinHurt").GetComponent<AudioSource>().Play();
+    }
+
     /// <summary>
     ///  ABILITY SFX
     /// </summary>
-
     public void playBurstSound()
     {
         GameObject.Find("Burst").GetComponent<AudioSource>().volume = sfxVolume;

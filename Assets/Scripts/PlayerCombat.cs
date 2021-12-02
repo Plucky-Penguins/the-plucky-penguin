@@ -118,6 +118,7 @@ public class PlayerCombat : MonoBehaviour
         if (!immunity)
         {
             GetComponent<PlayerHealth>().health -= damage_taken;
+            AudioController.aCtrl.playHurtSound();
             if (GetComponent<PlayerHealth>().health <= 0)
             {
                 //die
