@@ -4766,6 +4766,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4483754286120193272, guid: 3e8fa63e0984cba40b65e0b5051a03f8, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1223843925}
     - target: {fileID: 4483754286120193274, guid: 3e8fa63e0984cba40b65e0b5051a03f8, type: 3}
       propertyPath: m_Name
       value: bear (1)
@@ -4832,6 +4836,11 @@ PrefabInstance:
 --- !u!4 &1223843924 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6118059892669255327, guid: 70bf43b6e6e78544a8177c1d84298d54, type: 3}
+  m_PrefabInstance: {fileID: 1223843923}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1223843925 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6118059892669255337, guid: 70bf43b6e6e78544a8177c1d84298d54, type: 3}
   m_PrefabInstance: {fileID: 1223843923}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1245098193
@@ -4947,6 +4956,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4483754286120193272, guid: 3e8fa63e0984cba40b65e0b5051a03f8, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1223843925}
     - target: {fileID: 4483754286120193274, guid: 3e8fa63e0984cba40b65e0b5051a03f8, type: 3}
       propertyPath: m_Name
       value: bear (3)
@@ -5674,6 +5687,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4483754286120193272, guid: 3e8fa63e0984cba40b65e0b5051a03f8, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1223843925}
     - target: {fileID: 4483754286120193274, guid: 3e8fa63e0984cba40b65e0b5051a03f8, type: 3}
       propertyPath: m_Name
       value: bear
@@ -6586,6 +6603,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4483754286120193272, guid: 3e8fa63e0984cba40b65e0b5051a03f8, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1223843925}
     - target: {fileID: 4483754286120193274, guid: 3e8fa63e0984cba40b65e0b5051a03f8, type: 3}
       propertyPath: m_Name
       value: bear (2)
