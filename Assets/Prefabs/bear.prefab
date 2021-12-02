@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 4461464835417804969}
   m_Layer: 6
   m_Name: bear
-  m_TagString: Untagged
+  m_TagString: killable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
