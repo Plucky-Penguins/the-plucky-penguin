@@ -167,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
                 transform.localScale = new Vector3(-1f, 1f, 1f);
             }
             
-            if ((Input.GetKeyDown(KeyCode.Space) || (Gamepad.current != null && Gamepad.current.buttonSouth.wasReleasedThisFrame)) && !isGrounded()) // jump off left wall, to the right
+            if ((Input.GetKeyDown(KeyCode.Space) || (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame)) && !isGrounded()) // jump off left wall, to the right
             {
                 WallJump(1f);
 
@@ -185,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
             }
             
 
-            if ((Input.GetKeyDown(KeyCode.Space) || (Gamepad.current != null && Gamepad.current.buttonSouth.wasReleasedThisFrame)) && !isGrounded()) // jump off right wall, to the left
+            if ((Input.GetKeyDown(KeyCode.Space) || (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame)) && !isGrounded()) // jump off right wall, to the left
             {
                 WallJump(-1f);
 
