@@ -1702,15 +1702,15 @@ GameObject:
   - component: {fileID: 6118059892669255328}
   - component: {fileID: 6118059892669255331}
   - component: {fileID: 6118059892669255330}
+  - component: {fileID: 6118059892669255332}
   - component: {fileID: 5320940281006361244}
   - component: {fileID: 2490031086961869655}
   - component: {fileID: 6118059892669255333}
   - component: {fileID: 7846534401555415945}
-  - component: {fileID: 6118059892669255332}
   - component: {fileID: 5033351149482731224}
+  - component: {fileID: 2072421905348688490}
   - component: {fileID: 6118059892669255335}
   - component: {fileID: 6118059892669255334}
-  - component: {fileID: 2072421905348688490}
   - component: {fileID: -803343218078481729}
   m_Layer: 0
   m_Name: Player
@@ -1893,6 +1893,33 @@ MonoBehaviour:
     m_Bits: 64
   isSlapping: 0
   slapDamage: 1
+--- !u!114 &6118059892669255332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6118059892669255337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fe7e0e769a52ea4e9cbc2ccc3dc5de9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 3
+  numHearts: 10
+  hearts:
+  - {fileID: 5426454584931088744}
+  - {fileID: 5426454584627937862}
+  - {fileID: 5426454585810423358}
+  - {fileID: 5426454585715313456}
+  - {fileID: 5426454584763136096}
+  - {fileID: 5426454584028330507}
+  - {fileID: 5426454584487151860}
+  - {fileID: 5426454584632758876}
+  - {fileID: 5426454585455884449}
+  - {fileID: 5426454585759545849}
+  fullHeart: {fileID: -7848039375673857549, guid: c688c3f0a62d73c46a893a709ce338fe, type: 3}
+  emptyHeart: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &5320940281006361244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1951,33 +1978,6 @@ MonoBehaviour:
   shield: {fileID: 6389342568476410656, guid: ef279d6ab1083d140be6603ae5d9dd48, type: 3}
   cooldown: 10
   currentCooldown: 0
---- !u!114 &6118059892669255332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6118059892669255337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fe7e0e769a52ea4e9cbc2ccc3dc5de9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 3
-  numHearts: 10
-  hearts:
-  - {fileID: 5426454584931088744}
-  - {fileID: 5426454584627937862}
-  - {fileID: 5426454585810423358}
-  - {fileID: 5426454585715313456}
-  - {fileID: 5426454584763136096}
-  - {fileID: 5426454584028330507}
-  - {fileID: 5426454584487151860}
-  - {fileID: 5426454584632758876}
-  - {fileID: 5426454585455884449}
-  - {fileID: 5426454585759545849}
-  fullHeart: {fileID: -7848039375673857549, guid: c688c3f0a62d73c46a893a709ce338fe, type: 3}
-  emptyHeart: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &5033351149482731224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1991,6 +1991,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bomb: {fileID: 6282793578149030878, guid: 92312f1c108d6ef41b3c52a2519c7245, type: 3}
+  cooldown: 5
+  currentCooldown: 0
+--- !u!114 &2072421905348688490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6118059892669255337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4b5c25ea7b2e6344ba6e4f70d15f897, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boots: {fileID: 5480229570908805126, guid: 0ae2a50a948b3f14e8e1bd0c278736c3, type: 3}
   cooldown: 5
   currentCooldown: 0
 --- !u!95 &6118059892669255335
@@ -2025,21 +2040,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collection: {fileID: 7228266362415384411}
---- !u!114 &2072421905348688490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6118059892669255337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4b5c25ea7b2e6344ba6e4f70d15f897, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boots: {fileID: 5480229570908805126, guid: 0ae2a50a948b3f14e8e1bd0c278736c3, type: 3}
-  cooldown: 5
-  currentCooldown: 0
 --- !u!114 &-803343218078481729
 MonoBehaviour:
   m_ObjectHideFlags: 0

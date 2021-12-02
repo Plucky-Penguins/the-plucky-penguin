@@ -22,6 +22,7 @@ public class BouncingEnemy : MonoBehaviour, EnemyInterface.IEnemy
         player = GameObject.Find("Player");
         GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpHeight), ForceMode2D.Impulse);
+        this.GetComponent<AudioSource>().volume = AudioController.aCtrl.sfxVolume;
     }
 
     // Update is called once per frame

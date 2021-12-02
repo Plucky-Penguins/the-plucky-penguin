@@ -42,7 +42,7 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
     {
         width = GetComponent<SpriteRenderer>().bounds.size.x;
         height = GetComponent<SpriteRenderer>().bounds.size.y;
-
+        this.GetComponent<AudioSource>().volume = AudioController.aCtrl.sfxVolume;
         // // AN ALTERNATIVE I TRIED
         // BoxCollider2D collider = GetComponent<BoxCollider2D>();
         // width = collider.bounds.extents.x * 2;

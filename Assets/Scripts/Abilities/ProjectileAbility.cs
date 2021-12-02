@@ -50,6 +50,7 @@ public class ProjectileAbility : MonoBehaviour, AbilityInterface.IAbility
         if (currentCooldown <= 0)
         {
             currentCooldown = cooldown;
+            AudioController.aCtrl.playSnowballSound();
             Rigidbody2D p = Instantiate(projectile, new Vector2(transform.position.x, transform.position.y + 1), transform.rotation);
 
             if (GetComponent<PlayerMovement>().facingRight)

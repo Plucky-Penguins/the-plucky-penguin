@@ -167,6 +167,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
         print("smacking");
         if (currentPhase == bossPhase.smacking)
         {
+            AudioController.aCtrl.playBossAttack();
             GetComponent<Animator>().SetTrigger("attack");
         }
              
@@ -206,6 +207,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
 
     public void roar(float dur)
     {
+        AudioController.aCtrl.playBossScreenShake();
         cam.GetComponent<CameraClamp>().shakeDuration = dur;
     }
 

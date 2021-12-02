@@ -47,6 +47,17 @@ public class AudioController : MonoBehaviour
         sfxVolume = defaultVolume;
     }
 
+    /// <summary>
+    /// Level SFX
+    /// </summary>
+    public void playLevelComplete() {
+        GameObject.Find("CompleteLevel").GetComponent<AudioSource>().volume = bgmVolume;
+        GameObject.Find("CompleteLevel").GetComponent<AudioSource>().Play();
+    }
+ 
+    /// <summary>
+    /// Player SFX
+    /// </summary>
     public void playJumpSound() {
         GameObject.Find("Jump").GetComponent<AudioSource>().volume = sfxVolume;
         GameObject.Find("Jump").GetComponent<AudioSource>().Play();
@@ -66,6 +77,46 @@ public class AudioController : MonoBehaviour
     public void playCollectFishSound() {
         GameObject.Find("Nom").GetComponent<AudioSource>().volume = sfxVolume;
         GameObject.Find("Nom").GetComponent<AudioSource>().Play();
+    }
+
+    /// <summary>
+    ///  ABILITY SFX
+    /// </summary>
+
+    public void playBurstSound()
+    {
+        GameObject.Find("Burst").GetComponent<AudioSource>().volume = sfxVolume;
+        GameObject.Find("Burst").GetComponent<AudioSource>().Play();
+    }
+
+    public void playSpeedSound()
+    {
+        GameObject.Find("Speed").GetComponent<AudioSource>().volume = sfxVolume;
+        GameObject.Find("Speed").GetComponent<AudioSource>().Play();
+
+    }
+
+    public void playSnowballSound() {
+        GameObject.Find("Snowball").GetComponent<AudioSource>().volume = sfxVolume;
+        GameObject.Find("Snowball").GetComponent<AudioSource>().Play();
+    }
+
+    public void playShieldSound() {
+        GameObject.Find("Shield").GetComponent<AudioSource>().volume = sfxVolume;
+        GameObject.Find("Shield").GetComponent<AudioSource>().Play();
+    }
+
+    /// <summary>
+    /// BOSS SFX
+    /// </summary>
+    public void playBossAttack() {
+        GameObject.Find("GooseAttack").GetComponent<AudioSource>().volume = sfxVolume;
+        GameObject.Find("GooseAttack").GetComponent<AudioSource>().Play();
+    }
+
+    public void playBossScreenShake() {
+        GameObject.Find("HonkShake").GetComponent<AudioSource>().volume = sfxVolume;
+        GameObject.Find("HonkShake").GetComponent<AudioSource>().Play();
     }
 
     // Update is called once per frame

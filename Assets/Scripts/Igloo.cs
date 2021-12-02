@@ -23,11 +23,10 @@ public class Igloo : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             // TODO: play level completion sfx
-
+            AudioController.aCtrl.playLevelComplete();
             // TODO: display score
             StartCoroutine(ShowMessage("You Win!"));
         }
-
     }
 
     private void Update()

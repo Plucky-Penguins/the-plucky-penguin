@@ -50,6 +50,7 @@ public class SpeedAbility : MonoBehaviour, AbilityInterface.IAbility
         if (currentCooldown <= 0)
         {
             currentCooldown = cooldown;
+            AudioController.aCtrl.playSpeedSound();
             GetComponent<PlayerCombat>().iFrames(1000, false);
             Instantiate(boots, new Vector3(transform.position.x, transform.position.y + 1, -1), transform.rotation);
         } 

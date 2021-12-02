@@ -15,6 +15,7 @@ public class Burst : MonoBehaviour
     void Start()
     {
         maxTimer = destroyTimer;
+        AudioController.aCtrl.playBurstSound();
         player = GameObject.Find("Player").GetComponent<PlayerMovement>().rb;
     }
 

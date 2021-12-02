@@ -327,6 +327,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioController
       objectReference: {fileID: 0}
+    - target: {fileID: 8132689087292305123, guid: 725c8a0caee611c4ab713d89c360fb2f, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9163560582875503363, guid: 725c8a0caee611c4ab713d89c360fb2f, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 725c8a0caee611c4ab713d89c360fb2f, type: 3}
 --- !u!82 &183993769 stripped

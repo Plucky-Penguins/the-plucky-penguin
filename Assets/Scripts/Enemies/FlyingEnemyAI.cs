@@ -18,6 +18,7 @@ public class FlyingEnemyAI : MonoBehaviour, EnemyInterface.IEnemy
     {
         player_close = false;
         player = GameObject.Find("Player");
+        this.GetComponent<AudioSource>().volume = AudioController.aCtrl.sfxVolume;
     }
 
     // Update is called once per frame
