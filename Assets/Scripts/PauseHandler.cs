@@ -42,6 +42,7 @@ public class PauseHandler : MonoBehaviour
 
     public void closeGame()
     {
+        Debug.Log("quitting");
         Application.Quit();
     }
 }
