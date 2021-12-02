@@ -1976,7 +1976,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shield: {fileID: 6389342568476410656, guid: ef279d6ab1083d140be6603ae5d9dd48, type: 3}
-  cooldown: 10
+  cooldown: 9
   currentCooldown: 0
 --- !u!114 &5033351149482731224
 MonoBehaviour:
