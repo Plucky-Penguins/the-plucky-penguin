@@ -35,10 +35,12 @@ South Button | [SPACE] | Jump
 West Button | [Q] | Attack
 Right Trigger| [LSHIFT] | Dash
 LShoulder / North Button / East Button | [E][R][F] | Ability
-----   | Escape | Pause
+N/A   | Escape | Pause
+N/A   | [P] | Skip to the end of the level
 
 ### Requirements to run the project files:
 - Unity Version: 2021.1.17f1
+- If you run in the editor, please run it from the main menu scene or the game will crash.
 
 ## Bugs
 - Player falls slowly when the spacebar is pressed extremely rapidly
