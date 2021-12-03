@@ -25,6 +25,7 @@ public class OptionsMenu : MonoBehaviour
     public void SetBGMVolume(float volume)
     {
         BGMTextValue.text = (volume * 100).ToString("0");
+        AudioController.aCtrl.bgmVolume = volume;
         BGMMusic.volume = volume;
     }
 
@@ -34,7 +35,9 @@ public class OptionsMenu : MonoBehaviour
     public void SetSFXVolume(float volume)
     {
         SFXTextValue.text = (volume * 100).ToString("0");
+        AudioController.aCtrl.sfxVolume = volume;
         SFXAudio.volume = volume;
+        SFXAudio.Play();
     }
 
 }

@@ -42,7 +42,7 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
     {
         width = GetComponent<SpriteRenderer>().bounds.size.x;
         height = GetComponent<SpriteRenderer>().bounds.size.y;
-
+        this.GetComponent<AudioSource>().volume = AudioController.aCtrl.sfxVolume;
         // // AN ALTERNATIVE I TRIED
         // BoxCollider2D collider = GetComponent<BoxCollider2D>();
         // width = collider.bounds.extents.x * 2;
@@ -288,6 +288,7 @@ public class bear : MonoBehaviour, EnemyInterface.IEnemy
         cannotMove = true;
         animator.speed = 0;
         GetComponent<Renderer>().material.color = Color.blue;
+        GetComponent<ParticleSystem>().Play();
         yield return new WaitForSeconds(duration);
 
         // only release the stun if there are not more stuns waiting to happen

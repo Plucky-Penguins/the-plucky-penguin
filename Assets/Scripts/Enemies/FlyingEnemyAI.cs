@@ -18,6 +18,7 @@ public class FlyingEnemyAI : MonoBehaviour, EnemyInterface.IEnemy
     {
         player_close = false;
         player = GameObject.Find("Player");
+        this.GetComponent<AudioSource>().volume = AudioController.aCtrl.sfxVolume;
     }
 
     // Update is called once per frame
@@ -113,6 +114,7 @@ public class FlyingEnemyAI : MonoBehaviour, EnemyInterface.IEnemy
     {
         cannotMove = true;
         GetComponent<Renderer>().material.color = Color.blue;
+        GetComponent<ParticleSystem>().Play();
         yield return new WaitForSeconds(duration);
 
         // only release the stun if there are not more stuns waiting to happen

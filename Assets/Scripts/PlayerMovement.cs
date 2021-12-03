@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     public float movementSpeed;
     float movementX = -1;
+    public ParticleSystem walkParticles;   // the particles from walking
+    ParticleSystem.EmissionModule em;
 
     [Header("Jump")]
     // hangcounter and hangtime gives an extra timing window where the player can jump shortly after leaving a platform
@@ -60,6 +63,8 @@ public class PlayerMovement : MonoBehaviour
     public float WallJumpVertical;
     private float minwalljumptimer = 0;
 
+    private Controls ctrls;
+    private InputAction movement;
     private enum Directions
     { 
         Left,
@@ -71,6 +76,13 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         respawnPoint = transform.position;
+        ctrls = new Controls();
+
+        movement = ctrls.Player.Movement;
+        movement.Enable();
+
+        em = walkParticles.emission;
+        walkParticles.Play();
     }
 
     void OnDrawGizmosSelected()
@@ -90,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         // get horizontal input
-        movementX = Input.GetAxisRaw("Horizontal");
+        movementX = movement.ReadValue<Vector2>().x;
 
         // adjust facing direction
         spriteDirection();
@@ -155,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
                 transform.localScale = new Vector3(-1f, 1f, 1f);
             }
             
-            if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off left wall, to the right
+            if ((Input.GetKeyDown(KeyCode.Space) || (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame)) && !isGrounded()) // jump off left wall, to the right
             {
                 WallJump(1f);
 
@@ -173,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
             }
             
 
-            if (Input.GetButtonDown("Jump") && !isGrounded()) // jump off right wall, to the left
+            if ((Input.GetKeyDown(KeyCode.Space) || (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame)) && !isGrounded()) // jump off right wall, to the left
             {
                 WallJump(-1f);
 
@@ -197,7 +209,7 @@ public class PlayerMovement : MonoBehaviour
             isJumping = false;
         }
 
-        if (Input.GetButtonDown("Jump"))
+        if ((Input.GetKeyDown(KeyCode.Space) || (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame)))
         {
             JumpButtonDown();
         }
@@ -212,7 +224,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Jump(false);
         }
-        else if (Input.GetButtonDown("Jump"))
+        else if ((Input.GetKeyDown(KeyCode.Space) || (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame)))
         {
             if (canDoubleJump && doubleJumpUnlocked && !isGrounded()) {
                 if ((wallJumpUnlocked && walls == Directions.None) || !wallJumpUnlocked)
@@ -240,7 +252,7 @@ public class PlayerMovement : MonoBehaviour
 
         // stop ascending when jump is released
         // allows for short hops
-        if (Input.GetButtonUp("Jump"))
+        if ((Input.GetKeyUp(KeyCode.Space) || (Gamepad.current != null && Gamepad.current.buttonSouth.wasReleasedThisFrame)))
         {
             //if (minwalljumptimer >= 0.3)
             //{
@@ -264,7 +276,7 @@ public class PlayerMovement : MonoBehaviour
         // dashParticles.transform.position = new Vector2(rb.position.x, rb.position.y + 1);
 
         // when pressing dash key
-        if (Input.GetKeyDown(KeyCode.LeftShift) && dashUnlocked && !GetComponent<PlayerCombat>().isSlapping)
+        if (((Gamepad.current != null && Gamepad.current.rightTrigger.wasPressedThisFrame) || Input.GetKeyDown(KeyCode.LeftShift)) && dashUnlocked && !GetComponent<PlayerCombat>().isSlapping)
         {
             if (!dashOnCooldown && canDash)
             {
@@ -313,11 +325,13 @@ public class PlayerMovement : MonoBehaviour
             Vector2 movement = new Vector2(rb.velocity.x, jumpForce/2);
             rb.velocity = movement;
             doubleJumpParticles.Play();
+            AudioController.aCtrl.playJumpSound();
             doubleJumpParticles.transform.position = new Vector2(rb.position.x, rb.position.y); // align the particles with the player
 
         } else // when normal jumping
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            AudioController.aCtrl.playJumpSound();
             isJumping = true;
         }
     }
@@ -377,6 +391,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         dashParticles.Play();
+        AudioController.aCtrl.playDashSound();
         animator.SetTrigger("Dash");
 
         // stop moving downwards
@@ -425,7 +440,7 @@ public class PlayerMovement : MonoBehaviour
     // flip sprite to moving direction
     void spriteDirection()
     {
-        if (!isDashing && !GetComponent<PlayerCombat>().isSlapping && !isWallJumping)
+        if (!isDashing && GetComponent<PlayerCombat>().isSlapping == false && !isWallJumping)
         {
             // right
             if (movementX > 0f)
@@ -470,6 +485,13 @@ public class PlayerMovement : MonoBehaviour
             // movement
             Vector2 movement = new Vector2(movementX * movementSpeed, rb.velocity.y);
             rb.velocity = movement;
+
+            // play walk particles
+            if (isGrounded() && rb.velocity.x != 0) {
+                em.enabled = true;
+            } else {
+                em.enabled = false;
+            }
         }
         
     }

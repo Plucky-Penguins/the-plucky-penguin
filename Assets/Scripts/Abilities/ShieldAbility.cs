@@ -50,6 +50,7 @@ public class ShieldAbility : MonoBehaviour, AbilityInterface.IAbility
         if (currentCooldown <= 0)
         {
             currentCooldown = cooldown;
+            AudioController.aCtrl.playShieldSound();
             GetComponent<PlayerCombat>().iFrames(1000, false);
             Instantiate(shield, new Vector3(transform.position.x, transform.position.y + 1, -1), transform.rotation);
 

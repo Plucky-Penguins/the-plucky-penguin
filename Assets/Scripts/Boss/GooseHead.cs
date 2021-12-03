@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
 {
@@ -31,6 +32,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
     public GameObject egg;
     public GameObject heart;
     public TMPro.TextMeshProUGUI winText;
+    public Text scoreText, highscoreText;
 
 
     private bossPhase currentPhase;
@@ -52,6 +54,8 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
         body.transform.position = new Vector2(body.transform.position.x, body.transform.position.y - 50);
         bodyRb.velocity = new Vector2(0, 12);
         winText.enabled = false;
+        scoreText.enabled = false;
+        highscoreText.enabled = false;
     }
 
     void OnDrawGizmosSelected()
@@ -163,6 +167,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
         print("smacking");
         if (currentPhase == bossPhase.smacking)
         {
+            AudioController.aCtrl.playBossAttack();
             GetComponent<Animator>().SetTrigger("attack");
         }
              
@@ -202,6 +207,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
 
     public void roar(float dur)
     {
+        AudioController.aCtrl.playBossScreenShake();
         cam.GetComponent<CameraClamp>().shakeDuration = dur;
     }
 
@@ -268,7 +274,7 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
         healthPoints -= damage_dealt;
         if (GameObject.Find("healthbar"))
         {
-            GameObject.Find("healthbar").GetComponent<BossHealthBar>().updateHealth(healthPoints, 30);
+            GameObject.Find("healthbar").GetComponent<BossHealthBar>().updateHealth(healthPoints, 25);
         }
         
 
@@ -305,7 +311,18 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
         roar(2f);
         bodyRb.velocity = new Vector2(0, -8);
         yield return new WaitForSecondsRealtime(3f);
+        updateScore();
         winText.enabled = true;
+        scoreText.enabled = true;
+        highscoreText.enabled = true;
+    }
+
+    public void updateScore()
+    {
+        GameObject eh = GameObject.Find("EventSystem");
+        eh.GetComponent<HighScoreScript>().saveScore();
+        scoreText.GetComponent<ScoreText>().showText();
+        highscoreText.GetComponent<HighScoreText>().showText();
     }
 
     public IEnumerator restartGame()
@@ -313,7 +330,8 @@ public class GooseHead : MonoBehaviour, EnemyInterface.IEnemy
         print("waiting");
         yield return new WaitForSecondsRealtime(8f);
         print("done waiting");
-        SceneManager.LoadScene("Main_Menu");
+        //SceneManager.LoadScene("Main_Menu");
+        Application.Quit();
     }
 
     public IEnumerator changeColor(Color c)

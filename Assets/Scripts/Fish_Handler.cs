@@ -26,6 +26,7 @@ public class Fish_Handler : MonoBehaviour
     {
         if (other.gameObject.CompareTag("collectible")) {
             int fish_value = other.gameObject.GetComponent<Fish>().fish_value;
+            AudioController.aCtrl.playCollectFishSound();
             collectFish(fish_value);
             Destroy(other.gameObject);
         }

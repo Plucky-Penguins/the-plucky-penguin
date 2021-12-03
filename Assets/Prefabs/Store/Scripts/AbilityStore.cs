@@ -42,6 +42,7 @@ public class AbilityStore : MonoBehaviour
 
     private void Start()
     {
+        AudioController.aCtrl.switchedScene = true;
         setUp();
         // Uncomment to test remove ability before loading the shop
         /*removeAbilityFromAvailableList(GetComponent<BombAbility>());*/
@@ -57,24 +58,31 @@ public class AbilityStore : MonoBehaviour
             for (int i = 0; i < 5; i++) {
                 availableAbilityList.Add(null);
             }
+            availableAbilityList[0] = GetComponent<BombAbility>();
+            availableAbilityList[1] = GetComponent<ShieldAbility>();
+            availableAbilityList[2] = GetComponent<SpeedAbility>();
+            availableAbilityList[3] = GetComponent<BurstAbility>();
+            availableAbilityList[4] = GetComponent<ProjectileAbility>();
+        } 
+        else
+        {
+            for (int i = 0; i < availableAbilityList.Count; i++)
+            {
+                foreach (AbilityInterface.IAbility y in Controller.abilities)
+                {
+                    if (availableAbilityList[i] != null && y != null)
+                    {
+                        if (availableAbilityList[i].getName() == y.getName())
+                        {
+                            availableAbilityList[i] = null;
+                        }
+                    }
 
-            if (!Controller.abilities.Contains(GetComponent<BombAbility>())) {
-                availableAbilityList[0] = GetComponent<BombAbility>();
+                }
             }
-            if (!Controller.abilities.Contains(GetComponent<ShieldAbility>())) {
-                availableAbilityList[1] = GetComponent<ShieldAbility>();
-            }
-            if (!Controller.abilities.Contains(GetComponent<SpeedAbility>())) {
-                availableAbilityList[2] = GetComponent<SpeedAbility>();
-            }
-            if (!Controller.abilities.Contains(GetComponent<BurstAbility>())) {
-                availableAbilityList[3] = GetComponent<BurstAbility>();
-            }
-            if (!Controller.abilities.Contains(GetComponent<ProjectileAbility>())) {
-                availableAbilityList[4] = GetComponent<ProjectileAbility>();
-            }
-            
+            availableAbilityList.RemoveAll(item => item == null);
         }
+        
     }
 
     private void selectRandomAbilitiesAndPopulateText() {
@@ -88,15 +96,11 @@ public class AbilityStore : MonoBehaviour
 
         int[] intIndexArray = new int[] { 0, 0, 0 };
         setOfIndexs.CopyTo(intIndexArray, 0, 3);
-        /*print(intIndexArray[0].ToString());
-        print(intIndexArray[1].ToString());
-        print(intIndexArray[2].ToString());*/
 
         for (int i = 0; i < 3; i++)
         {
             randomSelectedAbilityList.Add(null);
             randomSelectedAbilityList[i] = availableAbilityList[intIndexArray[i]];
-            /*print(selectedAbility[i].getName());*/
         }
 
 
@@ -147,9 +151,5 @@ public class AbilityStore : MonoBehaviour
 
     public static void removeAbilityFromAvailableList(AbilityInterface.IAbility ability) {
         availableAbilityList.Remove(ability);
-        /*print("Removed: " + ability.getName());
-        for (int i = 0; i < availableAbilityList.Count; i++) {
-            print(availableAbilityList[i].getName());
-        }*/
     }
 }

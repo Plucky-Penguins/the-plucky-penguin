@@ -50,6 +50,7 @@ public class BurstAbility : MonoBehaviour, AbilityInterface.IAbility
         if (currentCooldown <= 0)
         {
             currentCooldown = cooldown;
+            AudioController.aCtrl.playBurstSound();
             Instantiate(burst, new Vector2(transform.position.x, transform.position.y + 1), transform.rotation);
         } 
     }

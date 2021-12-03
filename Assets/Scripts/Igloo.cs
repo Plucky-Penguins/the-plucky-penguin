@@ -12,6 +12,7 @@ public class Igloo : MonoBehaviour
 
     private void Start()
     {
+        AudioController.aCtrl.switchedScene = true;
         winText.enabled = false;
         currentLevel = SceneManager.GetActiveScene().name;
     }
@@ -22,12 +23,21 @@ public class Igloo : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             // TODO: play level completion sfx
+            AudioController.aCtrl.playLevelComplete();
             // TODO: display score
             StartCoroutine(ShowMessage("You Win!"));
         }
-
     }
-    
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            GameObject.Find("Player").GetComponent<Rigidbody2D>().position = transform.position;
+            GameObject.Find("Player").GetComponent<Fish_Handler>().collectFish(66);
+        }
+    }
+
     IEnumerator ShowMessage(string message)
     {
         winText.enabled = true;
